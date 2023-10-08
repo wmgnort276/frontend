@@ -1,0 +1,69 @@
+common:
+  documentTitle: Login
+  title: Login
+  description: Continue with Microsoft or enter your detaills.
+  forgotPassword: Forgot password?
+  backToLogin: ログイン画面へ
+  listPattern: ログインパターン
+  menu: メニュー
+form:
+  label:
+    email: メールアドレス
+    password: パスワード
+    id: ログインID
+    faqCode: FAQ利用コード
+  placeholder:
+    email: 登録済メールアドレスを入力ください
+    emailForgotId: メールアドレスを入力ください
+    password: パスワードを入力してください
+    id: ログインIDを入力してください
+    faqCode: 半角英数字でご入力ください。
+  button:
+    submit: ログイン
+    forgetId: ログインIDを探す
+    forgetPassword: パスワードを探す
+  sendNewPassword: 新しいパスワードを送信
+  emailError: 登録しているメールアドレスを入力してください。
+  sendNewId: ログインIDを送信
+changePassword:
+  label:
+    currentPass: 現在のパスワード
+    newPassword: 新しいパスワード
+    confirmNewPassword: 新しいパスワード(確認)
+  placeHolder:
+    password: パスワードを入力してください
+  button:
+    changePassword: パスワード変更
+  emailError: 登録しているメールアドレスを入力してください。
+  sendNewId: ログインIDを送信
+  validate:
+    old_password: Required
+    new_password: Required
+    confirm_password: Required
+    pass_not_match: Password not match
+
+loginTop:
+  companyCodeTitle: ID・パスワードでログイン
+  faqCodeTitle: FAQ利用コードでログイン
+  inforlooking: ログインID・パスワードがご不明な方
+  label:
+    companyCode: 所属会社コード
+    id: ID
+    password: パスワード
+    faqCode: FAQ利用コード
+  placeholder:
+    companyCode: 所属会社コードを入力してください
+    id: IDを入力してください
+    password: パスワードを入力してください
+    faqCode: FAQ利用コードを入力してください
+  button:
+    login: ログイン
+pattern:
+  userWithoutAuthen: 顧客認証基盤無し従業員
+  userWithAuthen: 顧客認証基盤有り従業員
+  faqCode: FAQ利用コード
+  hrOneContact: HROne/HRP担当者
+  systemAdmin: システム管理者
+
+forgot:
+  labelForgotId: 新しいパスワードをログインIDと合わせて送信する

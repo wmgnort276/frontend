@@ -1,0 +1,10 @@
+common:
+  documentTitle: 'User'
+  title: 'Login'
+form:
+  label:
+    email: Email
+    password: Password
+  button:
+    submit: Submit
+  maxlength: に2000文字以内を入力してください。

@@ -1,0 +1,138 @@
+pageTitle: ファイル共有
+backtoTop: TOP画面に戻る
+backtoManager: 管理画面に戻る
+searchResult: 検索結果一覧
+pageTitleCreate: 新規登録
+pageTitleEdit: 編集
+titleBlock:
+  search-share-file: ファイル共有検索
+button:
+  signup: 新規登録
+  register: 登録
+  delete: 削除
+  clear: クリア
+  search: 検索
+  preview: プレビュー
+  download: ダウンロード
+  edit: 編集
+  history: 処理履歴
+  saveDraft: 一時保存
+  request: 精査依頼
+  share: ファイル共有
+category:
+  business-division: 業務区分
+  bussinessPlaceholder: 選択してください。
+  title: タイトル
+  file-description: ファイル説明
+  display-period: 表示期間
+  file-attachment: 添付ファイル
+  period: 表示期限
+share-file-table:
+  business-division: 業務区分
+  title: タイトル
+  display-period-start: 表示期間開始
+
+create:
+  backToSearch: 管理画面に戻る
+  pageTitle:  ファイル共有
+  pageTitleCreate: 新規登録
+  registerTag: 未登録
+  success: Create sharefile success
+  error: Sharefile creation failed, validate all fields and try again
+  user:
+    title: 更新情報
+    name: 更新者
+    updateTime: 更新日
+  shareFileNumber:
+    title: ファイル共有番号
+  department:
+    title: 担当部署
+    placeHolder: 共有ファイルの登録・管理する担当部署を入力してください
+  business:
+    title: 業務区分
+    placeHolder: 共有ファイルの関連業務区分を選択してください
+  companyGroup:
+    title: 会社グループ
+    placeHolder: ファイルを共有する会社グループを入力してください
+  memoShare:
+    title: 共有メモ
+    placeHolder: 共有ファイルのメモ事項を入力ださい
+  title:
+    title: タイトル
+    placeHolder: 共有ファイルのタイトルを入力ください
+  description:
+    title: ファイル説明
+    placeHolder: 共有ファイルの説明を入力ださい
+  file-attachment:
+    title: 添付ファイル
+  shareFileCaller: 共有ファイル呼出し元
+  table:
+    division: 区分
+    number: 番号
+    reference: 参照先
+    period: 表示期間開始
+
+
+search:
+  department: 担当部署
+  title: タイトル
+  request: 精査依頼
+  requestTitle: 自分宛ての精査依頼
+  placeHolder:
+    department: 検索する担当部署を入力ください。
+    business: 検索する業務区分を選択してください。
+    title: 検索するタイトルを入力ください。
+    description: 検索するファイル説明及びファイル名を入力ください。
+
+searchTable:
+  number: No.
+  department: 担当部署
+  business: 業務区分
+  title: タイトル
+  status: ステータス
+  endDay: 更新日
+  updatePerson: 更新者
+
+download:
+  copyLink: リンクをコピー
+  pageTitle: ファイルダウンロード
+
+fileTag: 添付ファイル
+
+history:
+  header: 処理履歴
+  table:
+    title: 操作履歴
+    timeProcess: 処理日時
+    processUser: 処理担当者
+    processStatus: 処理
+    assignedTo: 精査依頼先
+    comment: コメント
+  closeButton: 閉じる
+
+request:
+  pageTitle: 精査依頼
+  destination: 宛先
+  comment: コメント
+  button:
+    ok: OK
+    cancel: キャンセル
+edit:
+  title: 編集
+
+acceptRequest:
+  title: 'ファイル共有確定'
+  button:
+    close: X
+    reject: '否認'
+    shareFile: 'ファイル共有'
+
+export:
+  success: 'Export success'
+  records: 'records'
+
+required: 'の入力必須項目です。'
+maxlength: 'に2000文字以内を入力してください。'
+requestMode: '精査依頼先モードへ'
+uploadFile:
+  error: 不正拡張子があります。

@@ -1,0 +1,195 @@
+request:
+  title: 'TOP・依頼'
+
+table:
+  notification_list:
+    title: 'フィグマ 太郎さんへのお知らせ'
+    social_security: '社保'
+    important: '重要'
+    unread: '未読'
+    year: '年調'
+
+  information_notification_list:
+    title: '案内・通知一覧'
+    columns:
+      business_division: '業務区分'
+      last_updated: '最終更新日'
+      notification_content: '案内・通知内容'
+      status: 'ステータス'
+
+  request_notification_list:
+    title: '依頼・届出一覧'
+    columns:
+      reception_no: '受付No.'
+      requested_date: '依頼日'
+      request_content: '依頼内容'
+      situation: '状況'
+
+card:
+  request_notification: '依頼・届出'
+  guidance_notification: '案内・通知'
+
+  health_insurance_related:
+    title: '健保関連手続き'
+    content_1: '扶養異動届'
+    content_2: '基礎年金番号通知書再交付'
+    content_3: '第３号届'
+    content_4: '住所変更、氏名変更（厚年）'
+    content_5: '育休終了時月変'
+    content_6: '介護保険適用除外該当・非該当届'
+
+  confirmation_of_issuance:
+    title: '離職票発行確認書'
+    content_1: '【HRP起票】'
+    content_2: '離職票発行確認書'
+    content_3: '同意書'
+    content_4: '【従業員起票】'
+    content_5: '離職票'
+    content_6: '  発行確認書'
+    content_7: '同意書'
+
+  childcare_benefit_extension:
+    title: '育児給付金延長申請'
+    content_1: '保育所不承諾通知'
+
+  information_for_notification_employment:
+    title: '雇保給付金届出の 必要情報入手'
+    content_1: '振込口座連絡票'
+    content_2: '同意書'
+    content_3: '(高年齢)本人確認書類'
+    content_4: '(育児)母子手帳'
+    content_5: '(介護)住民票、戸籍抄本'
+    content_6: ''
+
+  request_submit_insufficient_employment_insurance:
+    title: '雇保不足書類提出依頼 （督促）'
+    content_1: ''
+
+  request_submit_insufficient_social_insurance:
+    title: '社保不足書類提出依頼 （督促）'
+    content_1: ''
+
+  employment_insurance_issued:
+    title: '雇保公文書発行'
+    content_1: '対象公文書'
+    content_2: '雇保証'
+    content_3: '高年齢給付金決定通知書'
+    content_4: '育児給付金決定通知書'
+    content_5: '介護給付金決定通知書'
+    content_6: '離職票'
+    content_7: '資格喪失確認通知書'
+
+other:
+  title: 'その他'
+
+  inquiry:
+    title: '問合せ'
+    content: '新しい問合せを登録する'
+
+  faq:
+    title: '問合せ・FAQ'
+    content: '社会保険、年末調整などに関してよくある質問'
+
+  faqCode:
+    title: '年末調整・FAQ'
+    content: '年末調整に関してよくある質問'
+
+  result_confirmation:
+    title: '問合せ・結果確認'
+    content: '登録した問合せの回答を確認する'
+
+  share_file:
+    title: 'ファイル共有'
+    content: 'ファイルを共有する'
+
+button:
+  all_notification: 'すべてのお知らせ'
+
+top_menu:
+  title: '申請・依頼メニュー'
+
+  card:
+    work_management: '勤務管理'
+    payslip: '給与明細'
+    change_identity: '身上変更'
+    year_end_adjustment: '年末調整'
+    social_insurance: '社会保険'
+    certificate_issuance: '証明書発行'
+    formation_holding: '財形・持ち株'
+    faq: 'FAQ'
+
+breadcrumb:
+  top: トップ
+notice:
+    title: 苗字名前さんへのお知らせ
+    show-button: お知らせ一覧へ
+menu: 
+  title: メニュー
+  faq:
+    title: FAQ・問い合わせ
+    description: 説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。
+  time3: 
+   title: Time-3
+   description: 説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。
+  factor:
+   title: Success Factors
+   description: 説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。
+  wave:
+   title: Wave
+   description: 説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。
+  insurance:
+   title: 社会保険
+   description: 説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。
+  hr:
+   title: 人事手続き
+   description: 説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。説明テキストが入ります。
+
+requests:
+  title: 依頼事項の状況
+  show-button: 依頼事項の一覧へ
+  table:
+    date: 依頼日
+    content: 依頼内容
+    status: 現在の状況
+
+
+topManager:
+  responsibility:
+    business:
+      title: 業務権限
+      place-holder: 業務権限を選択
+    companyGroup:
+      title: 担当会社
+      place-holder: 担当会社を選択
+  request:
+    header: 未処理の担当業務
+    table-header: 
+      content: 依頼内容
+      affiliation: 所属先
+      request-source: 依頼者
+      request-date: 依頼日
+  menu:
+    header: 管理メニュー
+    notification:
+      title: お知らせ登録
+    request-notice: 
+      title1st: 依頼・届出
+      title2nd: 検索
+    information-notice:
+      title: 案内通知登録
+    guidance-notice:
+      title: 案内通知検索
+    faq-create:
+      title: FAQ登録
+    faq-search:
+      title: FAQ検索
+    faq-end-year-create:
+      title: 年末調整FAQ登録
+    faq-end-year-search:
+      title: 年末調整FAQ検索
+    share-file-create:
+      title: ファイル共有登録
+    share-file-search:
+      title: ファイル共有検索
+    
+    

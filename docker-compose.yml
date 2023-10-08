@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  client:
+    container_name: hrone-client
+    image: hrone-client
+    build: .
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - hrone-network
+
+networks:
+  hrone-network:
+    driver: bridge

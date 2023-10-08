@@ -1,0 +1,75 @@
+page:
+  dashboard:
+    title: 'Dashboard'
+  user:
+    title: 'User'
+  pagination:
+    items&page: '件/ページ'
+    total: '全'
+    showing: '件中'
+    to: '件'
+  header:
+    title: '【HROne/HRP担当者モード表示】'
+
+  button:
+    backToTop: 'トップに戻る'
+    add: '追加'
+    delete: '削除'
+    clear: 'クリア'
+    preview: 'プレビュー'
+
+required: '必須'
+ratingTitle: 'このページは役に立ちましたか？'
+
+menu:
+  notice: 'お知らせ'
+  request_notification: '依頼・届出'
+  health_insurance: '健保関連手続き'
+  confirmation_issuance: '離職票発行確認書'
+  childcare_benefit: '育児給付金延長申請'
+  guidance_notification: '案内・通知'
+  inquiries_FAQs: '問合せ・FAQ'
+  file_share: 'ファイル共有'
+  sub_gui_notification_1: '雇保給付金届出の 必要情報入手'
+  sub_gui_notification_2: '離職票発行確認書'
+  sub_gui_notification_3: '雇保不足書類提出依頼（督促）'
+  sub_gui_notification_4: '社保不足書類提出依頼（督促）'
+  sub_gui_notification_5: '雇保公文書発行'
+  sub_faq_1: '問合せ'
+  sub_faq_2: 'FAQ'
+  sub_faq_3: '問合せ・結果確認'
+  search: '探す'
+  searchMobile: '探す'
+  setting: '設定'
+  top: 'トップ'
+  logout: 'ログアウト'
+  title: '苗字 名前'
+
+footer: '© Copyright 2023 xxxxxxxxxxxxxxxxxx'
+
+zip_code:
+  post_code: '郵便番号'
+  prefecture: '都道府県'
+  district: '市町村区'
+  town_name: '町名'
+  error_7_digit: '郵便番号は7桁で入力してください'
+  post_code_undefined: '入力された郵便番号の住所は存在しません'
+
+table:
+  empty_data: 'データなし'
+
+popup:
+  title: 'ファイルを削除してもよろしいでしょうか。'
+  confirm: 'はい'
+  cancel: 'いいえ'
+  backToTop: トップに戻りますか？
+
+form:
+  field_required: 'の入力必須項目です。'
+
+breadcrumbs:
+  top: トップ
+  top-faq-end-year: FAQ年調
+  top-faq: FAQトップ
+
+network_disconnect: 不正なエラーが発生しました。再度お試しください。

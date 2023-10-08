@@ -1,0 +1,71 @@
+pageTitle: 問合せ
+backToSearchScreen: TOP画面に戻る
+preview: 入力画面に戻る
+register: 送信
+confirm: 確認
+createdDate: 作成日
+companyName:
+  title: 会社
+  value: 株式会社ケンショウ
+companyGroup:
+  title: 会社グループ
+creatorId:
+  title: 従業員番号
+  titlePreview: 従業員番号
+  value: US01234
+creatorName:
+  title: お名前
+  value: 鈴木　太郎
+business:
+  classifiedBusiness: 業務区分
+  placeholder: 選択してください。
+contactNo: 問合せ
+toMailAddress:
+  register: 宛先
+  preview: 宛先宛先
+userEmail:
+  title: メールアドレス
+  titlePreview: メールアドレス
+  checkboxRegistedMail: 登録済みメールアドレスへの回答
+  checkboxEditMail: 上記以外で回答を受信したい場合は、メールアドレスを入力ください
+  placeholder:
+    inputMail: 上記以外への回答をご希望の場合は、メールアドレスを入力ください
+    confirmMail: 確認のため、もう一度、メールアドレスを入力ください
+required: （必須）
+back: 戻る
+pageDes: 入力内容確認
+titleMail: タイトル
+titleMailRequired: Contact title is required
+contentMail: 内容
+contentMailRequired: Contact content required
+cancel: キャンセル
+contactType:
+  title: 問合せ分類
+  placeholder: 選択してください
+  required: Contact type is required
+contactDomain:
+  title: 問合せドメイン
+  titlePreview: 宛先
+  hintContent: 問合せ回答が受信できるように、上記のドメイン指定で受信を許可するように
+  hintRequired: 設定をお願いします
+relatedCode:
+  title: 関連番号
+  placeHolder: 問合せ内容に関連する番号があれば、記載ください。(例：FAQ番号など)
+popup:
+  cancel:
+    message: 問合せフォーム作成をキャンセルします。入力内容は削除されます。よろしいでしょうか？
+
+noPermission: 'アクセス権限がありません。'
+
+response:
+  getEmailFail: 'Fail to get email'
+  getContactTypeFail: 'Fail to get contact type'
+  sendContactFail: 'Send contact fail'
+
+success:
+  title: 【お問合せ受付完了】
+  content: メールアドレス宛に自動配信メールを送信しました。自動配信メールが届いていない場合、メールアドレスが誤っている可能性がありますので、再度お問合せください。
+  confirmBtn: OK
+
+
+
