@@ -8,7 +8,6 @@ import { store } from '@/stores';
 import LocalStorageService from '@/utils/localStorageService';
 import localStorageService from '@/utils/localStorageService';
 import router from '@/router';
-import { USER_TYPE, USER_FUNCTION_TYPE, USER_FUNCTION_FLAG_VALUE, COMPANY_FUNCTION_FLAG_VALUE, TRUE_VALUE } from '@/stores/constants/constant';
 
 export const useAuthStore = defineStore('auth', () => {
   const authUser = ref<AuthUser>();
@@ -52,7 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
   }: {
     username: string;
     password: string;
-    type: string[];
+    type: string;
   }) => {
     return login({ username, password, type })
       .then(async (response) => {
@@ -88,138 +87,6 @@ export const useAuthStore = defineStore('auth', () => {
     LocalStorageService.clearUserType();
   };
 
-  const isViewFaqNormal = () => {
-    let userFunctions = authUser.value?.functions;
-
-    let userFunctionsFaqNormal = userFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ;
-    });
-
-    if (userFunctionsFaqNormal?.length == 0) {
-      return false;
-    }
-
-    let validFAQUser = userFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ && (item.flag == USER_FUNCTION_FLAG_VALUE.NOT_ACCESS);
-    });
-
-    if (Number(validFAQUser?.length) > 0) {
-      return false;
-    }
-
-    return true;
-  }
-
-  const isCompanyViewNormalFaq = () => {
-    let companyFunctions = authUser.value?.companyFunctions;
-
-    let validFAQ = companyFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ && item.flag == COMPANY_FUNCTION_FLAG_VALUE.ACCESS;
-    });
-
-    if (validFAQ && validFAQ?.length > 0) {
-      return true;
-    }
-    return false;
-
-  }
-  
-  const isViewFaqEndYear = () => {
-
-    if (authUser.value?.UserType == USER_TYPE.FAQ) {
-      return true;
-    }
-
-    let userFunctions = authUser.value?.functions;
-
-    let userFunctionsFaqNormal = userFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ_END_YEAR;
-    });
-
-    if (userFunctionsFaqNormal?.length == 0) {
-      return false;
-    }
-
-    let validFAQUser = userFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ_END_YEAR && (item.flag == USER_FUNCTION_FLAG_VALUE.NOT_ACCESS);
-    });
-
-    if (Number(validFAQUser?.length) > 0) {
-      return false;
-    }
-
-    return true;
-  }
-
-  const isCompanyViewEndYearFaq = () => {
-    let companyFunctions = authUser.value?.companyFunctions;
-
-    let validFAQ = companyFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ && item.flag == COMPANY_FUNCTION_FLAG_VALUE.NOT_ACCESS;
-    });
-
-    if (validFAQ && validFAQ?.length > 0) {
-      return true;
-    }
-    return false;
-
-  }
-
-  const isEditFaqNormal = () => {
-    if (authUser.value?.UserType != USER_TYPE.MANAGER && authUser.value?.UserType != USER_TYPE.SYSTEM_ADMIN) {
-      return false;
-    }
-
-    let userFunctions = authUser.value?.functions;
-
-    let userFunctionsFaqNormal = userFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ;
-    });
-
-    if (userFunctionsFaqNormal?.length == 0) {
-      return false;
-    }
-
-    let validFAQUser = userFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ && (item.flag == USER_FUNCTION_FLAG_VALUE.FULL_ACCESS);
-    });
-
-    if (Number(validFAQUser?.length) > 0) {
-      return true;
-    }
-
-    return false;
-  }
-
-  const isEditFaqEndYear = () => {
-    if (authUser.value?.UserType != USER_TYPE.MANAGER && authUser.value?.UserType != USER_TYPE.SYSTEM_ADMIN) {
-      return false;
-    }
-
-    let userFunctions = authUser.value?.functions;
-
-    let userFunctionsFaqNormal = userFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ_END_YEAR;
-    });
-
-    if (userFunctionsFaqNormal?.length == 0) {
-      return false;
-    }
-
-    let validFAQUser = userFunctions?.filter((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.FAQ_END_YEAR && (item.flag == USER_FUNCTION_FLAG_VALUE.FULL_ACCESS);
-    });
-
-    if (Number(validFAQUser?.length) > 0) {
-      return true;
-    }
-
-    return false;
-  }
-
-  const isManagerUser = () => {
-    return authUser.value?.UserType == USER_TYPE.MANAGER || authUser.value?.UserType == USER_TYPE.SYSTEM_ADMIN;
-  }
 
   const handleChangePassword = async ({
     oldPassword,
@@ -243,54 +110,7 @@ export const useAuthStore = defineStore('auth', () => {
       });
   };
 
-  const isUserEmployee = () => {
-    return authUser.value?.UserType == USER_TYPE.EMPLOYEE;
-  }
-
-  const isUserFaq = () => {
-    return authUser.value?.UserType == USER_TYPE.FAQ;
-  }
-  
-  const isViewShareFile = () => {
-    if (authUser.value?.UserType != USER_TYPE.MANAGER && authUser.value?.UserType != USER_TYPE.SYSTEM_ADMIN) {
-      return false;
-    }
-    let userFunctions = authUser.value?.functions;
-
-    let validShareFileUser = userFunctions?.some((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.SHARE_FILE 
-      && (item.flag == USER_FUNCTION_FLAG_VALUE.FULL_ACCESS || item.flag == USER_FUNCTION_FLAG_VALUE.READ_ONLY);
-    });
-
-    if (validShareFileUser) {
-      return true;
-    }
-    return false;
-  }
-
-  const isCreateShareFile = () => {
-    if (authUser.value?.UserType != USER_TYPE.MANAGER && authUser.value?.UserType != USER_TYPE.SYSTEM_ADMIN) {
-      return false;
-    }
-
-    if(authUser.value?.UserType == USER_TYPE.MANAGER && authUser.value?.IsAuthority == TRUE_VALUE) {
-      return false;
-    }
-
-    let userFunctions = authUser.value?.functions;
-
-    let validShareFileUser = userFunctions?.some((item) => {
-      return item.functionCode == USER_FUNCTION_TYPE.SHARE_FILE 
-        && (item.flag == USER_FUNCTION_FLAG_VALUE.FULL_ACCESS);
-    });
-      
-    if (validShareFileUser) {
-      return true;
-    }
-
-    return false;
-  }
-
+ 
   return {
     authUser,
     isAuthenticated,
@@ -299,18 +119,7 @@ export const useAuthStore = defineStore('auth', () => {
     handleLogin,
     handleLoginFaq,
     clearAuthInfo,
-    isViewFaqNormal,
-    isEditFaqNormal,
-    isViewFaqEndYear,
-    isEditFaqEndYear,
-    isManagerUser,
     handleChangePassword,
-    isUserEmployee,
-    isCompanyViewNormalFaq,
-    isCompanyViewEndYearFaq,
-    isViewShareFile,
-    isUserFaq,
-    isCreateShareFile,
   };
 });
 

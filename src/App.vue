@@ -10,7 +10,6 @@ import '../ckeditor5/build/ckeditor';
 const isMutating = useIsMutating();
 </script>
 <style>
-@import 'assets/styles/common.css';
 .ant-spin-nested-loading {
   min-height: 100%;
 }

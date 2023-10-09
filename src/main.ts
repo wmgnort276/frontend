@@ -5,7 +5,6 @@ import App from './App.vue';
 import i18n from './plugins/i18n';
 import { MotionPlugin } from '@vueuse/motion';
 import { setupStore } from '@/stores';
-import './assets/styles/app.css';
 import { setupVueQuery } from '@/plugins/vueQuery';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
