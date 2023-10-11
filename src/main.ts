@@ -7,6 +7,8 @@ import { MotionPlugin } from '@vueuse/motion';
 import { setupStore } from '@/stores';
 import { setupVueQuery } from '@/plugins/vueQuery';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+// import file config to use single sign on by google
+import "@/firebase/config";
 
 const app = createApp(App);
 app.use(router);
