@@ -11,7 +11,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login-menu'
+      redirect: '/login'
     },
     errorsRoute,
     authRoute,

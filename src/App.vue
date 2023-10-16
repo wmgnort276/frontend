@@ -6,8 +6,8 @@
 <script setup lang="ts">
 import { useIsMutating } from '@tanstack/vue-query';
 import '../ckeditor5/build/ckeditor';
-
 const isMutating = useIsMutating();
+document.title = "Code deep";
 </script>
 <style>
 .ant-spin-nested-loading {
