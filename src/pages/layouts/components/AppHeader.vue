@@ -7,7 +7,6 @@ import { computed, ref } from 'vue';
 </script>
 <template>
   <div class="header-content">
-    hello
   </div>
 </template>
 <style scoped></style>

@@ -1,0 +1,28 @@
+.main-color {
+    background: linear-gradient(215deg, #546e7a, #37474f);
+}
+
+.secondary-color {
+
+}
+
+.text-main-color {
+
+}
+
+.text-second-color {
+    color: #fff;
+}
+
+.btn-color-hover {
+
+}
+
+
+.login-page-color {
+    background-image: radial-gradient(closest-side at 50% 135%, #ffffff 50%, #eceff1 100%);
+}
+
+.link-color {
+    color: #24769c;
+}

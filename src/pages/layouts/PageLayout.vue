@@ -33,17 +33,6 @@ watchEffect(() => {
   </div>
 </template>
 <style scoped>
-/* .ant-spin-nested-loading {
-  height: 100%;
-}
-.ant-spin-nested-loading .ant-spin {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  height: unset;
-}
-*/
 
 .loading-container {
   position: fixed;
@@ -51,7 +40,7 @@ watchEffect(() => {
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;

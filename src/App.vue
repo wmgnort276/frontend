@@ -1,11 +1,12 @@
 <template>
-  <a-spin :spinning="!!isMutating" tip="Loading...">
+  <a-spin :spinning="!!isMutating" tip="Loading..." class="main-color">
     <router-view />
   </a-spin>
 </template>
 <script setup lang="ts">
 import { useIsMutating } from '@tanstack/vue-query';
 import '../ckeditor5/build/ckeditor';
+import './assets/styles/common.css'
 const isMutating = useIsMutating();
 document.title = "Code deep";
 </script>
@@ -19,4 +20,10 @@ document.title = "Code deep";
   transform: translate(-50%, -50%);
   position: absolute;
 }
+
+.app-container {
+  /* background-color: radial-gradient(closest-side at 50% 135%, #ffffff 50%, #eceff1 100%); */
+}
+
+
 </style>
