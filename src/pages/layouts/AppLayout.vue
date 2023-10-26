@@ -25,20 +25,13 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
 }
 .ant-spin-container {
   font-family: 'Roboto', sans-serif !important;
-  /* color: #37474f !important; */
 }
 .header {
-  /* background-color: #5d6169; */
   height: 50px;
 }
 
 
-.layout-content {
-  /* padding: 19px; */
-}
-
 .layout {
-  /* min-height: 100vh; */
   background: #fff !important;
 }
 

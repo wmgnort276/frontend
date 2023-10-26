@@ -10,6 +10,7 @@ import localStorageService from '@/utils/localStorageService';
 import { t } from '@/plugins/i18n';
 import { message } from 'ant-design-vue';
 
+
 interface HttpClientRequestConfig extends AxiosRequestConfig {
   url: string;
 }
@@ -24,7 +25,8 @@ const defaultConfig: AxiosRequestConfig = {
   headers: {
     Accept: 'application/json, text/plain, */*',
     'Content-Type': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest'
+    'X-Requested-With': 'XMLHttpRequest',
+    'Access-Control-Allow-Origin': '*'
   },
   baseURL: import.meta.env.VUE_APP_DOMAIN_API,
   paramsSerializer: {
@@ -47,7 +49,7 @@ class HttpClient {
   private httpInterceptorsRequest(): void {
     HttpClient.axiosInstance.interceptors.request.use(
       (config) => {
-        const token = localStorageService.getAccessToken();
+        const token = localStorageService.getAccessToken() || "ABC";
         config.headers['x-access-token'] = `${token}`;
         return config;
       },
@@ -62,27 +64,27 @@ class HttpClient {
       },
       async (error) => {
         const { response, config } = error;
-        if (response?.status === 401) {
-          if (!HttpClient.whiteList.some((v) => (config?.url as string).indexOf(v) > -1)) {
-            if (!HttpClient.isRefreshing) {
-              HttpClient.isRefreshing = true;
-              this.getNewToken();
-            }
-            return new Promise((resolve) => {
-              this.subscribeTokenRefresh((token: string) => {
-                config.headers['Authorization'] = 'Bearer ' + token;
-                resolve(HttpClient.axiosInstance.request(config));
-              });
-            });
-          }
-        } else if(error && error.code === 'ERR_NETWORK') {
-          message.error(t('common.network_disconnect'));
-          return Promise.reject(error);
-        } else {
-          const $error = error;
-          $error.isCancelRequest = Axios.isCancel($error);
-          return Promise.reject($error);
-        }
+        // if (response?.status === 401) {
+        //   if (!HttpClient.whiteList.some((v) => (config?.url as string).indexOf(v) > -1)) {
+        //     if (!HttpClient.isRefreshing) {
+        //       HttpClient.isRefreshing = true;
+        //       this.getNewToken();
+        //     }
+        //     return new Promise((resolve) => {
+        //       this.subscribeTokenRefresh((token: string) => {
+        //         config.headers['Authorization'] = 'Bearer ' + token;
+        //         resolve(HttpClient.axiosInstance.request(config));
+        //       });
+        //     });
+        //   }
+        // } else if(error && error.code === 'ERR_NETWORK') {
+        //   message.error(t('common.network_disconnect'));
+        //   return Promise.reject(error);
+        // } else {
+        //   const $error = error;
+        //   $error.isCancelRequest = Axios.isCancel($error);
+        //   return Promise.reject($error);
+        // }
       }
     );
   }

@@ -10,6 +10,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 import legacy from '@vitejs/plugin-legacy';
 import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5';
 import { createRequire } from 'node:module';
+
 const require = createRequire(import.meta.url);
 // https://vitejs.dev/config/
 export default defineConfig({

@@ -17,3 +17,8 @@ export const getCompanyGroupByBusinessCode = (param: any) => {
   const query = setQuery(param);
   return http.get(`api/business/getPermisionCompanyGroup?${query.join('&')}`);
 };
+
+
+export const getTestApi = () => {
+  return http.get("WeatherForecast");
+}

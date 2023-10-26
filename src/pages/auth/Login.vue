@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import GoogleIcon from '@/components/GoogleIcon.vue';
 import type { FormInstance } from 'ant-design-vue';
+import { login } from '@/api/submit'
 
 const auth = getAuth();
 let isLoading = ref<boolean>(false);
@@ -35,6 +36,15 @@ const handleRouteToSignUp = async () => {
 
 const handleLogin = async () => {
     await formRef.value!.validate();
+    let param = {
+        username: formLogin.value.email,
+        password: formLogin.value.password
+    }
+    console.log("param login: ", param);
+    await login(param).then((res: any) => {
+        console.log("Response: ", res);
+    })
+
 }
 </script>
 
@@ -53,7 +63,7 @@ const handleLogin = async () => {
                             trigger: ['blur', 'change']
                         }
                     ]">
-                        <a-input class="input" placeHolder="Email">
+                        <a-input class="input" placeHolder="Email" v-model:value="formLogin.email">
 
                         </a-input>
                     </a-form-item>
@@ -64,15 +74,12 @@ const handleLogin = async () => {
                             trigger: ['blur', 'change']
                         }
                     ]">
-                        <a-input-password class="input" placeHolder="Password">
+                        <a-input-password class="input" placeHolder="Password" v-model:value="formLogin.password">
 
                         </a-input-password>
                     </a-form-item>
-                    <a-button 
-                      style="width: 100%;"
-                      class="main-color text-second-color mb-20 login-buton"
-                      @click="handleLogin"
-                      >
+                    <a-button style="width: 100%;" class="main-color text-second-color mb-20 login-buton"
+                        @click="handleLogin">
                         Sign in
                     </a-button>
                     <a-button style="width: 100%;" class="main-color text-second-color login-buton flex align-center"
