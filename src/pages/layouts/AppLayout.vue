@@ -3,7 +3,7 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
 </script>
 <template>
   <a-layout class="layout">
-    <a-layout-header class="header main-color">
+    <a-layout-header class="header">
       <AppHeader />
     </a-layout-header>
     <a-layout-content class="layout-content">
@@ -28,6 +28,7 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
 }
 .header {
   height: 50px;
+  background-color: #fff;
 }
 
 

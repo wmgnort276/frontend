@@ -5,6 +5,7 @@ import { useAuthStoreHook } from '@/stores/auth.store';
 import errorsRoute from '@/router/modules/errors';
 import LocalStorageService from '@/utils/localStorageService';
 import homeRoute from './modules/home/home';
+import userRoute from './modules/user'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -16,6 +17,7 @@ const router = createRouter({
     errorsRoute,
     authRoute,
     homeRoute,
+    userRoute,
     {
       path: '/not-found',
       component: () => import('@/pages/errors/404.vue')
@@ -27,9 +29,17 @@ const router = createRouter({
   ]
 });
 
-const WHITE_LIST_ROUTER_NAME = ['login', 'forgot-password'];
+const WHITE_LIST_ROUTER_NAME = ['/login', '/forgot-password', '/signup'];
 
-// router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  if(!WHITE_LIST_ROUTER_NAME.includes(to.path) && !localStorage.getItem("accessToken")) {
+    return next("/login");
+  }
+
+  next();
+})
+
+
 //   const { isAuthenticated } = useAuthStoreHook();
 //   const token = LocalStorageService.getAccessToken();
 //   const useType = LocalStorageService.getUserType();

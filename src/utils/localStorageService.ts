@@ -1,6 +1,5 @@
 const ACCESS_TOKEN_KEY = 'accessToken';
 const USER_TYPE_KEY = 'userType';
-const FAQ_KEY = 'faqKey';
 
 const setAccessToken = (accessToken: string) => {
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
@@ -26,17 +25,7 @@ const clearUserType = () => {
   localStorage.removeItem(USER_TYPE_KEY);
 };
 
-const setFaq = (faq: any) => {
-  localStorage.setItem(FAQ_KEY, faq);
-};
 
-const getFaq = () => {
-  return localStorage.getItem(FAQ_KEY) || '';
-};
-
-const clearFaq = () => {
-  localStorage.removeItem(FAQ_KEY);
-};
 
 export default {
   setAccessToken,
@@ -44,8 +33,5 @@ export default {
   clearAccessToken,
   setUserType,
   getUserType,
-  clearUserType,
-  setFaq,
-  getFaq,
-  clearFaq
+  clearUserType
 };

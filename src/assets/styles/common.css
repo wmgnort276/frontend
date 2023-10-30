@@ -1,7 +1,7 @@
 .main-page {
     width: 100%;
     min-height: calc(100vh - 50px);
-    background-color: rgb(235, 240, 241);
+    background-color: rgb(247 248 250);
 }
 
 .login-buton {
@@ -32,6 +32,10 @@
     margin-right: 10px;
 }
 
+.mr-50 {
+    margin-right: 50px;
+}
+
 .ml-10 {
     margin-left: 10px;
 }
@@ -43,6 +47,14 @@
 
 .align-center {
     align-items: center;
+}
+
+.center {
+    align-items: center;
+    justify-content: center;
+}
+
+.justify-center {
     justify-content: center;
 }
 
@@ -61,4 +73,29 @@
 
 .pointer {
     cursor: pointer;
+}
+
+.button-classify-problem {
+    border: none;
+    background-color: rgb(247, 244, 244);
+    border-radius: 15px;
+}
+
+.button-classify-problem:hover {
+    color: #333;
+    background-color: rgb(232, 240, 238);
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-20 {
+    gap: 20px
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px 20px;
 }

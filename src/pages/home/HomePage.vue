@@ -6,7 +6,7 @@ import { Codemirror } from 'vue-codemirror'
 import { cpp } from '@codemirror/lang-cpp'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { submitCode } from '@/api/submit'
-import { getTestApi } from '@/api/common.api';
+import { getTestApi, fakeApi } from '@/api/common.api';
 
 let code = ref<any>('');
 let codeOutput = ref<any>('');
@@ -41,6 +41,11 @@ const handleSubmit = async () => {
     }
 }
 
+const handleCallFakeApi = async () => {
+   let result = await fakeApi();
+   console.log("🚀 ~ file: HomePage.vue:46 ~ handleCallFakeApi ~ result:", result)
+}
+
 </script>
 
 <template>
@@ -56,7 +61,11 @@ const handleSubmit = async () => {
                 Run code
             </a-button>
         </div>
-
+        <div>
+            <a-button @click="handleCallFakeApi">
+                Call Fake Api
+            </a-button>
+        </div>
     </div>
 </template>
 

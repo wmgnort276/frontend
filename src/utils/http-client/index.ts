@@ -51,6 +51,7 @@ class HttpClient {
       (config) => {
         const token = localStorageService.getAccessToken() || "ABC";
         config.headers['x-access-token'] = `${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
         return config;
       },
       (error) => Promise.reject(error)
@@ -97,20 +98,20 @@ class HttpClient {
     HttpClient.requests = [];
   }
 
-  private getNewToken() {
-    useAuthStore()
-      .handleRefreshToken()
-      .then(({ token }) => {
-        this.onRefreshed(token);
-      })
-      .catch(() => {
-        HttpClient.requests = [];
-        window.location.href = '/login';
-      })
-      .finally(() => {
-        HttpClient.isRefreshing = false;
-      });
-  }
+  // private getNewToken() {
+  //   useAuthStore()
+  //     .handleRefreshToken()
+  //     .then(({ token }) => {
+  //       this.onRefreshed(token);
+  //     })
+  //     .catch(() => {
+  //       HttpClient.requests = [];
+  //       window.location.href = '/login';
+  //     })
+  //     .finally(() => {
+  //       HttpClient.isRefreshing = false;
+  //     });
+  // }
 
   public request<T>(
     method: RequestMethods,

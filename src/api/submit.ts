@@ -7,7 +7,7 @@ export const submitCode = (param: any) => {
   };
 
 export const login = (param : any) => {
-  return http.post('/api/login', {
+  return http.post('/api/Authentication/login', {
     data: param
   });
 }

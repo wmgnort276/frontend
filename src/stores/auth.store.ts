@@ -1,34 +1,32 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { AuthUser } from '@/types/interfaces/auth';
 import { message } from 'ant-design-vue';
-import { login, loginFaq, me, refreshToken, changePassword } from '@/api/auth.api';
-import AuthSchema, { MeSchemaResponse } from '@/types/schemas/auth.schema';
+import { login, me, changePassword } from '@/api/auth.api';
 import { store } from '@/stores';
 import LocalStorageService from '@/utils/localStorageService';
 import localStorageService from '@/utils/localStorageService';
 import router from '@/router';
 
 export const useAuthStore = defineStore('auth', () => {
-  const authUser = ref<AuthUser>();
-  const token = localStorageService.getAccessToken();
+  const authUser = ref<any>();
+  // const token = localStorageService.getAccessToken();
 
   const isAuthenticated = computed(() => authUser.value !== undefined);
-  const handleRefreshToken = () => {
-    return refreshToken()
-      .then((response) => {
-        const { token } = AuthSchema.parse(response);
+  // const handleRefreshToken = () => {
+  //   return refreshToken()
+  //     .then((response) => {
+  //       const { token } = AuthSchema.parse(response);
 
-        LocalStorageService.setAccessToken(token);
-        return { token };
-      })
-      .catch((error) => {
-        clearAuthInfo();
-        router.push('/login');
+  //       LocalStorageService.setAccessToken(token);
+  //       return { token };
+  //     })
+  //     .catch((error) => {
+  //       clearAuthInfo();
+  //       router.push('/login');
 
-        return Promise.reject(error);
-      });
-  };
+  //       return Promise.reject(error);
+  //     });
+  // };
 
   const getAuthInfo = () => {
     return me()
@@ -44,41 +42,25 @@ export const useAuthStore = defineStore('auth', () => {
       });
   };
 
-  const handleLogin = ({
+  const handleLogin = async ({
     username,
     password,
-    type
   }: {
     username: string;
     password: string;
-    type: string;
   }) => {
-    return login({ username, password, type })
-      .then(async (response) => {
-        const data = AuthSchema.parse(response);
+    try {
+      let data: any = await login({ username, password });
+      if (data?.token) {
         localStorageService.setAccessToken(data?.token);
-        // message.success('Login success');
-        await router.push('/top');
+        message.success('Login success');
+        await router.push('/home');
         return;
-      })
-      .catch((error) => {
-        const dataError = error.response.data;
-        message.error(dataError.message);
-      });
-  };
-
-  const handleLoginFaq = ({ faqCode, password }: { faqCode: string; password: string }) => {
-    return loginFaq({ faqCode, password })
-      .then(async (response) => {
-        const data = AuthSchema.parse(response);
-        localStorageService.setAccessToken(data?.token);
-        // message.success('Login success');
-        await router.push('/faq/search?isFaqCode=1');
-      })
-      .catch((error) => {
-        const dataError = error.response.data;
-        message.error(dataError.message);
-      });
+      }
+      message.error("Login failed");
+    } catch (error) {
+      message.error("Login failed");
+    }
   };
 
   const clearAuthInfo = () => {
@@ -110,14 +92,13 @@ export const useAuthStore = defineStore('auth', () => {
       });
   };
 
- 
+
   return {
     authUser,
     isAuthenticated,
-    handleRefreshToken,
+    // handleRefreshToken,
     getAuthInfo,
     handleLogin,
-    handleLoginFaq,
     clearAuthInfo,
     handleChangePassword,
   };

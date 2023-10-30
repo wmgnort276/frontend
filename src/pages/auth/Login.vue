@@ -5,13 +5,13 @@ import { onMounted, ref } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import GoogleIcon from '@/components/GoogleIcon.vue';
 import type { FormInstance } from 'ant-design-vue';
-import { login } from '@/api/submit'
+import { useAuthStore } from '@/stores/auth.store';
 
 const auth = getAuth();
 let isLoading = ref<boolean>(false);
 const formRef = ref<FormInstance>();
 let formLogin = ref<any>({
-    email: '',
+    username: '',
     password: ''
 })
 
@@ -37,14 +37,10 @@ const handleRouteToSignUp = async () => {
 const handleLogin = async () => {
     await formRef.value!.validate();
     let param = {
-        username: formLogin.value.email,
+        username: formLogin.value.username,
         password: formLogin.value.password
-    }
-    console.log("param login: ", param);
-    await login(param).then((res: any) => {
-        console.log("Response: ", res);
-    })
-
+    }  
+    await useAuthStore().handleLogin(param);
 }
 </script>
 
@@ -56,14 +52,14 @@ const handleLogin = async () => {
                     <div class="flex-column align-center">
                         <h2>Sign in</h2>
                     </div>
-                    <a-form-item name="email" :rules="[
+                    <a-form-item name="username" :rules="[
                         {
                             required: true,
                             message: 'Required',
                             trigger: ['blur', 'change']
                         }
                     ]">
-                        <a-input class="input" placeHolder="Email" v-model:value="formLogin.email">
+                        <a-input class="input" placeHolder="Name" v-model:value="formLogin.username">
 
                         </a-input>
                     </a-form-item>
@@ -92,9 +88,9 @@ const handleLogin = async () => {
                             Forgot password
                         </span>
 
-                        <san class="link-color pointer" @click="handleRouteToSignUp">
+                        <span class="link-color pointer" @click="handleRouteToSignUp">
                             Sign up
-                        </san>
+                        </span>
                     </div>
                 </a-form>
             </div>

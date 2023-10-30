@@ -9,7 +9,7 @@ const errorsRoute: RouteRecordRaw = {
       name: 'errors',
       component: () => import('@/pages/errors/403.vue'),
       meta: {
-        title: t('common.page.user.title'),
+        title: "Not found!",
         requireAuth: true
       }
     }

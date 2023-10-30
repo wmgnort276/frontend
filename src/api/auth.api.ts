@@ -8,23 +8,12 @@ export const refreshToken = () => {
   });
 };
 
-export const login = ({ username, password, type }: TLogin) => {
-  return http.post('/api/users/login', {
-    data: {
-      username,
-      password,
-      type
-    }
+export const login = (param : any) => {
+  return http.post('/api/Authentication/login', {
+    data: param
   });
-};
+}
 
-export const loginFaq = ({ faqCode, password }: TLoginFaq) => {
-  return http.post('/api/users/loginFaq', {
-    data: {
-      faqCode: faqCode
-    }
-  });
-};
 
 export const changePassword = ({ oldPassword, newPassword, confirmPassword } : TChangePassword) => {
   return http.post('/api/users/change-password', {

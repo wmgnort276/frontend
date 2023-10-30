@@ -22,3 +22,8 @@ export const getCompanyGroupByBusinessCode = (param: any) => {
 export const getTestApi = () => {
   return http.get("WeatherForecast");
 }
+
+
+export const fakeApi = () => {
+  return http.get("api/Base")
+}
