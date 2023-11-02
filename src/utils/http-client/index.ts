@@ -42,7 +42,7 @@ class HttpClient {
   }
 
   private static requests: Function[] = [];
-  private static isRefreshing = false;
+  // private static isRefreshing = false;
   private static axiosInstance: AxiosInstance = Axios.create(defaultConfig);
   private static readonly whiteList: string[] = ['/token', '/login'];
 
@@ -65,27 +65,14 @@ class HttpClient {
       },
       async (error) => {
         const { response, config } = error;
-        // if (response?.status === 401) {
-        //   if (!HttpClient.whiteList.some((v) => (config?.url as string).indexOf(v) > -1)) {
-        //     if (!HttpClient.isRefreshing) {
-        //       HttpClient.isRefreshing = true;
-        //       this.getNewToken();
-        //     }
-        //     return new Promise((resolve) => {
-        //       this.subscribeTokenRefresh((token: string) => {
-        //         config.headers['Authorization'] = 'Bearer ' + token;
-        //         resolve(HttpClient.axiosInstance.request(config));
-        //       });
-        //     });
-        //   }
-        // } else if(error && error.code === 'ERR_NETWORK') {
-        //   message.error(t('common.network_disconnect'));
-        //   return Promise.reject(error);
-        // } else {
-        //   const $error = error;
-        //   $error.isCancelRequest = Axios.isCancel($error);
-        //   return Promise.reject($error);
-        // }
+        if(error && error.code === 'ERR_NETWORK') {
+          message.error(t('common.network_disconnect'));
+          return Promise.reject(error);
+        } else {
+          const $error = error;
+          $error.isCancelRequest = Axios.isCancel($error);
+          return Promise.reject($error);
+        }
       }
     );
   }
@@ -116,7 +103,7 @@ class HttpClient {
   public request<T>(
     method: RequestMethods,
     url: string,
-    param?: AxiosRequestConfig,
+    param?: AxiosRequestConfig | FormData,
     axiosConfig?: HttpClientRequestConfig
   ): Promise<T> {
     const config = {
@@ -137,9 +124,9 @@ class HttpClient {
     return this.request<T>('get', url, params, config);
   }
 
-  public upload<T>(url: string, params?: AxiosRequestConfig) {
+  public upload<T>(url: string, params?: AxiosRequestConfig | FormData) {
     const uploadConfig: HttpClientRequestConfig = {
-      url: import.meta.env.VUE_APP_DOMAIN_API + url,
+      url: url,
       timeout: 60000 * 15,
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -148,6 +135,7 @@ class HttpClient {
 
     return this.request<T>('post', url, params, uploadConfig);
   }
+
 }
 
 export const http = new HttpClient();

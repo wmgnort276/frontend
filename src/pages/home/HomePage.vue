@@ -33,7 +33,7 @@ const handleBlur = () => {
 const handleSubmit = async () => {
     try {
         codeOutput.value = await submitCode({
-            description: code.value
+            code: code.value
         })
         console.log("🚀 ~ file: HomePage.vue:35 ~ handleSubmit ~ codeOutput.value:", codeOutput.value)
     } catch (error) {
@@ -42,8 +42,8 @@ const handleSubmit = async () => {
 }
 
 const handleCallFakeApi = async () => {
-   let result = await fakeApi();
-   console.log("🚀 ~ file: HomePage.vue:46 ~ handleCallFakeApi ~ result:", result)
+    let result = await fakeApi();
+    console.log("🚀 ~ file: HomePage.vue:46 ~ handleCallFakeApi ~ result:", result)
 }
 
 </script>
@@ -54,18 +54,19 @@ const handleCallFakeApi = async () => {
             :indent-with-tab="true" :tab-size="2" :extensions="extensions" @ready="handleReady" @change="handleChange"
             @focus="handleFocus" @blur="handleBlur" />
         <span>
-            Output: {{ codeOutput }}
+            Output:
         </span>
+        <a-textarea :value="codeOutput" :autosize="true" :readonly="true"></a-textarea>
         <div class="flex align-center">
             <a-button class="mt-20 main-color text-second-color" @click="handleSubmit">
                 Run code
             </a-button>
         </div>
-        <div>
+        <!-- <div>
             <a-button @click="handleCallFakeApi">
                 Call Fake Api
             </a-button>
-        </div>
+        </div> -->
     </div>
 </template>
 

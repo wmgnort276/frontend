@@ -1,6 +1,7 @@
 import { http } from '@/utils/http-client';
 import type { TLogin, TLoginFaq,TChangePassword } from '@/types/schemas/user.schema';
 import type { TCurrentUser } from '@/types/schemas/auth.schema';
+import type { FormSignUp } from '@/types/interfaces/auth';
 
 export const refreshToken = () => {
   return http.post('/oauth/token', {
@@ -48,6 +49,13 @@ export const setNewPassword = (param:any) => {
 
 export const forgotId = (param: any) => {
   return http.post(`api/users/forgetId`, {
+    data: param
+  });
+}
+
+
+export const signUpApi = (param : FormSignUp) => {
+  return http.post(`api/Authentication/register`, {
     data: param
   });
 }

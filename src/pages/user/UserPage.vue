@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 
 let isLoading = ref<boolean>(false);
+let data = ref<any>([]);
+
 const columns = [
     {
         title: 'Name',

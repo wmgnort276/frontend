@@ -6,6 +6,7 @@ import errorsRoute from '@/router/modules/errors';
 import LocalStorageService from '@/utils/localStorageService';
 import homeRoute from './modules/home/home';
 import userRoute from './modules/user'
+import adminRoute from './modules/admin';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -18,6 +19,7 @@ const router = createRouter({
     authRoute,
     homeRoute,
     userRoute,
+    adminRoute,
     {
       path: '/not-found',
       component: () => import('@/pages/errors/404.vue')

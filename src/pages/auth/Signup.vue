@@ -4,10 +4,13 @@ import { onMounted, ref } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import type { FormInstance } from 'ant-design-vue';
 import type { Rule } from 'ant-design-vue/es/form';
+import { useAuthStore } from '@/stores/auth.store';
+import type { FormSignUp } from '@/types/interfaces/auth';
 
+const authStore = useAuthStore();
 let isLoading = ref<boolean>(false);
 const formRef = ref<FormInstance>();
-let formSignUp = ref<any>({
+let formSignUp = ref<FormSignUp>({
     username: '',
     email: '',
     password: '',
@@ -32,7 +35,8 @@ const validateConfirmPassword = async (_rule: Rule, value: string) => {
 
 const handleSignup = async () => {
     await formRef.value!.validate();
-    await router.push("/home");
+    await authStore.signUp(formSignUp.value);
+    await router.push("/login");
 }
 </script>
 
