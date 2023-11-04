@@ -1,8 +1,10 @@
 .main-page {
     width: 100%;
-    min-height: calc(100vh - 50px);
-    background-color: rgb(247 248 250);
+    min-height: 100vh;
+    height: 100%;
+    background-color: rgb(237, 239, 243);
 }
+
 
 .login-buton {
     height: 40px;

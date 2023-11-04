@@ -2,21 +2,15 @@
     background: linear-gradient(215deg, #546e7a, #37474f);
 }
 
-.secondary-color {
+.secondary-color {}
 
-}
-
-.text-main-color {
-
-}
+.text-main-color {}
 
 .text-second-color {
     color: #fff;
 }
 
-.btn-color-hover {
-
-}
+.btn-color-hover {}
 
 
 .login-page-color {
@@ -25,4 +19,17 @@
 
 .link-color {
     color: #24769c;
+}
+
+.easy {
+    color: rgb(0, 175, 155);
+}
+
+.medium {
+    color: rgb(255, 184, 0);
+}
+
+
+.hard {
+    color: rgb(239, 71, 67);
 }

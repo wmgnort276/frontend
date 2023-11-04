@@ -93,14 +93,18 @@ const chooseExercise = async (record: Exercise) => {
                 <div>
                     <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="exercises"
                         :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-                        :pagination="{ defaultPageSize: 3 }">
+                        :pagination="{ defaultPageSize: 10 }">
                         <template #bodyCell="{ record, column }">
                             <template v-if="column.key === 'title'">
                                 <a @click="chooseExercise(record)" class="exercise-name">{{ record?.name }}</a>
                             </template>
 
                             <template v-if="column.key === 'level'">
-                                <span>{{ record?.exerciseLevelName }}</span>
+                                <span :class="{
+                                    'easy': record?.exerciseLevelName == 'Easy',
+                                    'medium': record?.exerciseLevelName == 'Medium',
+                                    'hard': record?.exerciseLevelName == 'Hard'
+                                }">{{ record?.exerciseLevelName }}</span>
                             </template>
                         </template>
                     </a-table>
@@ -127,6 +131,7 @@ const chooseExercise = async (record: Exercise) => {
 
 .button-classify-problem {
     background-color: #8fb89d26;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .filter-exercise {

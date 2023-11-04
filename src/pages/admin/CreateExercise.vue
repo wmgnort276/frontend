@@ -33,14 +33,15 @@ const handleFileChange = (event : any) => {
 }
 
 const handleSubmit = async () => {
+    isLoading.value = true;
     const formData = new FormData();
     formData.append('File', runFile.value);
     formData.append('Name', exercise.value.name);
     formData.append('Description', exercise.value.description);
     formData.append('ExerciseLevelId', exercise.value.exerciseLevelId);
     formData.append('ExerciseTypeId', exercise.value.exerciseTypeId);
-    console.log(formData);
     await createExercise(formData);
+    isLoading.value = false;
 }
 </script>
 
@@ -69,7 +70,7 @@ const handleSubmit = async () => {
                         </a-col>
                         <a-col :lg="24" :md="24" :sm="24">
                             <a-form-item>
-                                <a-textarea :rows="5" v-model:value="exercise.description">
+                                <a-textarea :rows="5" :autosize="true" v-model:value="exercise.description">
 
                                 </a-textarea>
                             </a-form-item>
@@ -123,7 +124,7 @@ const handleSubmit = async () => {
                             </a-form-item>
                         </a-col>
                     </a-row>
-                    <a-button type="primary" @click="handleSubmit">
+                    <a-button type="primary" class="main-color text-second-color submit-button" @click="handleSubmit">
                         Submit
                     </a-button>
                 </a-form>
@@ -138,6 +139,12 @@ const handleSubmit = async () => {
 
 .wrapper {
     width: 90%;
+    margin: 0 auto;
+}
+
+.submit-button {
+    height: 50px;
+    width: 300px;
     margin: 0 auto;
 }
 

@@ -38,8 +38,9 @@ const handleSubmit = async () => {
         code: code.value
     }).then((res: any) => {
         codeOutput.value = res;
-    }).catch((error : any) => {
-        message.error(error?.response?.data ? error?.response?.data : 'Compile failed!' );
+    }).catch((error: any) => {
+        console.log("🚀 ~ file: Compiler.vue:42 ~ handleSubmit ~ error:", error)
+        message.error(error?.response?.data ? error?.response?.data : 'Compile failed!');
         console.log(error);
     }).finally(() => {
         isLoading.value = false;
@@ -55,24 +56,30 @@ const handleCallFakeApi = async () => {
 
 <template>
     <page-layout :is-loading="isLoading">
-        <div>
-            <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }" :autofocus="true"
-                :indent-with-tab="true" :tab-size="2" :extensions="extensions" @ready="handleReady" @change="handleChange"
-                @focus="handleFocus" @blur="handleBlur" />
-            <span>
-                Output:
-            </span>
-            <a-textarea :value="codeOutput" :autosize="true" :readonly="true"></a-textarea>
-            <div class="flex align-center">
-                <a-button class="mt-20 main-color text-second-color" @click="handleSubmit">
-                    Run code
-                </a-button>
-            </div>
-            <!-- <div>
-                <a-button @click="handleCallFakeApi">
-                    Call Fake Api
-                </a-button>
-            </div> -->
+        <div class="main-page">
+            <a-row class="wrapper">
+                <a-col :lg="24" :md="24">
+                    <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }"
+                        :autofocus="true" :indent-with-tab="true" :tab-size="2" :extensions="extensions"
+                        @ready="handleReady" @change="handleChange" @focus="handleFocus" @blur="handleBlur" />
+                </a-col>
+                <a-col :lg="24" :md="24">
+                    <a-row class="button-submit mb-10">
+                        <a-button class="mt-20 main-color text-second-color" @click="handleSubmit">
+                            Run code
+                        </a-button>
+                    </a-row>
+                    <a-row :lg="16" :md="16">
+                        <a-textarea :value="codeOutput" :rows="5" :readonly="true"></a-textarea>
+                    </a-row>
+
+                </a-col>
+                <!-- <div>
+                    <a-button @click="handleCallFakeApi">
+                        Call Fake Api
+                    </a-button>
+                </div> -->
+            </a-row>
         </div>
     </page-layout>
 </template>
@@ -80,4 +87,22 @@ const handleCallFakeApi = async () => {
 <style scoped>
 @import '../../assets/styles/color.css';
 @import '../../assets/styles/common.css';
+
+
+
+.wrapper {
+    height: 100% !important;
+    display: flex;
+    gap: 10px;
+}
+
+:deep(.cm-editor) {
+    height: 500px;
+}
+
+.button-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 </style>

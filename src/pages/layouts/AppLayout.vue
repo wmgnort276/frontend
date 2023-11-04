@@ -10,7 +10,7 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
       <router-view />
 <!--      <div></div>-->
     </a-layout-content>
-    <!-- <a-layout-footer class="footer">NamVN</a-layout-footer> -->
+    <a-layout-footer class="footer"></a-layout-footer>
   </a-layout>
 </template>
 <style scoped>
@@ -40,5 +40,11 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
 
 :deep(.ant-layout) {
   background: #fff;
+}
+
+.footer {
+  background-color: rgb(237, 239, 243);;
+  color: #ffffff;
+  text-align: center;
 }
 </style>

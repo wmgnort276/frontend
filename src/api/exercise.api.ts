@@ -19,3 +19,7 @@ export const getExerciseApi = () => {
     return http.get<Exercise[]>('api/Exercise');
 }
 
+
+export const getExerciseById = (id : string) => {
+    return http.get(`api/Exercise/${id}`);
+}
