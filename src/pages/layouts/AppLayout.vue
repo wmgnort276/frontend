@@ -29,6 +29,8 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
 .header {
   height: 50px;
   background-color: #fff;
+  border-bottom: 1px solid rgb(214, 207, 207);
+
 }
 
 

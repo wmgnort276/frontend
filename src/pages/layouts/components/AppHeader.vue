@@ -4,9 +4,9 @@ import { CloseOutlined } from '@ant-design/icons-vue';
 import { computed, ref } from 'vue';
 import router from '@/router';
 
-const hanldeRouteToUserPage = () => {
+const handleRouteToUserPage = () => {
   router.push({
-    path: '/user/namvn',
+    path: '/user/1',
   })
 }
 
@@ -16,20 +16,36 @@ const routeToHome = () => {
   })
 }
 
+const routeToCompiler = () => {
+  router.push({
+    path: '/compiler'
+  })
+}
+
+const routeToDashboard = () => {
+  router.push({
+    path: '/exercise-create'
+  })
+}
+
 </script>
 <template>
   <div class="header-content flex align-center">
-    <div>
+    <div class="left-side">
       <h3 @click="routeToHome" class="pointer">
-        HoanNT
+        CodeDeep
       </h3>
+      <a-button class="button-classify-problem mr-10" @click="routeToDashboard"> Dash Board </a-button>
+      <a-button class="button-classify-problem mr-10" @click="routeToCompiler"> Compiler </a-button>
     </div>
     <div class="img-wrapper">
-      <img src="../../../components/default_avatar.png" class="img" @click="hanldeRouteToUserPage"/>
+      <img src="../../../components/default_avatar.png" class="img" @click="handleRouteToUserPage"/>
     </div>
   </div>
 </template>
 <style scoped>
+@import '../../../assets/styles/common.css';
+@import '../../../assets/styles/color.css';
 
 .img {
   height: 30px;
@@ -45,5 +61,11 @@ const routeToHome = () => {
 .header-content {
   height: 100%;
   justify-content: space-between;
+}
+
+.left-side {
+  display: flex;
+  align-items: center;
+  gap: 20px
 }
 </style>

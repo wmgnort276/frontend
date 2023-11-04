@@ -1,76 +1,149 @@
 <script setup lang="ts">
-import { defineComponent } from 'vue'
-import { ref } from 'vue';
-import { Codemirror } from 'vue-codemirror'
-//   import { javascript } from '@codemirror/lang-javascript'
-import { cpp } from '@codemirror/lang-cpp'
-import { oneDark } from '@codemirror/theme-one-dark'
-import { submitCode } from '@/api/submit'
-import { getTestApi, fakeApi } from '@/api/common.api';
+import { ref, onMounted } from 'vue';
+import PageLayout from '../layouts/PageLayout.vue';
+import { getExerciseType, getExerciseLevel, getExerciseApi } from '@/api/exercise.api';
+import { message } from 'ant-design-vue';
+import type { ExerciseType, ExerciseLevel, Exercise } from '@/types/interfaces/exercise'
+import router from '@/router';
 
-let code = ref<any>('');
-let codeOutput = ref<any>('');
+let isLoading = ref<boolean>(false);
+let listCategory = ref<ExerciseType[]>([]);
+let exerciseLevels = ref<ExerciseLevel[]>([]);
+let exercises = ref<Exercise[]>([]);
 
-// const extensions = [javascript(), oneDark]
-const extensions = [cpp(), oneDark]
-
-const handleReady = () => {
-
-}
-
-const handleChange = () => {
-    // console.log(code.value);
-}
-
-const handleFocus = () => {
-
-}
-
-const handleBlur = () => {
-
-}
-
-const handleSubmit = async () => {
-    try {
-        codeOutput.value = await submitCode({
-            code: code.value
-        })
-        console.log("🚀 ~ file: HomePage.vue:35 ~ handleSubmit ~ codeOutput.value:", codeOutput.value)
-    } catch (error) {
-        console.log("🚀 ~ file: HomePage.vue:38 ~ handleSubmit ~ error:", error)
+let listOption = ref<string>('');
+let optionsExercise = ref<any[]>([
+    {
+        id: 'Most resolve problem',
+        name: 'Most resolve problem'
     }
+]);
+
+const columns = [
+    { title: 'Status', dataIndex: 'status', key: 'status', width: 100 },
+    { title: 'Title', dataIndex: 'title', key: 'title', width: 500 },
+    { title: 'Acceptance', dataIndex: 'acceptance', key: 'acceptance' },
+    { title: 'Level', dataIndex: 'level', key: 'level' },
+];
+
+
+const getExerciseCategory = async () => {
+    await getExerciseType().then((res: ExerciseType[]) => {
+        listCategory.value = res;
+    }).catch((error: any) => {
+        message.error("Fail to get category")
+    })
 }
 
-const handleCallFakeApi = async () => {
-    let result = await fakeApi();
-    console.log("🚀 ~ file: HomePage.vue:46 ~ handleCallFakeApi ~ result:", result)
+const getExerciseLevels = async () => {
+    await getExerciseLevel().then((res: ExerciseLevel[]) => {
+        exerciseLevels.value = res;
+    }).catch((error: any) => {
+        message.error("Fail to get exercise level")
+    })
+}
+
+const getExercise = async () => {
+    await getExerciseApi().then((res: Exercise[]) => {
+        exercises.value = res;
+    }).catch((error: any) => {
+        message.error("Fail to get exercise")
+    })
+}
+
+
+onMounted(async () => {
+    isLoading.value = true;
+    await Promise.all([getExerciseCategory(), getExerciseLevels(), getExercise()]);
+    isLoading.value = false;
+})
+
+const chooseExercise = async (record: Exercise) => {
+    console.log("🚀 ~ file: HomePage.vue:60 ~ chooseExercise ~ record:", record)
+    await router.push(`/exercises?id=${record.id}&name=${record.name}`)
 }
 
 </script>
 
 <template>
-    <div>
-        <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }" :autofocus="true"
-            :indent-with-tab="true" :tab-size="2" :extensions="extensions" @ready="handleReady" @change="handleChange"
-            @focus="handleFocus" @blur="handleBlur" />
-        <span>
-            Output:
-        </span>
-        <a-textarea :value="codeOutput" :autosize="true" :readonly="true"></a-textarea>
-        <div class="flex align-center">
-            <a-button class="mt-20 main-color text-second-color" @click="handleSubmit">
-                Run code
-            </a-button>
+    <page-layout :is-loading="isLoading">
+        <div class="main-page">
+            <div class="wrapper">
+                <div class="exercise-category flex">
+                    <div v-for="(item, index) in listCategory" :key="index" class="inline">
+                        <a-button class="button-classify-problem mr-10"> {{ item.name }}</a-button>
+                    </div>
+                </div>
+
+                <!-- Filter exercise -->
+                <div class="filter-exercise flex">
+                    <a-select class="select" placeholder="Lists" :options="optionsExercise" :fieldNames="{
+                        value: 'id',
+                        label: 'name'
+                    }"></a-select>
+
+                    <a-select class="select" placeholder="Level" :options="exerciseLevels" :fieldNames="{
+                        value: 'id',
+                        label: 'name'
+                    }">
+                    </a-select>
+                </div>
+
+                <!-- Table of exercise -->
+                <div>
+                    <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="exercises"
+                        :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
+                        :pagination="{ defaultPageSize: 3 }">
+                        <template #bodyCell="{ record, column }">
+                            <template v-if="column.key === 'title'">
+                                <a @click="chooseExercise(record)" class="exercise-name">{{ record?.name }}</a>
+                            </template>
+
+                            <template v-if="column.key === 'level'">
+                                <span>{{ record?.exerciseLevelName }}</span>
+                            </template>
+                        </template>
+                    </a-table>
+                </div>
+            </div>
         </div>
-        <!-- <div>
-            <a-button @click="handleCallFakeApi">
-                Call Fake Api
-            </a-button>
-        </div> -->
-    </div>
+    </page-layout>
 </template>
 
 <style scoped>
-@import '../../assets/styles/color.css';
 @import '../../assets/styles/common.css';
+@import '../../assets/styles/color.css';
+
+.wrapper {
+    max-width: 80%;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+
+.exercise-category {
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.button-classify-problem {
+    background-color: #8fb89d26;
+}
+
+.filter-exercise {
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.select {
+    width: 220px;
+    border: none;
+}
+
+:deep(.table-striped) {
+    background-color: rgb(221, 229, 235);
+}
+
+.exercise-name {
+    color: rgb(115, 147, 147);
+}
 </style>

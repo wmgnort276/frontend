@@ -5,7 +5,7 @@ import { getExerciseType, getExerciseLevel, createExercise } from '@/api/exercis
 
 let isLoading = ref<boolean>(false);
 let exerciseTypes = ref<any[]>([]);
-let exerciselevels = ref<any[]>([]);
+let exerciseLevels = ref<any[]>([]);
 let runFile = ref<any>()
 let exercise = ref<any>({
     name: '',
@@ -16,13 +16,16 @@ let exercise = ref<any>({
 
 
 onMounted(async () => {
+    isLoading.value = true;
     await getExerciseLevel().then(res => {
-        exerciselevels.value = res as any[];
+        exerciseLevels.value = res as any[];
     })
 
     await getExerciseType().then(res => {
         exerciseTypes.value = res as any[];
     })
+
+    isLoading.value = false;
 })
 
 const handleFileChange = (event : any) => {
@@ -79,10 +82,11 @@ const handleSubmit = async () => {
                         </a-col>
                         <a-col :lg="24" :md="24" :sm="24">
                             <a-form-item>
-                                <a-select :options="exerciselevels" :fieldNames="{
+                                <a-select :options="exerciseLevels" :fieldNames="{
                                     value: 'id',
                                     label: 'name'
                                 }"
+                                placeholder="Choose exercise level"
                                 v-model:value="exercise.exerciseLevelId"
                                 >
 
@@ -137,6 +141,4 @@ const handleSubmit = async () => {
     margin: 0 auto;
 }
 
-.card{
-}
 </style>

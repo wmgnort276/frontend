@@ -5,7 +5,6 @@
 </template>
 <script setup lang="ts">
 import { useIsMutating } from '@tanstack/vue-query';
-import '../ckeditor5/build/ckeditor';
 import './assets/styles/common.css'
 const isMutating = useIsMutating();
 document.title = "Code deep";
