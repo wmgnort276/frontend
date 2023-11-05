@@ -28,16 +28,16 @@ const columns = [
 
 
 const getExerciseCategory = async () => {
-    await getExerciseType().then((res: ExerciseType[]) => {
-        listCategory.value = res;
+    await getExerciseType().then((res: any) => {
+        listCategory.value = res?.data;
     }).catch((error: any) => {
         message.error("Fail to get category")
     })
 }
 
 const getExerciseLevels = async () => {
-    await getExerciseLevel().then((res: ExerciseLevel[]) => {
-        exerciseLevels.value = res;
+    await getExerciseLevel().then((res: any) => {
+        exerciseLevels.value = res?.data;
     }).catch((error: any) => {
         message.error("Fail to get exercise level")
     })
@@ -76,7 +76,7 @@ const chooseExercise = async (record: Exercise) => {
                 </div>
 
                 <!-- Filter exercise -->
-                <div class="filter-exercise flex">
+                <div class="filter-exercise flex mb-20">
                     <a-select class="select" placeholder="Lists" :options="optionsExercise" :fieldNames="{
                         value: 'id',
                         label: 'name'
@@ -130,8 +130,8 @@ const chooseExercise = async (record: Exercise) => {
 }
 
 .button-classify-problem {
-    background-color: #8fb89d26;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: #d5e6da26;
+    box-shadow: rgba(9, 9, 9, 0.35) 0px 5px 15px;
 }
 
 .filter-exercise {

@@ -4,7 +4,7 @@ import PageLayout from '../layouts/PageLayout.vue';
 import { Codemirror } from 'vue-codemirror'
 import { cpp } from '@codemirror/lang-cpp'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { getExerciseById } from '@/api/exercise.api'
+import { getExerciseById, submitCode } from '@/api/exercise.api'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue';
 
@@ -13,6 +13,7 @@ let isLoading = ref<boolean>(false);
 let rateValue = ref<number>(3);
 const extensions = [cpp(), oneDark];
 let code = ref<any>('');
+let codeOutput = ref<any>('');
 let exercise = ref<any>();
 
 const handleReady = () => { }
@@ -26,14 +27,26 @@ const handleFocus = () => { }
 const handleBlur = () => { }
 
 const handleSubmit = async () => {
-
+    isLoading.value = true;
+    await submitCode({
+        code: code.value,
+        id: exercise.value?.id
+    }).then((res: any) => {
+        codeOutput.value = res;
+    }).catch((error: any) => {
+        console.log("🚀 ~ file: Compiler.vue:42 ~ handleSubmit ~ error:", error)
+        message.error(error?.response?.data ? error?.response?.data : 'Compile failed!');
+        console.log(error);
+    }).finally(() => {
+        isLoading.value = false;
+    })
 }
 
 const getExerciseDetail = async () => {
     let exerciseId: string = route?.query?.id as string;
     isLoading.value = true;
     await getExerciseById(exerciseId).then((res: any) => {
-        exercise.value = res;
+        exercise.value = res?.data;
     }).catch((error: any) => {
         message.error("Error!");
     }).finally(() => {
@@ -42,7 +55,8 @@ const getExerciseDetail = async () => {
 }
 
 onMounted(async () => {
-    getExerciseDetail();
+    await getExerciseDetail();
+    code.value = exercise?.value?.hintCode;
 })
 
 </script>
@@ -74,9 +88,9 @@ onMounted(async () => {
                 <a-col :lg="14" :md="14" class="flex-column gap-10 right-side">
                     <a-row class="card code-wrapper">
                         <div class="code-section">
-                            <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }"
-                                :autofocus="true" :indent-with-tab="true" :tab-size="2" :extensions="extensions"
-                                @ready="handleReady" @change="handleChange" @focus="handleFocus" @blur="handleBlur" />
+                            <codemirror v-model="code" :style="{ height: '400px' }" :autofocus="true"
+                                :indent-with-tab="true" :tab-size="2" :extensions="extensions" @ready="handleReady"
+                                @change="handleChange" @focus="handleFocus" @blur="handleBlur" />
                         </div>
                     </a-row>
 
@@ -101,6 +115,12 @@ onMounted(async () => {
                                     1, 2, 3
                                 </span>
                             </div>
+                            <a-row class="flex submit">
+                                <a-button class="button-classify-problem submit-btn main-color text-second-color"
+                                    @click="handleSubmit">
+                                    Submit
+                                </a-button>
+                            </a-row>
                         </div>
                     </a-row>
                 </a-col>
@@ -168,5 +188,11 @@ onMounted(async () => {
 
 :deep(.ant-divider) {
     margin: 10px 5px;
+}
+
+.submit {
+    width: 100%;
+    align-items: end;
+    justify-content: end;
 }
 </style>

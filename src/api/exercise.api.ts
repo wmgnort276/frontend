@@ -2,11 +2,11 @@ import { http } from '@/utils/http-client';
 import type { ExerciseType, ExerciseLevel, Exercise } from '@/types/interfaces/exercise'
 
 export const getExerciseType = () => {
-    return http.get<ExerciseType[]>('api/ExerciseType');
+    return http.get('api/ExerciseType');
 };
 
 export const getExerciseLevel = () => {
-    return http.get<ExerciseLevel[]>('api/ExerciseLevel');
+    return http.get('api/ExerciseLevel');
 };
 
 export const createExercise = (formData: any) => {
@@ -20,6 +20,12 @@ export const getExerciseApi = () => {
 }
 
 
-export const getExerciseById = (id : string) => {
+export const getExerciseById = (id: string) => {
     return http.get(`api/Exercise/${id}`);
 }
+
+export const submitCode = (param: any) => {
+    return http.post(`/api/Exercise/submit?id=${param?.id}`, {
+      data: param
+    });
+  };

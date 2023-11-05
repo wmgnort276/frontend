@@ -35,12 +35,14 @@ const handleRouteToSignUp = async () => {
 }
 
 const handleLogin = async () => {
+    isLoading.value = true;
     await formRef.value!.validate();
     let param = {
         username: formLogin.value.username,
         password: formLogin.value.password
-    }  
+    }
     await useAuthStore().handleLogin(param);
+    isLoading.value = false;
 }
 </script>
 
