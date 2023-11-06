@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import { getExerciseType, getExerciseLevel, getExerciseApi } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
-import type { ExerciseType, ExerciseLevel, Exercise } from '@/types/interfaces/exercise'
+import type { ExerciseType, ExerciseLevel, Exercise } from '@/types/interfaces/exercise';
 import router from '@/router';
 
 let isLoading = ref<boolean>(false);
@@ -13,105 +13,126 @@ let exercises = ref<Exercise[]>([]);
 
 let listOption = ref<string>('');
 let optionsExercise = ref<any[]>([
-    {
-        id: 'Most resolve problem',
-        name: 'Most resolve problem'
-    }
+  {
+    id: 'Most resolve problem',
+    name: 'Most resolve problem'
+  }
 ]);
 
 const columns = [
-    { title: 'Status', dataIndex: 'status', key: 'status', width: 100 },
-    { title: 'Title', dataIndex: 'title', key: 'title', width: 500 },
-    { title: 'Acceptance', dataIndex: 'acceptance', key: 'acceptance' },
-    { title: 'Level', dataIndex: 'level', key: 'level' },
+  { title: 'Status', dataIndex: 'status', key: 'status', width: 100 },
+  { title: 'Title', dataIndex: 'title', key: 'title', width: 500 },
+  { title: 'Acceptance', dataIndex: 'acceptance', key: 'acceptance' },
+  { title: 'Level', dataIndex: 'level', key: 'level' }
 ];
 
-
 const getExerciseCategory = async () => {
-    await getExerciseType().then((res: any) => {
-        listCategory.value = res?.data;
-    }).catch((error: any) => {
-        message.error("Fail to get category")
+  await getExerciseType()
+    .then((res: any) => {
+      listCategory.value = res?.data;
     })
-}
+    .catch((error: any) => {
+      message.error('Fail to get category');
+    });
+};
 
 const getExerciseLevels = async () => {
-    await getExerciseLevel().then((res: any) => {
-        exerciseLevels.value = res?.data;
-    }).catch((error: any) => {
-        message.error("Fail to get exercise level")
+  await getExerciseLevel()
+    .then((res: any) => {
+      exerciseLevels.value = res?.data;
     })
-}
+    .catch((error: any) => {
+      message.error('Fail to get exercise level');
+    });
+};
 
 const getExercise = async () => {
-    await getExerciseApi().then((res: Exercise[]) => {
-        exercises.value = res;
-    }).catch((error: any) => {
-        message.error("Fail to get exercise")
+  await getExerciseApi()
+    .then((res: Exercise[]) => {
+      exercises.value = res;
     })
-}
-
+    .catch((error: any) => {
+      message.error('Fail to get exercise');
+    });
+};
 
 onMounted(async () => {
-    isLoading.value = true;
-    await Promise.all([getExerciseCategory(), getExerciseLevels(), getExercise()]);
-    isLoading.value = false;
-})
+  isLoading.value = true;
+  await Promise.all([getExerciseCategory(), getExerciseLevels(), getExercise()]);
+  isLoading.value = false;
+});
 
 const chooseExercise = async (record: Exercise) => {
-    console.log("🚀 ~ file: HomePage.vue:60 ~ chooseExercise ~ record:", record)
-    await router.push(`/exercises?id=${record.id}&name=${record.name}`)
-}
-
+  console.log('🚀 ~ file: HomePage.vue:60 ~ chooseExercise ~ record:', record);
+  await router.push(`/exercises?id=${record.id}&name=${record.name}`);
+};
 </script>
 
 <template>
-    <page-layout :is-loading="isLoading">
-        <div class="main-page">
-            <div class="wrapper">
-                <div class="exercise-category flex">
-                    <div v-for="(item, index) in listCategory" :key="index" class="inline">
-                        <a-button class="button-classify-problem mr-10"> {{ item.name }}</a-button>
-                    </div>
-                </div>
-
-                <!-- Filter exercise -->
-                <div class="filter-exercise flex mb-20">
-                    <a-select class="select" placeholder="Lists" :options="optionsExercise" :fieldNames="{
-                        value: 'id',
-                        label: 'name'
-                    }"></a-select>
-
-                    <a-select class="select" placeholder="Level" :options="exerciseLevels" :fieldNames="{
-                        value: 'id',
-                        label: 'name'
-                    }">
-                    </a-select>
-                </div>
-
-                <!-- Table of exercise -->
-                <div>
-                    <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="exercises"
-                        :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-                        :pagination="{ defaultPageSize: 10 }">
-                        <template #bodyCell="{ record, column }">
-                            <template v-if="column.key === 'title'">
-                                <a @click="chooseExercise(record)" class="exercise-name">{{ record?.name }}</a>
-                            </template>
-
-                            <template v-if="column.key === 'level'">
-                                <span :class="{
-                                    'easy': record?.exerciseLevelName == 'Easy',
-                                    'medium': record?.exerciseLevelName == 'Medium',
-                                    'hard': record?.exerciseLevelName == 'Hard'
-                                }">{{ record?.exerciseLevelName }}</span>
-                            </template>
-                        </template>
-                    </a-table>
-                </div>
-            </div>
+  <page-layout :is-loading="isLoading">
+    <div class="main-page">
+      <div class="wrapper">
+        <div class="exercise-category flex">
+          <div v-for="(item, index) in listCategory" :key="index" class="inline">
+            <a-button class="button-classify-problem mr-10"> {{ item.name }}</a-button>
+          </div>
         </div>
-    </page-layout>
+
+        <!-- Filter exercise -->
+        <div class="filter-exercise flex mb-20">
+          <a-select
+            class="select"
+            placeholder="Lists"
+            :options="optionsExercise"
+            :fieldNames="{
+              value: 'id',
+              label: 'name'
+            }"
+          ></a-select>
+
+          <a-select
+            class="select"
+            placeholder="Level"
+            :options="exerciseLevels"
+            :fieldNames="{
+              value: 'id',
+              label: 'name'
+            }"
+          >
+          </a-select>
+        </div>
+
+        <!-- Table of exercise -->
+        <div>
+          <a-table
+            class="ant-table-striped"
+            size="middle"
+            :columns="columns"
+            :data-source="exercises"
+            :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
+            :pagination="{ defaultPageSize: 10 }"
+          >
+            <template #bodyCell="{ record, column }">
+              <template v-if="column.key === 'title'">
+                <a @click="chooseExercise(record)" class="exercise-name">{{ record?.name }}</a>
+              </template>
+
+              <template v-if="column.key === 'level'">
+                <span
+                  :class="{
+                    easy: record?.exerciseLevelName == 'Easy',
+                    medium: record?.exerciseLevelName == 'Medium',
+                    hard: record?.exerciseLevelName == 'Hard'
+                  }"
+                  >{{ record?.exerciseLevelName }}</span
+                >
+              </template>
+            </template>
+          </a-table>
+        </div>
+      </div>
+    </div>
+  </page-layout>
 </template>
 
 <style scoped>
@@ -119,36 +140,36 @@ const chooseExercise = async (record: Exercise) => {
 @import '../../assets/styles/color.css';
 
 .wrapper {
-    max-width: 80%;
-    margin: 0 auto;
-    padding-top: 30px;
+  max-width: 80%;
+  margin: 0 auto;
+  padding-top: 30px;
 }
 
 .exercise-category {
-    flex-wrap: wrap;
-    gap: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .button-classify-problem {
-    background-color: #d5e6da26;
-    box-shadow: rgba(9, 9, 9, 0.35) 0px 5px 15px;
+  background-color: #d5e6da26;
+  box-shadow: rgba(9, 9, 9, 0.35) 0px 5px 15px;
 }
 
 .filter-exercise {
-    margin-top: 30px;
-    gap: 20px;
+  margin-top: 30px;
+  gap: 20px;
 }
 
 .select {
-    width: 220px;
-    border: none;
+  width: 220px;
+  border: none;
 }
 
 :deep(.table-striped) {
-    background-color: rgb(221, 229, 235);
+  background-color: rgb(221, 229, 235);
 }
 
 .exercise-name {
-    color: rgb(115, 147, 147);
+  color: rgb(115, 147, 147);
 }
 </style>

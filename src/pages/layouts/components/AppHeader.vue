@@ -6,40 +6,43 @@ import router from '@/router';
 
 const handleRouteToUserPage = () => {
   router.push({
-    path: '/user/1',
-  })
-}
+    path: '/user/1'
+  });
+};
 
 const routeToHome = () => {
   router.push({
     path: '/home'
-  })
-}
+  });
+};
 
 const routeToCompiler = () => {
   router.push({
     path: '/compiler'
-  })
-}
+  });
+};
 
 const routeToDashboard = () => {
   router.push({
     path: '/exercise-create'
-  })
-}
-
+  });
+};
 </script>
 <template>
   <div class="header-content flex align-center">
     <div class="left-side">
-      <h3 @click="routeToHome" class="pointer">
-        CodeDeep
-      </h3>
-      <a-button class="button-classify-problem mr-10" @click="routeToDashboard"> Dash Board </a-button>
+      <h3 @click="routeToHome" class="pointer">CodeDeep</h3>
+      <a-button class="button-classify-problem mr-10" @click="routeToDashboard">
+        Dash Board
+      </a-button>
       <a-button class="button-classify-problem mr-10" @click="routeToCompiler"> Compiler </a-button>
     </div>
     <div class="img-wrapper">
-      <img src="../../../components/default_avatar.png" class="img" @click="handleRouteToUserPage"/>
+      <img
+        src="../../../components/default_avatar.png"
+        class="img"
+        @click="handleRouteToUserPage"
+      />
     </div>
   </div>
 </template>
@@ -55,7 +58,6 @@ const routeToDashboard = () => {
 }
 
 .img-wrapper {
-
 }
 
 .header-content {
@@ -66,6 +68,6 @@ const routeToDashboard = () => {
 .left-side {
   display: flex;
   align-items: center;
-  gap: 20px
+  gap: 20px;
 }
 </style>

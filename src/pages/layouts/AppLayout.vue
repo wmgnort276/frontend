@@ -8,13 +8,13 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
     </a-layout-header>
     <a-layout-content class="layout-content">
       <router-view />
-<!--      <div></div>-->
+      <!--      <div></div>-->
     </a-layout-content>
     <a-layout-footer class="footer"></a-layout-footer>
   </a-layout>
 </template>
 <style scoped>
-@import "../../assets/styles/color.css";
+@import '../../assets/styles/color.css';
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -30,9 +30,7 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
   height: 50px;
   background-color: #fff;
   border-bottom: 1px solid rgb(214, 207, 207);
-
 }
-
 
 .layout {
   background: #fff !important;
@@ -43,7 +41,7 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
 }
 
 .footer {
-  background-color: rgb(237, 239, 243);;
+  background-color: rgb(237, 239, 243);
   color: #ffffff;
   text-align: center;
 }

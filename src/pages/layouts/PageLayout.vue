@@ -1,39 +1,35 @@
 <script lang="ts" setup>
-import { watch, ref,watchEffect } from 'vue'
-const props = defineProps({ 
+import { watch, ref, watchEffect } from 'vue';
+const props = defineProps({
   isLoading: Boolean
 });
 
 watchEffect(() => {
-  if(props.isLoading){
-    document.body.classList.add('on-loading')
-  }else{
-    document.body.classList.remove('on-loading')
+  if (props.isLoading) {
+    document.body.classList.add('on-loading');
+  } else {
+    document.body.classList.remove('on-loading');
   }
-
 });
-
 </script>
 <template>
   <div
-  v-motion
-  :initial="{
-    opacity: 0
-  }"
-      :enter="{
-        opacity: 1
-      }"
-      class="transform-none"
-      >
-      <slot />
+    v-motion
+    :initial="{
+      opacity: 0
+    }"
+    :enter="{
+      opacity: 1
+    }"
+    class="transform-none"
+  >
+    <slot />
   </div>
   <div class="loading-container" v-if="isLoading">
-    <a-spin :spinning="isLoading" tip="Loading...">
-    </a-spin>
+    <a-spin :spinning="isLoading" tip="Loading..."> </a-spin>
   </div>
 </template>
 <style scoped>
-
 .loading-container {
   position: fixed;
   top: 0;

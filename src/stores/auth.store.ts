@@ -93,21 +93,21 @@ export const useAuthStore = defineStore('auth', () => {
       });
   };
 
-  const signUp = async (payload : FormSignUp) => {
+  const signUp = async (payload: FormSignUp) => {
     try {
       await signUpApi(payload).then(res => {
         message.success("Create account success!");
         return true;
-      }).catch((error : any) => {
+      }).catch((error: any) => {
         let messageError = error?.response?.data?.message ?? error?.response?.data?.errors?.Email?.[0] ?? '';
         message.error(`Sign up fail! ${messageError}`);
         return false;
       });
-    } catch(error) {
+    } catch (error) {
       message.error("Server error!");
       return false;
     }
-  } 
+  }
 
 
   return {
