@@ -57,9 +57,6 @@ const routeToDashboard = () => {
   cursor: pointer;
 }
 
-.img-wrapper {
-}
-
 .header-content {
   height: 100%;
   justify-content: space-between;
