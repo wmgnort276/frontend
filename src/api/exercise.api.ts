@@ -26,6 +26,16 @@ export const getExerciseById = (id: string) => {
 
 export const submitCode = (param: any) => {
     return http.post(`/api/Exercise/submit?id=${param?.id}`, {
-      data: param
+        data: param
     });
-  };
+};
+
+export const editExercise = (param: any) => {
+    return http.upload(`/api/Exercise/edit`, {
+        data: param
+    });
+}
+
+export const getUserSubmissions = (exerciseId : string) => {
+    return http.get(`/api/Submission?exerciseId=${exerciseId}`)
+}

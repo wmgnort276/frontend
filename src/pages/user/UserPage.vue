@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
+import { useAuthStoreHook } from '@/stores/auth.store';
 
+const authStore = useAuthStoreHook();
 let isLoading = ref<boolean>(false);
 let data = ref<any>([]);
 
@@ -17,6 +19,11 @@ const columns = [
     key: 'age'
   }
 ];
+
+const handleLogout = () => {
+  authStore.clearAuthInfo();
+  location.reload();
+};
 </script>
 
 <template>
@@ -29,13 +36,17 @@ const columns = [
               <img src="../../components/icons8-user-48.png" />
             </a-col>
             <a-col>
-              <a-row style="font-weight: 700"> NamVu276 </a-row>
+              <a-row style="font-weight: 700"> {{ authStore.authUser?.uerName }} </a-row>
               <a-row> Rank 123 </a-row>
             </a-col>
           </a-row>
 
           <a-row class="button-edit-info mt-10">
             <a-button class="edit-profile">Edit Profile</a-button>
+          </a-row>
+
+          <a-row class="button-edit-info mt-10">
+            <a-button class="edit-profile" @click="handleLogout">Logout</a-button>
           </a-row>
 
           <a-divider />
@@ -77,7 +88,7 @@ const columns = [
               </a-col>
               <a-col :md="16">
                 <a-row>
-                 s <span class="mr-50">Easy</span>
+                  s <span class="mr-50">Easy</span>
                   <span> 15/70 </span>
                   <a-progress :percent="(15 * 100) / 70" class="progress easy" />
                 </a-row>

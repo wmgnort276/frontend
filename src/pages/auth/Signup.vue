@@ -32,9 +32,11 @@ const validateConfirmPassword = async (_rule: Rule, value: string) => {
 };
 
 const handleSignup = async () => {
+  isLoading.value = true;
   await formRef.value!.validate();
   await authStore.signUp(formSignUp.value);
   await router.push('/login');
+  isLoading.value = false;
 };
 </script>
 

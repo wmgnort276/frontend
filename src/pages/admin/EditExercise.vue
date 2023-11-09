@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
-import { getExerciseType, getExerciseLevel, createExercise } from '@/api/exercise.api';
+import { getExerciseType, getExerciseLevel, editExercise } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
 import type { FormInstance } from 'ant-design-vue';
+import { useRouter, useRoute } from 'vue-router';
+import { getExerciseById } from '@/api/exercise.api';
 
+const route = useRoute();
 const formRef = ref<FormInstance>();
 let isLoading = ref<boolean>(false);
 let exerciseTypes = ref<any[]>([]);
@@ -18,6 +21,21 @@ let exercise = ref<any>({
   exerciseLevelId: null,
   exerciseTypeId: null
 });
+
+const getExerciseDetail = async () => {
+  let exerciseId: string = route?.query?.id as string;
+  isLoading.value = true;
+  await getExerciseById(exerciseId)
+    .then((res: any) => {
+      exercise.value = res?.data;
+    })
+    .catch((error: any) => {
+      message.error('Error!');
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
 
 const getExerciseLevelFunction = async () => {
   await getExerciseLevel().then((res: any) => {
@@ -34,7 +52,11 @@ const getExerciseLevelTypeFunction = async () => {
 onMounted(async () => {
   isLoading.value = true;
   try {
-    await Promise.all([getExerciseLevelFunction(), getExerciseLevelTypeFunction()]);
+    await Promise.all([
+      getExerciseDetail(),
+      getExerciseLevelFunction(),
+      getExerciseLevelTypeFunction()
+    ]);
   } catch {
     message.error('Fail to get exercise category and level');
   }
@@ -58,9 +80,11 @@ const clearForm = () => {
 
 const handleSubmit = async () => {
   await formRef.value!.validate();
+  let exerciseId: string = route?.query?.id as string;
   isLoading.value = true;
   const formData = new FormData();
   formData.append('File', runFile.value);
+  formData.append('Id', exerciseId);
   formData.append('Name', exercise.value.name);
   formData.append('Description', exercise.value.description);
   formData.append('ExerciseLevelId', exercise.value.exerciseLevelId);
@@ -68,13 +92,15 @@ const handleSubmit = async () => {
   formData.append('HintCode', exercise.value.hintCode);
   formData.append('TimeLimit', exercise.value.timeLimit);
   try {
-    await createExercise(formData);
+    await editExercise(formData);
     clearForm();
     message.success('Success!');
     isLoading.value = false;
   } catch {
     message.error('Create fail!');
     isLoading.value = false;
+  } finally {
+    await getExerciseDetail();
   }
 };
 </script>

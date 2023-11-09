@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import { getExerciseType, getExerciseLevel, getExerciseApi } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
 import type { ExerciseType, ExerciseLevel, Exercise } from '@/types/interfaces/exercise';
 import router from '@/router';
+import { useAuthStoreHook } from '@/stores/auth.store';
 
+const authStore = useAuthStoreHook();
 let isLoading = ref<boolean>(false);
 let listCategory = ref<ExerciseType[]>([]);
 let exerciseLevels = ref<ExerciseLevel[]>([]);
@@ -24,6 +26,12 @@ const columns = [
   { title: 'Title', dataIndex: 'title', key: 'title', width: 500 },
   { title: 'Acceptance', dataIndex: 'acceptance', key: 'acceptance' },
   { title: 'Level', dataIndex: 'level', key: 'level' }
+];
+
+const columnsAdmin = [
+  { title: 'Title', dataIndex: 'title', key: 'title', width: 500 },
+  { title: 'Level', dataIndex: 'level', key: 'level' },
+  { title: 'Action', dataIndex: 'action', key: 'action' }
 ];
 
 const getExerciseCategory = async () => {
@@ -63,9 +71,12 @@ onMounted(async () => {
 });
 
 const chooseExercise = async (record: Exercise) => {
-  console.log('🚀 ~ file: HomePage.vue:60 ~ chooseExercise ~ record:', record);
   await router.push(`/exercises?id=${record.id}&name=${record.name}`);
 };
+
+const handleEditExercise = async (record : any) => {
+  await router.push(`/exercise-edit?id=${record.id}`)
+}
 </script>
 
 <template>
@@ -107,7 +118,7 @@ const chooseExercise = async (record: Exercise) => {
           <a-table
             class="ant-table-striped"
             size="middle"
-            :columns="columns"
+            :columns="authStore.isAdmin ? columnsAdmin : columns"
             :data-source="exercises"
             :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
             :pagination="{ defaultPageSize: 10 }"
@@ -126,6 +137,10 @@ const chooseExercise = async (record: Exercise) => {
                   }"
                   >{{ record?.exerciseLevelName }}</span
                 >
+              </template>
+
+              <template v-if="column.key === 'action'">
+                <a-button @click="() => handleEditExercise(record)">Edit</a-button>
               </template>
             </template>
           </a-table>

@@ -9,6 +9,11 @@ const adminRoute: RouteRecordRaw = {
       path: '/exercise-create',
       name: "exercise-create",
       component: () => import("@/pages/admin/CreateExercise.vue")
+    },
+    {
+      path: '/exercise-edit',
+      name: 'exercise-edit',
+      component: () => import("@/pages/admin/EditExercise.vue")
     }
   ]
 };

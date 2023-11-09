@@ -5,9 +5,3 @@ export const submitCode = (param: any) => {
       data: param
     });
   };
-
-export const login = (param : any) => {
-  return http.post('/api/Authentication/login', {
-    data: param
-  });
-}

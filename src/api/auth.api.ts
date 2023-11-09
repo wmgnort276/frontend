@@ -27,7 +27,7 @@ export const changePassword = ({ oldPassword, newPassword, confirmPassword } : T
 }
 
 export const me = () => {
-  return http.get<TCurrentUser>(`api/users/info`);
+  return http.get(`/api/Authentication`);
 };
 
 export const forgotPassword = (param: any) => {

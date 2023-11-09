@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import { Codemirror } from 'vue-codemirror';
 import { cpp } from '@codemirror/lang-cpp';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { getExerciseById, submitCode } from '@/api/exercise.api';
+import { getExerciseById, getUserSubmissions, submitCode } from '@/api/exercise.api';
 import { useRouter, useRoute } from 'vue-router';
 import { message } from 'ant-design-vue';
 
@@ -15,6 +15,13 @@ const extensions = [cpp(), oneDark];
 let code = ref<any>('');
 let codeOutput = ref<any>('');
 let exercise = ref<any>();
+let isDescriptionTab = ref<boolean>(true);
+let submissions = ref<any>('');
+
+const columns = [
+  { title: 'Status', dataIndex: 'status', key: 'status', width: 200 },
+  { title: 'CreateAt', dataIndex: 'createAt', key: 'createAt', width: 500 }
+];
 
 const handleReady = () => {};
 
@@ -34,13 +41,20 @@ const handleSubmit = async () => {
   })
     .then((res: any) => {
       codeOutput.value = res;
+      if (res?.data == '1') {
+        message.success('Success');
+      } else {
+        message.error('Wrong answer');
+      }
     })
     .catch((error: any) => {
       console.log('🚀 ~ file: Compiler.vue:42 ~ handleSubmit ~ error:', error);
       message.error(error?.response?.data ? error?.response?.data : 'Compile failed!');
       console.log(error);
     })
-    .finally(() => {
+    .finally(async () => {
+      isDescriptionTab.value = false;
+      await getUserSubmissionsData();
       isLoading.value = false;
     });
 };
@@ -64,6 +78,36 @@ onMounted(async () => {
   await getExerciseDetail();
   code.value = exercise?.value?.hintCode;
 });
+
+const changeToSubmission = () => {
+  isDescriptionTab.value = false;
+};
+
+const changeToDescription = () => {
+  isDescriptionTab.value = true;
+};
+
+const getUserSubmissionsData = async () => {
+  let exerciseId: string = route?.query?.id as string;
+  isLoading.value = true;
+  await getUserSubmissions(exerciseId)
+    .then((res: any) => {
+      submissions.value = res?.data;
+    })
+    .catch((error: any) => {
+      message.error('Get submission failed!');
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
+
+watch(isDescriptionTab, async (newVal, oldVal) => {
+  if (!newVal) {
+    console.log('call submission api');
+    await getUserSubmissionsData();
+  }
+});
 </script>
 
 <template>
@@ -71,30 +115,71 @@ onMounted(async () => {
     <div class="main-page">
       <div class="flex gap-10 wrapper">
         <a-col class="card left-side" :lg="10" :md="10">
-          <a-row>
-            <h4>{{ exercise?.name }}</h4>
-          </a-row>
-          <a-row class="description flex align-center gap-10 mb-10">
-            <span
-              :class="{
-                easy: exercise?.exerciseLevelName == 'Easy',
-                medium: exercise?.exerciseLevelName == 'Medium',
-                hard: exercise?.exerciseLevelName == 'Hard'
-              }"
+          <a-row class="flex gap-20">
+            <a-col
+              class="exercise-header"
+              @click="changeToDescription"
+              :class="{ 'is-chosen': isDescriptionTab }"
             >
-              {{ exercise?.exerciseLevelName }}
-            </span>
-            <a-rate v-model:value="rateValue" />
-          </a-row>
-          <a-row class="content">
-            <a-textarea
-              :value="exercise?.description"
-              :autosize="true"
-              :readonly="true"
-              class="description"
+              Description
+            </a-col>
+            <a-col
+              class="exercise-header"
+              @click="changeToSubmission"
+              :class="{ 'is-chosen': !isDescriptionTab }"
             >
-            </a-textarea>
+              Submission
+            </a-col>
           </a-row>
+          <a-divider />
+          <div v-if="isDescriptionTab">
+            <a-row>
+              <h4>{{ exercise?.name }}</h4>
+            </a-row>
+            <a-row class="description flex align-center gap-10 mb-10">
+              <span
+                :class="{
+                  easy: exercise?.exerciseLevelName == 'Easy',
+                  medium: exercise?.exerciseLevelName == 'Medium',
+                  hard: exercise?.exerciseLevelName == 'Hard'
+                }"
+              >
+                {{ exercise?.exerciseLevelName }}
+              </span>
+              <a-rate v-model:value="rateValue" />
+            </a-row>
+            <a-row class="content">
+              <a-textarea
+                :value="exercise?.description"
+                :autoSize="true"
+                :readonly="true"
+                class="description"
+              >
+              </a-textarea>
+            </a-row>
+          </div>
+
+          <div v-else>
+            <a-table
+              class="ant-table-striped"
+              size="middle"
+              :columns="columns"
+              :data-source="submissions"
+              :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
+              :pagination="{ defaultPageSize: 10 }"
+            >
+              <template #bodyCell="{ record, column }">
+                <template v-if="column.key === 'status'">
+                  <span v-if="record?.status" class="accepted-submission"> Accepted </span>
+                  <span v-else class="error-submission"> Error </span>
+                </template>
+
+                <template v-if="column.key === 'createAt'">
+                  <span>{{ record.createdAt }}</span>
+                </template>
+              </template>
+            </a-table>
+          </div>
         </a-col>
 
         <a-col :lg="14" :md="14" class="flex-column gap-10 right-side">
@@ -211,5 +296,24 @@ onMounted(async () => {
   width: 100%;
   align-items: end;
   justify-content: end;
+}
+
+.exercise-header {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.is-chosen {
+  font-weight: 500;
+}
+
+.accepted-submission {
+  color: rgb(45 181 93);
+  font-weight: 500;
+}
+
+.error-submission {
+  color: #ef4743;
+  font-weight: 500;
 }
 </style>

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { useAuthStore, useAuthStoreHook } from '@/stores/auth.store';
+import { useAuthStoreHook } from '@/stores/auth.store';
 import { CloseOutlined } from '@ant-design/icons-vue';
 import { computed, ref } from 'vue';
 import router from '@/router';
+
+const authStore = useAuthStoreHook();
 
 const handleRouteToUserPage = () => {
   router.push({
@@ -27,12 +29,14 @@ const routeToDashboard = () => {
     path: '/exercise-create'
   });
 };
+console.log(authStore.authUser);
+const isAdmin = computed(() => authStore.authUser?.role?.includes('Admin'));
 </script>
 <template>
   <div class="header-content flex align-center">
     <div class="left-side">
       <h3 @click="routeToHome" class="pointer">CodeDeep</h3>
-      <a-button class="button-classify-problem mr-10" @click="routeToDashboard">
+      <a-button class="button-classify-problem mr-10" @click="routeToDashboard" v-if="isAdmin">
         Dash Board
       </a-button>
       <a-button class="button-classify-problem mr-10" @click="routeToCompiler"> Compiler </a-button>

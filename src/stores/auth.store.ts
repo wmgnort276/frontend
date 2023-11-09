@@ -11,32 +11,14 @@ import type { FormSignUp } from '@/types/interfaces/auth'
 export const useAuthStore = defineStore('auth', () => {
   const authUser = ref<any>();
   // const token = localStorageService.getAccessToken();
-
   const isAuthenticated = computed(() => authUser.value !== undefined);
-  // const handleRefreshToken = () => {
-  //   return refreshToken()
-  //     .then((response) => {
-  //       const { token } = AuthSchema.parse(response);
+  const isAdmin = computed(() => authUser.value?.role?.includes('Admin'));
 
-  //       LocalStorageService.setAccessToken(token);
-  //       return { token };
-  //     })
-  //     .catch((error) => {
-  //       clearAuthInfo();
-  //       router.push('/login');
-
-  //       return Promise.reject(error);
-  //     });
-  // };
-
-  const getAuthInfo = () => {
+  const getAuthInfo = async () => {
     return me()
-      .then((response) => {
-        const currentUser = response.user;
+      .then((response: any) => {
+        const currentUser = response.data;
         authUser.value = currentUser;
-        localStorageService.clearUserType();
-        localStorageService.setUserType(currentUser.UserType);
-        return authUser.value;
       })
       .catch((error) => {
         Promise.reject(error);
@@ -71,28 +53,6 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
 
-  const handleChangePassword = async ({
-    oldPassword,
-    newPassword,
-    confirmPassword
-  }: {
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-  }) => {
-    return changePassword({ oldPassword, newPassword, confirmPassword })
-      .then(async (response) => {
-        message.success('Change password success');
-        clearAuthInfo();
-        await router.push('/top');
-        return;
-      })
-      .catch((error) => {
-        const dataError = error.response.data;
-        message.error(dataError.message);
-      });
-  };
-
   const signUp = async (payload: FormSignUp) => {
     try {
       await signUpApi(payload).then(res => {
@@ -113,11 +73,11 @@ export const useAuthStore = defineStore('auth', () => {
   return {
     authUser,
     isAuthenticated,
+    isAdmin,
     // handleRefreshToken,
     getAuthInfo,
     handleLogin,
     clearAuthInfo,
-    handleChangePassword,
     signUp,
   };
 });
