@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import { useAuthStoreHook } from '@/stores/auth.store';
+import { getUserListExercise } from '@/api/user.api'; 
 
 const authStore = useAuthStoreHook();
 let isLoading = ref<boolean>(false);
@@ -20,6 +21,10 @@ const columns = [
   }
 ];
 
+onMounted( async () => {
+  await getUserListExercise();
+})
+
 const handleLogout = () => {
   authStore.clearAuthInfo();
   location.reload();
@@ -37,7 +42,7 @@ const handleLogout = () => {
             </a-col>
             <a-col>
               <a-row style="font-weight: 700"> {{ authStore.authUser?.uerName }} </a-row>
-              <a-row> Rank 123 </a-row>
+              <a-row> Score: {{ authStore.authUser?.score }} </a-row>
             </a-col>
           </a-row>
 

@@ -90,6 +90,11 @@ const changeToDescription = () => {
 const getUserSubmissionsData = async () => {
   let exerciseId: string = route?.query?.id as string;
   isLoading.value = true;
+  await new Promise<void>((resolve, reject) => {
+    setTimeout(() => {
+      return resolve();
+    }, 300);
+  });
   await getUserSubmissions(exerciseId)
     .then((res: any) => {
       submissions.value = res?.data;
