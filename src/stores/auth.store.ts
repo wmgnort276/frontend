@@ -13,6 +13,7 @@ export const useAuthStore = defineStore('auth', () => {
   // const token = localStorageService.getAccessToken();
   const isAuthenticated = computed(() => authUser.value !== undefined);
   const isAdmin = computed(() => authUser.value?.role?.includes('Admin'));
+  const userName = computed(() => authUser.value?.userName ? authUser.value?.userName : '');
 
   const getAuthInfo = async () => {
     return me()
@@ -74,6 +75,7 @@ export const useAuthStore = defineStore('auth', () => {
     authUser,
     isAuthenticated,
     isAdmin,
+    userName,
     // handleRefreshToken,
     getAuthInfo,
     handleLogin,

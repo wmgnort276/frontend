@@ -165,25 +165,30 @@ watch(isDescriptionTab, async (newVal, oldVal) => {
           </div>
 
           <div v-else>
-            <a-table
-              class="ant-table-striped"
-              size="middle"
-              :columns="columns"
-              :data-source="submissions"
-              :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-              :pagination="{ defaultPageSize: 10 }"
-            >
-              <template #bodyCell="{ record, column }">
-                <template v-if="column.key === 'status'">
-                  <span v-if="record?.status" class="accepted-submission"> Accepted </span>
-                  <span v-else class="error-submission"> Error </span>
-                </template>
+            <div v-if="submissions?.length > 0">
+              <a-table
+                class="ant-table-striped"
+                size="middle"
+                :columns="columns"
+                :data-source="submissions"
+                :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
+                :pagination="{ defaultPageSize: 10 }"
+              >
+                <template #bodyCell="{ record, column }">
+                  <template v-if="column.key === 'status'">
+                    <span v-if="record?.status" class="accepted-submission"> Accepted </span>
+                    <span v-else class="error-submission"> Error </span>
+                  </template>
 
-                <template v-if="column.key === 'createAt'">
-                  <span>{{ record.createdAt }}</span>
+                  <template v-if="column.key === 'createAt'">
+                    <span>{{ record.createdAt }}</span>
+                  </template>
                 </template>
-              </template>
-            </a-table>
+              </a-table>
+            </div>
+            <div v-else class="flex center">
+              You have not submit yet!
+            </div>
           </div>
         </a-col>
 

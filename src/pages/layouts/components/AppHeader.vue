@@ -8,7 +8,7 @@ const authStore = useAuthStoreHook();
 
 const handleRouteToUserPage = () => {
   router.push({
-    path: '/user/1'
+    path: `/user/${authStore.userName}`
   });
 };
 

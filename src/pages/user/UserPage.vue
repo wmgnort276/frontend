@@ -2,32 +2,26 @@
 import { ref, onMounted } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import { useAuthStoreHook } from '@/stores/auth.store';
-import { getUserListExercise } from '@/api/user.api'; 
+import { useUserStore } from '@/stores/user.store';
+import router from '@/router';
 
 const authStore = useAuthStoreHook();
+const userStore = useUserStore();
+
 let isLoading = ref<boolean>(false);
 let data = ref<any>([]);
 
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name'
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age'
-  }
-];
-
-onMounted( async () => {
-  await getUserListExercise();
-})
+onMounted(async () => {
+  await Promise.all([userStore.getUserResolveExercises(), userStore.getAllExercises()]);
+});
 
 const handleLogout = () => {
   authStore.clearAuthInfo();
   location.reload();
+};
+
+const chooseExercise = async (record: any) => {
+  await router.push(`/exercises?id=${record.exerciseId}&name=${record.exerciseName}`);
 };
 </script>
 
@@ -41,7 +35,7 @@ const handleLogout = () => {
               <img src="../../components/icons8-user-48.png" />
             </a-col>
             <a-col>
-              <a-row style="font-weight: 700"> {{ authStore.authUser?.uerName }} </a-row>
+              <a-row style="font-weight: 700"> {{ authStore.userName }} </a-row>
               <a-row> Score: {{ authStore.authUser?.score }} </a-row>
             </a-col>
           </a-row>
@@ -76,7 +70,7 @@ const handleLogout = () => {
             </a-row>
 
             <a-row class="flex align-center mb-10">
-              <a-button class="button-classify-problem mr-10"> Devide and Conquer</a-button>
+              <a-button class="button-classify-problem mr-10"> Divide and Conquer</a-button>
               <s-pan> x8</s-pan>
             </a-row>
           </a-row>
@@ -89,25 +83,31 @@ const handleLogout = () => {
             </a-row>
             <a-row class="flex gap-10 align-center">
               <a-col :md="6" class="mt-20">
-                <a-progress type="circle" :percent="1" size="small" />
+                <a-progress type="circle" :percent="userStore.totalPercent" size="small" />
               </a-col>
               <a-col :md="16">
                 <a-row>
-                  s <span class="mr-50">Easy</span>
-                  <span> 15/70 </span>
-                  <a-progress :percent="(15 * 100) / 70" class="progress easy" />
+                  <span class="mr-50">Easy</span>
+                  <span>
+                    {{ userStore.easyExerciseCount }} / {{ userStore.totalEasyExerciseCount }}
+                  </span>
+                  <a-progress :percent="userStore.easyPercent" class="progress easy" />
                 </a-row>
 
                 <a-row>
                   <span class="mr-50">Medium</span>
-                  <span> 25/70 </span>
-                  <a-progress :percent="(25 * 100) / 70" class="progress medium" />
+                  <span>
+                    {{ userStore.mediumExerciseCount }} / {{ userStore.totalMediumExerciseCount }}
+                  </span>
+                  <a-progress :percent="userStore.mediumPercent" class="progress medium" />
                 </a-row>
 
                 <a-row>
                   <span class="mr-50">Hard</span>
-                  <span> 5/70 </span>
-                  <a-progress :percent="(5 * 100) / 70" class="progress hard" />
+                  <span>
+                    {{ userStore.hardExerciseCount }} / {{ userStore.totalHardExerciseCount }}
+                  </span>
+                  <a-progress :percent="userStore.hardPercent" class="progress hard" />
                 </a-row>
               </a-col>
             </a-row>
@@ -118,10 +118,21 @@ const handleLogout = () => {
               <h4 class="pointer">Recent AC</h4>
             </a-row>
             <a-row>
-              <a-table :columns="columns" :data-source="data">
-                <template #bodyCell="{ column, text }">
-                  <template v-if="column.dataIndex === 'name'">
-                    <a>{{ text }}</a>
+              <a-table :columns="userStore.columns" :data-source="userStore.listResolveExercise">
+                <template #bodyCell="{ record, column }">
+                  <template v-if="column.key === 'name'">
+                    <a @click="() => chooseExercise(record)">{{ record.exerciseName }}</a>
+                  </template>
+
+                  <template v-if="column.key === 'level'">
+                    <span
+                      :class="{
+                        easy: record?.exerciseLevelName == 'Easy',
+                        medium: record?.exerciseLevelName == 'Medium',
+                        hard: record?.exerciseLevelName == 'Hard'
+                      }"
+                      >{{ record.exerciseLevelName }}</span
+                    >
                   </template>
                 </template>
               </a-table>
@@ -135,6 +146,7 @@ const handleLogout = () => {
 
 <style scoped>
 @import '../../assets/styles/common.css';
+@import '../../assets/styles/color.css';
 
 .wrapper {
   max-width: 80%;
