@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 import AppLayout from '@/pages/layouts/AppLayout.vue';
+import { COMMENT_PAGE, DESCRIPTION_PAGE, SUBMISSION_PAGE } from '@/stores/constants/constant';
 const homeRoute: RouteRecordRaw = {
   path: '/',
   name: 'home',
@@ -18,7 +19,24 @@ const homeRoute: RouteRecordRaw = {
     {
       path: '/exercises',
       name: 'exercises',
-      component: () => import("@/pages/home/Exercise.vue")
+      component: () => import("@/pages/home/Exercise.vue"),
+      children: [
+        {
+          path: '/exercises/desc',
+          name: DESCRIPTION_PAGE,
+          component: () => import("@/pages/home/components/DescriptionPage.vue"),
+        },
+        {
+          path: '/exercises/submission',
+          name: SUBMISSION_PAGE,
+          component: () => import("@/pages/home/components/SubmissionPage.vue"),
+        },
+        {
+          path: '/exercises/comment',
+          name: COMMENT_PAGE,
+          component: () => import("@/pages/home/components/CommentPage.vue"),
+        }
+      ]
     }
   ]
 };

@@ -71,7 +71,7 @@ onMounted(async () => {
 });
 
 const chooseExercise = async (record: Exercise) => {
-  await router.push(`/exercises?id=${record.id}&name=${record.name}`);
+  await router.push(`/exercises/desc?id=${record.id}&name=${record.name}`);
 };
 
 const handleEditExercise = async (record : any) => {
