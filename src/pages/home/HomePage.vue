@@ -8,13 +8,19 @@ import router from '@/router';
 import { useAuthStoreHook } from '@/stores/auth.store';
 
 const authStore = useAuthStoreHook();
-let isLoading = ref<boolean>(false);
-let listCategory = ref<ExerciseType[]>([]);
-let exerciseLevels = ref<ExerciseLevel[]>([]);
-let exercises = ref<Exercise[]>([]);
+const isLoading = ref<boolean>(false);
+const listCategory = ref<ExerciseType[]>([]);
+const exerciseLevels = ref<ExerciseLevel[]>([]);
+const exercises = ref<Exercise[]>([]);
+const queryBuilder = ref<any>({
+  exerciseLevelId: '',
+  exerciseTypeId: '',
+  keyword: '',
+  pageIndex: 1,
+  pageSize: 5
+})
 
-let listOption = ref<string>('');
-let optionsExercise = ref<any[]>([
+const optionsExercise = ref<any[]>([
   {
     id: 'Most resolve problem',
     name: 'Most resolve problem'
@@ -55,7 +61,7 @@ const getExerciseLevels = async () => {
 };
 
 const getExercise = async () => {
-  await getExerciseApi()
+  await getExerciseApi(queryBuilder.value)
     .then((res: Exercise[]) => {
       exercises.value = res;
     })
@@ -74,8 +80,28 @@ const chooseExercise = async (record: Exercise) => {
   await router.push(`/exercises/desc?id=${record.id}&name=${record.name}`);
 };
 
-const handleEditExercise = async (record : any) => {
+const handleEditExercise = async (record: any) => {
   await router.push(`/exercise-edit?id=${record.id}`)
+}
+
+const handleSelectType = async (item: ExerciseType) => {
+  queryBuilder.value = {
+    ...queryBuilder.value,
+    exerciseTypeId: item.id
+  }
+  isLoading.value = true;
+  await getExercise();
+  isLoading.value = false;
+}
+
+const handleSelectAll = async () => {
+  queryBuilder.value = {
+    ...queryBuilder.value,
+    exerciseTypeId: ''
+  }
+  isLoading.value = true;
+  await getExercise();
+  isLoading.value = false;
 }
 </script>
 
@@ -84,59 +110,43 @@ const handleEditExercise = async (record : any) => {
     <div class="main-page">
       <div class="wrapper">
         <div class="exercise-category flex">
+          <a-button class="button-classify-problem mr-10" @click="handleSelectAll">All</a-button>
           <div v-for="(item, index) in listCategory" :key="index" class="inline">
-            <a-button class="button-classify-problem mr-10"> {{ item.name }}</a-button>
+            <a-button class="button-classify-problem mr-10" @click="() => handleSelectType(item)"> {{ item.name
+            }}</a-button>
           </div>
         </div>
 
         <!-- Filter exercise -->
         <div class="filter-exercise flex mb-20">
-          <a-select
-            class="select"
-            placeholder="Lists"
-            :options="optionsExercise"
-            :fieldNames="{
-              value: 'id',
-              label: 'name'
-            }"
-          ></a-select>
+          <a-select class="select" placeholder="Lists" :options="optionsExercise" :fieldNames="{
+            value: 'id',
+            label: 'name'
+          }"></a-select>
 
-          <a-select
-            class="select"
-            placeholder="Level"
-            :options="exerciseLevels"
-            :fieldNames="{
-              value: 'id',
-              label: 'name'
-            }"
-          >
+          <a-select class="select" placeholder="Level" :options="exerciseLevels" :fieldNames="{
+            value: 'id',
+            label: 'name'
+          }">
           </a-select>
         </div>
 
         <!-- Table of exercise -->
         <div>
-          <a-table
-            class="ant-table-striped"
-            size="middle"
-            :columns="authStore.isAdmin ? columnsAdmin : columns"
-            :data-source="exercises"
-            :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-            :pagination="{ defaultPageSize: 10 }"
-          >
+          <a-table class="ant-table-striped" size="middle" :columns="authStore.isAdmin ? columnsAdmin : columns"
+            :data-source="exercises" :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
+            :pagination="{ defaultPageSize: 10 }">
             <template #bodyCell="{ record, column }">
               <template v-if="column.key === 'title'">
                 <a @click="chooseExercise(record)" class="exercise-name">{{ record?.name }}</a>
               </template>
 
               <template v-if="column.key === 'level'">
-                <span
-                  :class="{
-                    easy: record?.exerciseLevelName == 'Easy',
-                    medium: record?.exerciseLevelName == 'Medium',
-                    hard: record?.exerciseLevelName == 'Hard'
-                  }"
-                  >{{ record?.exerciseLevelName }}</span
-                >
+                <span :class="{
+                  easy: record?.exerciseLevelName == 'Easy',
+                  medium: record?.exerciseLevelName == 'Medium',
+                  hard: record?.exerciseLevelName == 'Hard'
+                }">{{ record?.exerciseLevelName }}</span>
               </template>
 
               <template v-if="column.key === 'action'">

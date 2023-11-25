@@ -16,18 +16,19 @@ let codeOutput = ref<any>('');
 // const extensions = [javascript(), oneDark]
 const extensions = [cpp(), oneDark];
 
-const handleReady = () => {};
+const handleReady = () => { };
 
 const handleChange = () => {
   // console.log(code.value);
 };
 
-const handleFocus = () => {};
+const handleFocus = () => { };
 
-const handleBlur = () => {};
+const handleBlur = () => { };
 
 const handleSubmit = async () => {
   isLoading.value = true;
+
   await submitCode({
     code: code.value
   })
@@ -42,6 +43,7 @@ const handleSubmit = async () => {
     .finally(() => {
       isLoading.value = false;
     });
+  isLoading.value = false;
 };
 
 const handleCallFakeApi = async () => {
@@ -55,19 +57,9 @@ const handleCallFakeApi = async () => {
     <div class="main-page">
       <a-row class="wrapper">
         <a-col :lg="24" :md="24">
-          <codemirror
-            v-model="code"
-            placeholder="Code goes here..."
-            :style="{ height: '400px' }"
-            :autofocus="true"
-            :indent-with-tab="true"
-            :tab-size="2"
-            :extensions="extensions"
-            @ready="handleReady"
-            @change="handleChange"
-            @focus="handleFocus"
-            @blur="handleBlur"
-          />
+          <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }" :autofocus="true"
+            :indent-with-tab="true" :tab-size="2" :extensions="extensions" @ready="handleReady" @change="handleChange"
+            @focus="handleFocus" @blur="handleBlur" />
         </a-col>
         <a-col :lg="24" :md="24">
           <a-row class="button-submit mb-10">

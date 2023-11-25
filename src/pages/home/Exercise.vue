@@ -55,7 +55,7 @@ const handleSubmit = async () => {
       console.log(error);
     })
     .finally(async () => {
-      await getUserSubmissionsData();
+      // await getUserSubmissionsData();
       changeToSubmission();
       isLoading.value = false;
     });
@@ -94,32 +94,6 @@ const changeToDiscussion = () => {
   })
 }
 
-const getUserSubmissionsData = async () => {
-  let exerciseId: string = route?.query?.id as string;
-  isLoading.value = true;
-  await new Promise<void>((resolve, reject) => {
-    setTimeout(() => {
-      return resolve();
-    }, 300);
-  });
-  await getUserSubmissions(exerciseId)
-    .then((res: any) => {
-      submissions.value = res?.data;
-    })
-    .catch((error: any) => {
-      message.error('Get submission failed!');
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-};
-
-watch(isDescriptionTab, async (newVal, oldVal) => {
-  if (!newVal) {
-    console.log('call submission api');
-    await getUserSubmissionsData();
-  }
-});
 </script>
 
 <template>

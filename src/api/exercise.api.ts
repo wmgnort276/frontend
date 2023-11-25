@@ -15,8 +15,13 @@ export const createExercise = (formData: any) => {
     });
 }
 
-export const getExerciseApi = () => {
-    return http.get<Exercise[]>('api/Exercise');
+export const getExerciseApi = (payload: any) => {
+    let qs: any = [];
+    Object.entries(payload).forEach((entry) => {
+        const [key, value] = entry;
+        qs.push(key + '=' + value);
+    });
+    return http.get<Exercise[]>(`api/Exercise?${qs.join('&')}`);
 }
 
 
@@ -36,6 +41,6 @@ export const editExercise = (param: any) => {
     });
 }
 
-export const getUserSubmissions = (exerciseId : string) => {
+export const getUserSubmissions = (exerciseId: string) => {
     return http.get(`/api/Submission?exerciseId=${exerciseId}`)
 }
