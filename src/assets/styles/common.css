@@ -109,3 +109,7 @@
 .item-end {
     justify-content: end;
 }
+
+.ml-5 {
+    margin-left: 5px;
+}

@@ -28,7 +28,6 @@ const handleBlur = () => { };
 
 const handleSubmit = async () => {
   isLoading.value = true;
-
   await submitCode({
     code: code.value
   })
@@ -46,10 +45,6 @@ const handleSubmit = async () => {
   isLoading.value = false;
 };
 
-const handleCallFakeApi = async () => {
-  let result = await fakeApi();
-  console.log('🚀 ~ file: HomePage.vue:46 ~ handleCallFakeApi ~ result:', result);
-};
 </script>
 
 <template>

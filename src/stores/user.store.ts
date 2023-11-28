@@ -63,7 +63,15 @@ export const useUserStore = defineStore('userStore', () => {
     }
 
     const getAllExercises = async () => {
-        await getExerciseApi().then((res: Exercise[]) => {
+        const queryBuilder = {
+            exerciseLevelId: '',
+            exerciseTypeId: '',
+            keyword: '',
+            pageIndex: 1,
+            pageSize: 5
+        }
+
+        await getExerciseApi(queryBuilder).then((res: Exercise[]) => {
             listAllExercises.value = res;
         }).catch((error: any) => {
 
@@ -85,6 +93,6 @@ export const useUserStore = defineStore('userStore', () => {
         totalPercent,
         columns,
         getUserResolveExercises,
-        getAllExercises
+        getAllExercises,
     }
 })

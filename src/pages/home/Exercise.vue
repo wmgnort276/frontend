@@ -1,35 +1,30 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, computed } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import { Codemirror } from 'vue-codemirror';
 import { cpp } from '@codemirror/lang-cpp';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { getUserSubmissions, submitCode } from '@/api/exercise.api';
 import { useRoute } from 'vue-router';
-import { message } from 'ant-design-vue';
 import router from '@/router';
 import { COMMENT_PAGE, DESCRIPTION_PAGE, SUBMISSION_PAGE } from '@/stores/constants/constant';
+import { useExerciseStore } from '@/stores/exercise.store'
+import { useSubmissionStore } from '@/stores/submission.store'
 
 const route = useRoute();
 const routeService = useRoute();
-
+const exerciseStore = useExerciseStore();
+const submissionStore = useSubmissionStore();
 const isLoading = ref<boolean>(false);
 const extensions = [cpp(), oneDark];
-const code = ref<any>('');
-const codeOutput = ref<any>('');
-const exercise = ref<any>();
-
 const isDescriptionTab = computed(() => routeService.name == DESCRIPTION_PAGE);
 const isSubmissionTab = computed(() => routeService.name == SUBMISSION_PAGE);
 const isDiscussionTab = computed(() => routeService.name == COMMENT_PAGE);
 
-const submissions = ref<any>('');
+const code = computed(() => exerciseStore.exerciseHintCode);
 
 const handleReady = () => { };
 
-const handleChange = () => {
-  // console.log(code.value);
-};
+const handleChange = () => { };
 
 const handleFocus = () => { };
 
@@ -37,35 +32,12 @@ const handleBlur = () => { };
 
 const handleSubmit = async () => {
   isLoading.value = true;
-  await submitCode({
-    code: code.value,
-    id: exercise.value?.id
-  })
-    .then((res: any) => {
-      codeOutput.value = res;
-      if (res?.data == '1') {
-        message.success('Success');
-      } else {
-        message.error('Wrong answer');
-      }
-    })
-    .catch((error: any) => {
-      console.log('🚀 ~ file: Compiler.vue:42 ~ handleSubmit ~ error:', error);
-      message.error(error?.response?.data ? error?.response?.data : 'Compile failed!');
-      console.log(error);
-    })
-    .finally(async () => {
-      // await getUserSubmissionsData();
-      changeToSubmission();
-      isLoading.value = false;
-    });
+  let exerciseId: string = route?.query?.id as string;
+  submissionStore.handleSubmitCode(exerciseId, code.value);
+  changeToSubmission();
+  isLoading.value = false;
 };
 
-
-onMounted(async () => {
-  code.value = exercise?.value?.hintCode;
-  console.log(routeService.name);
-});
 
 const changeToSubmission = () => {
   router.push({

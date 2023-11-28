@@ -14,3 +14,12 @@ export interface Exercise {
     exerciseLevelName: string,
     exerciseTypeName: string
 }
+
+export interface Submission {
+    id: string,
+    studentId: string,
+    exerciseId: string,
+    createdAt: string,
+    status: string,
+    runtime: string,
+}

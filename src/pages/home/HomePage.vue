@@ -6,6 +6,7 @@ import { message } from 'ant-design-vue';
 import type { ExerciseType, ExerciseLevel, Exercise } from '@/types/interfaces/exercise';
 import router from '@/router';
 import { useAuthStoreHook } from '@/stores/auth.store';
+import DoneIcon from '@/components/DoneIcon.vue';
 
 const authStore = useAuthStoreHook();
 const isLoading = ref<boolean>(false);
@@ -137,6 +138,10 @@ const handleSelectAll = async () => {
             :data-source="exercises" :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
             :pagination="{ defaultPageSize: 10 }">
             <template #bodyCell="{ record, column }">
+              <template v-if="column.key === 'status'">
+                <DoneIcon v-if="record.submissionStatus" />
+              </template>
+
               <template v-if="column.key === 'title'">
                 <a @click="chooseExercise(record)" class="exercise-name">{{ record?.name }}</a>
               </template>

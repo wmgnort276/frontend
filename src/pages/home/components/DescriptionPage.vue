@@ -1,51 +1,40 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { getExerciseById } from '@/api/exercise.api';
-import { message } from 'ant-design-vue';
+import { useExerciseStore } from '@/stores/exercise.store'
 
 const route = useRoute();
+const exerciseStore = useExerciseStore();
 const isLoading = ref<boolean>(false);
-const exercise = ref<any>();
 const rateValue = ref<number>(3);
+const exerciseId: string = route?.query?.id as string;
 
-onMounted(async () => {
-  await getExerciseDetail();
-})
-
-const getExerciseDetail = async () => {
-  let exerciseId: string = route?.query?.id as string;
+const getExerciseDetail = async (id: string) => {
   isLoading.value = true;
-  await getExerciseById(exerciseId)
-    .then((res: any) => {
-      exercise.value = res?.data;
-    })
-    .catch((error: any) => {
-      message.error('Error!');
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
+  await exerciseStore.getExerciseDetail(id);
+  isLoading.value = false;
 };
+
+getExerciseDetail(exerciseId);
 </script>
 
 <template>
   <div>
     <a-row>
-      <h4>{{ exercise?.name }}</h4>
+      <h4>{{ exerciseStore.exercise?.name }}</h4>
     </a-row>
     <a-row class="description flex align-center gap-10 mb-10">
       <span :class="{
-        easy: exercise?.exerciseLevelName == 'Easy',
-        medium: exercise?.exerciseLevelName == 'Medium',
-        hard: exercise?.exerciseLevelName == 'Hard'
+        easy: exerciseStore.exercise?.exerciseLevelName == 'Easy',
+        medium: exerciseStore.exercise?.exerciseLevelName == 'Medium',
+        hard: exerciseStore.exercise?.exerciseLevelName == 'Hard'
       }">
-        {{ exercise?.exerciseLevelName }}
+        {{ exerciseStore.exercise?.exerciseLevelName }}
       </span>
       <a-rate v-model:value="rateValue" />
     </a-row>
     <a-row class="content">
-      <a-textarea :value="exercise?.description" :autoSize="true" :readonly="true" class="description">
+      <a-textarea :value="exerciseStore.exercise?.description" :autoSize="true" :readonly="true" class="description">
       </a-textarea>
     </a-row>
   </div>
