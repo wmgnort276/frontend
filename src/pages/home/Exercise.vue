@@ -33,7 +33,7 @@ const handleBlur = () => { };
 const handleSubmit = async () => {
   isLoading.value = true;
   let exerciseId: string = route?.query?.id as string;
-  submissionStore.handleSubmitCode(exerciseId, code.value);
+  submissionStore.handleSubmitCode(exerciseId, exerciseStore.exerciseHintCode);
   changeToSubmission();
   isLoading.value = false;
 };
@@ -91,7 +91,7 @@ const changeToDiscussion = () => {
         <a-col :lg="14" :md="14" class="flex-column gap-10 right-side">
           <a-row class="card code-wrapper">
             <div class="code-section">
-              <codemirror v-model="code" :style="{ height: '400px' }" :autofocus="true" :indent-with-tab="true"
+              <codemirror v-model="exerciseStore.exerciseHintCode" :style="{ height: '400px' }" :autofocus="true" :indent-with-tab="true"
                 :tab-size="2" :extensions="extensions" @ready="handleReady" @change="handleChange" @focus="handleFocus"
                 @blur="handleBlur" />
             </div>

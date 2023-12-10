@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { message } from 'ant-design-vue';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { getUserSubmissions } from '@/api/exercise.api';
 import { FieldTimeOutlined } from '@ant-design/icons-vue';
-import { useSubmissionStore } from '@/stores/submission.store'
+import { useSubmissionStore } from '@/stores/submission.store';
+import PageLayout from '@/pages/layouts/PageLayout.vue'
 
 const route = useRoute();
 let isLoading = ref<boolean>(false);
