@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { FieldTimeOutlined } from '@ant-design/icons-vue';
 import { useSubmissionStore } from '@/stores/submission.store';
-import PageLayout from '@/pages/layouts/PageLayout.vue'
+import PageLayout from '@/pages/layouts/PageLayout.vue';
+import { useExerciseStore } from '@/stores/exercise.store'
 
 const route = useRoute();
 let isLoading = ref<boolean>(false);
 const submissionStore = useSubmissionStore();
+const exerciseStore = useExerciseStore();
+const exerciseId = ref<string>(route?.query?.id as string);
 
 const getUserSubmissionsData = async () => {
-  let exerciseId: string = route?.query?.id as string;
   isLoading.value = true;
-  await submissionStore.getUserSubmissionsData(exerciseId);
+  await submissionStore.getUserSubmissionsData(exerciseId.value);
   isLoading.value = false;
 };
 
-getUserSubmissionsData();
+onMounted(async () => {
+  await getUserSubmissionsData();
+  if(!exerciseStore.exerciseFlag) {
+    await exerciseStore.getExerciseDetail(exerciseId.value)
+  }
+})
 </script>
 
 <template>

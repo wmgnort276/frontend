@@ -19,6 +19,7 @@ const extensions = [cpp(), oneDark];
 const isDescriptionTab = computed(() => routeService.name == DESCRIPTION_PAGE);
 const isSubmissionTab = computed(() => routeService.name == SUBMISSION_PAGE);
 const isDiscussionTab = computed(() => routeService.name == COMMENT_PAGE);
+const exerciseId = ref<string>(route?.query?.id as string);
 
 const code = computed(() => exerciseStore.exerciseHintCode);
 
@@ -32,18 +33,17 @@ const handleBlur = () => { };
 
 const handleSubmit = async () => {
   isLoading.value = true;
-  let exerciseId: string = route?.query?.id as string;
-  submissionStore.handleSubmitCode(exerciseId, exerciseStore.exerciseHintCode);
-  changeToSubmission();
-  isLoading.value = false;
+  submissionStore.handleSubmitCode(exerciseId.value, exerciseStore.exerciseHintCode);
+  isLoading.value = true;
+  await changeToSubmission();
 };
 
 
-const changeToSubmission = () => {
-  router.push({
+const changeToSubmission = async () => {
+  await router.push({
     path: '/exercises/submission',
     query: {
-      id: route?.query?.id as string
+      id: exerciseId.value
     }
   })
 };
@@ -52,7 +52,7 @@ const changeToDescription = () => {
   router.push({
     path: '/exercises/desc',
     query: {
-      id: route?.query?.id as string
+      id: exerciseId.value
     }
   })
 };
@@ -61,7 +61,7 @@ const changeToDiscussion = () => {
   router.push({
     path: '/exercises/comment',
     query: {
-      id: route?.query?.id as string
+      id: exerciseId.value
     }
   })
 }

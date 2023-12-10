@@ -3,8 +3,6 @@ import { defineStore } from 'pinia';
 import type { Submission } from '@/types/interfaces/exercise';
 import { getUserSubmissions, submitCode } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
-import { SUBMISSION_PAGE } from './constants/constant';
-
 
 export const useSubmissionStore = defineStore('submissionStore', () => {
   const columns = ref<any>([
@@ -17,12 +15,12 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
   const submissionList = computed(() => submission.value);
 
   const getUserSubmissionsData = async (exerciseId: string) => {
-    await getUserSubmissions(exerciseId)
-      .then((res: any) => {
-        submission.value = res?.data
-      })
-      .catch((error: any) => {
-      })
+    try {
+      const response : any = await getUserSubmissions(exerciseId);
+      submission.value = response?.data;
+    } catch(error) {
+      console.log(error);
+    }
   };
 
   const handleSubmitCode = async (exerciseId: string, code: string) => {
@@ -43,7 +41,7 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
         console.log(error);
       })
       .finally(async () => {
-        await getUserSubmissionsData(exerciseId);
+        // await getUserSubmissionsData(exerciseId);
       });
   };
 
