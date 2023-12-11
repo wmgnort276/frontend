@@ -120,10 +120,10 @@ const handleSelectAll = async () => {
 
         <!-- Filter exercise -->
         <div class="filter-exercise flex mb-20">
-          <a-select class="select" placeholder="Lists" :options="optionsExercise" :fieldNames="{
+          <!-- <a-select class="select" placeholder="Lists" :options="optionsExercise" :fieldNames="{
             value: 'id',
             label: 'name'
-          }"></a-select>
+          }"></a-select> -->
 
           <a-select class="select" placeholder="Level" :options="exerciseLevels" :fieldNames="{
             value: 'id',

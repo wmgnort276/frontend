@@ -4,7 +4,9 @@ import { useRoute } from 'vue-router';
 import { FieldTimeOutlined } from '@ant-design/icons-vue';
 import { useSubmissionStore } from '@/stores/submission.store';
 import PageLayout from '@/pages/layouts/PageLayout.vue';
-import { useExerciseStore } from '@/stores/exercise.store'
+import { useExerciseStore } from '@/stores/exercise.store';
+import { convertByteToMb } from '@/utils/index';
+import dayjs from 'dayjs';
 
 const route = useRoute();
 let isLoading = ref<boolean>(false);
@@ -39,13 +41,20 @@ onMounted(async () => {
         </template>
 
         <template v-if="column.key === 'createAt'">
-          <span>{{ record.createdAt }}</span>
+          <span>{{ dayjs(record.createdAt).format("YYYY-MM-DD hh:ss:mm") }}</span>
         </template>
 
         <template v-if="column.key === 'runtime'">
           <span>
             <FieldTimeOutlined />
             <span class="ml-5">{{ record.runtime }} ms</span>
+          </span>
+        </template>
+
+        <template v-if="column.key === 'memory'">
+          <span>
+            <FieldTimeOutlined />
+            <span class="ml-5">{{ convertByteToMb(record.memory) }} MB</span>
           </span>
         </template>
       </template>

@@ -33,8 +33,11 @@ const handleBlur = () => { };
 
 const handleSubmit = async () => {
   isLoading.value = true;
-  submissionStore.handleSubmitCode(exerciseId.value, exerciseStore.exerciseHintCode);
-  isLoading.value = true;
+  await submissionStore.handleSubmitCode(exerciseId.value, exerciseStore.exerciseHintCode);
+  isLoading.value = false;
+  if(route.name == SUBMISSION_PAGE) {
+    await submissionStore.getUserSubmissionsData(exerciseId.value);
+  }
   await changeToSubmission();
 };
 

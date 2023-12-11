@@ -6,9 +6,10 @@ import { message } from 'ant-design-vue';
 
 export const useSubmissionStore = defineStore('submissionStore', () => {
   const columns = ref<any>([
-    { title: 'Status', dataIndex: 'status', key: 'status', width: 200 },
-    { title: 'CreateAt', dataIndex: 'createAt', key: 'createAt', width: 500 },
+    { title: 'Status', dataIndex: 'status', key: 'status', width: 150 },
+    { title: 'CreateAt', dataIndex: 'createAt', key: 'createAt', width: 400 },
     { title: 'Runtime', dataIndex: 'runtime', key: 'runtime', width: 300 },
+    { title: 'Memory', dataIndex: 'memory', key: 'memory', width: 300 },
   ]);
 
   const submission = ref<Submission>();
