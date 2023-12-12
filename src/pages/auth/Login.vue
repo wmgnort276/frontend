@@ -87,6 +87,8 @@ const handleLogin = async () => {
             style="width: 100%"
             class="main-color text-second-color mb-20 login-buton"
             @click="handleLogin"
+            @keydown.enter="handleLogin"
+            @keyup.enter="handleLogin"
           >
             Sign in
           </a-button>

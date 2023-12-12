@@ -22,18 +22,22 @@ const getUserSubmissionsData = async () => {
 
 onMounted(async () => {
   await getUserSubmissionsData();
-  if(!exerciseStore.exerciseFlag) {
-    await exerciseStore.getExerciseDetail(exerciseId.value)
+  if (!exerciseStore.exerciseFlag) {
+    await exerciseStore.getExerciseDetail(exerciseId.value);
   }
-})
+});
 </script>
 
 <template>
   <page-layout :is-loading="isLoading">
-    <a-table class="ant-table-striped" size="middle" :columns="submissionStore.columns"
+    <a-table
+      class="ant-table-striped"
+      size="middle"
+      :columns="submissionStore.columns"
       :data-source="submissionStore.submissionList"
       :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-      :pagination="{ defaultPageSize: 10 }">
+      :pagination="{ defaultPageSize: 10 }"
+    >
       <template #bodyCell="{ record, column }">
         <template v-if="column.key === 'status'">
           <span v-if="record?.status" class="accepted-submission"> Accepted </span>
@@ -41,7 +45,7 @@ onMounted(async () => {
         </template>
 
         <template v-if="column.key === 'createAt'">
-          <span>{{ dayjs(record.createdAt).format("YYYY-MM-DD hh:ss:mm") }}</span>
+          <span>{{ dayjs(record.createdAt).format('YYYY-MM-DD hh:ss:mm') }}</span>
         </template>
 
         <template v-if="column.key === 'runtime'">

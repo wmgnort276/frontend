@@ -9,10 +9,13 @@ const authStore = useAuthStoreHook();
 const userStore = useUserStore();
 
 let isLoading = ref<boolean>(false);
-let data = ref<any>([]);
 
 onMounted(async () => {
-  await Promise.all([userStore.getUserResolveExercises(), userStore.getAllExercises()]);
+  await Promise.all([
+    userStore.getUserResolveExercises(),
+    userStore.getAllExercises(),
+    authStore.getAuthInfo()
+  ]);
 });
 
 const handleLogout = () => {

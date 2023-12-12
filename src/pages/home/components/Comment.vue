@@ -10,7 +10,7 @@ const props = defineProps({
     type: String,
     required: true
   }
-})
+});
 
 const likes = ref<number>(0);
 const dislikes = ref<number>(0);
@@ -32,7 +32,6 @@ const dislike = () => {
 <template>
   <a-comment>
     <template #actions>
-
       <span key="comment-basic-like">
         <a-tooltip title="Like">
           <template v-if="action === 'liked'">
