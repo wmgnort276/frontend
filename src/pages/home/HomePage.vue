@@ -19,7 +19,7 @@ const queryBuilder = ref<any>({
   keyword: '',
   pageIndex: 1,
   pageSize: 5
-})
+});
 
 const optionsExercise = ref<any[]>([
   {
@@ -30,9 +30,9 @@ const optionsExercise = ref<any[]>([
 
 const columns = [
   { title: 'Status', dataIndex: 'status', key: 'status', width: 100 },
-  { title: 'Title', dataIndex: 'title', key: 'title', width: 500 },
-  { title: 'Acceptance', dataIndex: 'acceptance', key: 'acceptance' },
-  { title: 'Level', dataIndex: 'level', key: 'level' }
+  { title: 'Title', dataIndex: 'title', key: 'title', width: 600 },
+  // { title: 'Acceptance', dataIndex: 'acceptance', key: 'acceptance' },
+  { title: 'Difficulty', dataIndex: 'level', key: 'level' }
 ];
 
 const columnsAdmin = [
@@ -62,6 +62,10 @@ const getExerciseLevels = async () => {
 };
 
 const getExercise = async () => {
+  queryBuilder.value = {
+    ...queryBuilder.value,
+    exerciseLevelId: queryBuilder.value.exerciseLevelId ?? ''
+  };
   await getExerciseApi(queryBuilder.value)
     .then((res: Exercise[]) => {
       exercises.value = res;
@@ -82,28 +86,32 @@ const chooseExercise = async (record: Exercise) => {
 };
 
 const handleEditExercise = async (record: any) => {
-  await router.push(`/exercise-edit?id=${record.id}`)
-}
+  await router.push(`/exercise-edit?id=${record.id}`);
+};
 
 const handleSelectType = async (item: ExerciseType) => {
   queryBuilder.value = {
     ...queryBuilder.value,
-    exerciseTypeId: item.id
-  }
+    exerciseTypeId: item.id,
+  };
   isLoading.value = true;
   await getExercise();
   isLoading.value = false;
-}
+};
 
 const handleSelectAll = async () => {
   queryBuilder.value = {
     ...queryBuilder.value,
     exerciseTypeId: ''
-  }
+  };
   isLoading.value = true;
   await getExercise();
   isLoading.value = false;
-}
+};
+
+const onSearch = async () => {
+  await getExercise();
+};
 </script>
 
 <template>
@@ -113,8 +121,9 @@ const handleSelectAll = async () => {
         <div class="exercise-category flex">
           <a-button class="button-classify-problem mr-10" @click="handleSelectAll">All</a-button>
           <div v-for="(item, index) in listCategory" :key="index" class="inline">
-            <a-button class="button-classify-problem mr-10" @click="() => handleSelectType(item)"> {{ item.name
-            }}</a-button>
+            <a-button class="button-classify-problem mr-10" @click="() => handleSelectType(item)">
+              {{ item.name }}</a-button
+            >
           </div>
         </div>
 
@@ -125,21 +134,42 @@ const handleSelectAll = async () => {
             label: 'name'
           }"></a-select> -->
 
-          <a-select class="select" placeholder="Level" :options="exerciseLevels" :fieldNames="{
-            value: 'id',
-            label: 'name'
-          }">
+          <a-select
+            class="select"
+            placeholder="Level"
+            :options="exerciseLevels"
+            :fieldNames="{
+              value: 'id',
+              label: 'name'
+            }"
+            v-model:value="queryBuilder.exerciseLevelId"
+            allowClear
+            @change="getExercise"
+          >
           </a-select>
+
+          <a-input-search
+            v-model:value="queryBuilder.keyword"
+            style="width: 280px"
+            placeholder="Search..."
+            enter-button
+            @search="onSearch"
+          />
         </div>
 
         <!-- Table of exercise -->
         <div>
-          <a-table class="ant-table-striped" size="middle" :columns="authStore.isAdmin ? columnsAdmin : columns"
-            :data-source="exercises" :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-            :pagination="{ defaultPageSize: 10 }">
+          <a-table
+            class="ant-table-striped"
+            size="middle"
+            :columns="authStore.isAdmin ? columnsAdmin : columns"
+            :data-source="exercises"
+            :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
+            :pagination="{ defaultPageSize: 10 }"
+          >
             <template #bodyCell="{ record, column }">
               <template v-if="column.key === 'status'">
-                <DoneIcon v-if="record.submissionStatus" />
+                <DoneIcon v-if="record.isResolved" />
               </template>
 
               <template v-if="column.key === 'title'">
@@ -147,11 +177,14 @@ const handleSelectAll = async () => {
               </template>
 
               <template v-if="column.key === 'level'">
-                <span :class="{
-                  easy: record?.exerciseLevelName == 'Easy',
-                  medium: record?.exerciseLevelName == 'Medium',
-                  hard: record?.exerciseLevelName == 'Hard'
-                }">{{ record?.exerciseLevelName }}</span>
+                <span
+                  :class="{
+                    easy: record?.exerciseLevelName == 'Easy',
+                    medium: record?.exerciseLevelName == 'Medium',
+                    hard: record?.exerciseLevelName == 'Hard'
+                  }"
+                  >{{ record?.exerciseLevelName }}</span
+                >
               </template>
 
               <template v-if="column.key === 'action'">
@@ -201,5 +234,13 @@ const handleSelectAll = async () => {
 
 .exercise-name {
   color: rgb(115, 147, 147);
+}
+
+:deep(.ant-input) {
+  height: 32px;
+}
+
+:deep(.ant-input-group-addon) {
+  height: 31px;
 }
 </style>
