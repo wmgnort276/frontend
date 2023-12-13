@@ -2,11 +2,19 @@
 import dayjs from 'dayjs';
 import { LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined } from '@ant-design/icons-vue';
 import { ref } from 'vue';
-import relativeTime from 'dayjs/plugin/relativeTime';
-dayjs.extend(relativeTime);
+// import relativeTime from 'dayjs/plugin/relativeTime';
+// dayjs.extend(relativeTime);
 
 const props = defineProps({
   comment: {
+    type: String,
+    required: true
+  },
+  username: {
+    type: String,
+    required: true
+  },
+  createdAt: {
     type: String,
     required: true
   }
@@ -62,23 +70,30 @@ const dislike = () => {
 
       <!-- <span key="comment-basic-reply-to">Reply to</span> -->
     </template>
-    <template #author><a>Han Solo</a></template>
-
+    <template #author
+      ><a>{{ username }}</a></template
+    >
+    <!-- avatar icon -->
     <template #avatar>
-      <a-avatar style="color: #f56a00; background-color: #fde3cf">H</a-avatar>
+      <a-avatar style="color: #f56a00; background-color: #fde3cf">{{ username.slice(0, 1) }}</a-avatar>
     </template>
 
+    <!-- comment content-->
     <template #content>
       <p>
         {{ comment }}
       </p>
     </template>
     <template #datetime>
-      <a-tooltip :title="dayjs().format('YYYY-MM-DD HH:mm:ss')">
-        <span>{{ dayjs().fromNow() }}</span>
-      </a-tooltip>
+      <span>{{ dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
+      <!-- <a-tooltip :title="dayjs().format('YYYY-MM-DD HH:mm:ss')">
+      </a-tooltip> -->
     </template>
   </a-comment>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.ant-comment-actions) {
+  margin: 0px;
+}
+</style>

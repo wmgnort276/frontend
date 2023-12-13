@@ -18,7 +18,8 @@ export const useCommentStore = defineStore('commentStore', () => {
 
   const getComments = async (exerciseId: string) => {
     try {
-      commentList.value = await getCommentApi(exerciseId);
+    const result : any = await getCommentApi(exerciseId);
+    commentList.value = result?.data;
     } catch (error) {
       message.error("Error");
     }

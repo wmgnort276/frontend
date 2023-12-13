@@ -9,5 +9,6 @@ export interface CommentResponse {
   upvote: number,
   downvote: number,
   createdAt: string,
-  updatedAt: string
+  updatedAt: string,
+  username: string
 }
