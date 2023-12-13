@@ -25,7 +25,7 @@ export const useUserStore = defineStore('userStore', () => {
     const mediumPercent = computed(() => (mediumExerciseCount.value * 100) / totalMediumExerciseCount.value);
     const hardPercent = computed(() => (hardExerciseCount.value * 100) / totalHardExerciseCount.value);
 
-    const totalPercent = computed(() => (totalResolveExercise.value * 100) / totalExercise.value);
+    const totalPercent = computed(() => ((totalResolveExercise.value * 100) / totalExercise.value).toFixed(2));
 
     const columns = [
         {

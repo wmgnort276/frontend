@@ -92,7 +92,7 @@ const handleEditExercise = async (record: any) => {
 const handleSelectType = async (item: ExerciseType) => {
   queryBuilder.value = {
     ...queryBuilder.value,
-    exerciseTypeId: item.id,
+    exerciseTypeId: item.id
   };
   isLoading.value = true;
   await getExercise();
@@ -165,7 +165,7 @@ const onSearch = async () => {
             :columns="authStore.isAdmin ? columnsAdmin : columns"
             :data-source="exercises"
             :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-            :pagination="{ defaultPageSize: 10 }"
+            :pagination="{ defaultPageSize: 5 }"
           >
             <template #bodyCell="{ record, column }">
               <template v-if="column.key === 'status'">

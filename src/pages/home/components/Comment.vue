@@ -75,7 +75,9 @@ const dislike = () => {
     >
     <!-- avatar icon -->
     <template #avatar>
-      <a-avatar style="color: #f56a00; background-color: #fde3cf">{{ username.slice(0, 1) }}</a-avatar>
+      <a-avatar style="color: #f56a00; background-color: #fde3cf">{{
+        username.slice(0, 1)
+      }}</a-avatar>
     </template>
 
     <!-- comment content-->

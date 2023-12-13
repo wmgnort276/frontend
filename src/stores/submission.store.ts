@@ -14,6 +14,8 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
 
   const submission = ref<Submission>();
   const submissionList = computed(() => submission.value);
+  const response = ref<string>('');
+  const responseStatus = ref<boolean>(true);
 
   const getUserSubmissionsData = async (exerciseId: string) => {
     try {
@@ -30,12 +32,14 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
       id: exerciseId
     })
       .then((res: any) => {
-        if (res?.data == '1') {
+        if (res?.data == 'Success') {
+          responseStatus.value = true;
           message.success('Success');
-          return true;
         } else {
+          responseStatus.value = false;
           message.error('Wrong answer');
         }
+        response.value = res?.data;
       })
       .catch((error: any) => {
         message.error(error?.response?.data ? error?.response?.data : 'Compile failed!');
@@ -50,6 +54,8 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
     columns,
     submission,
     submissionList,
+    response,
+    responseStatus,
     getUserSubmissionsData,
     handleSubmitCode
   }

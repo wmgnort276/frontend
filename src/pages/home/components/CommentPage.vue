@@ -26,7 +26,7 @@ onMounted(async () => {
 <template>
   <CommentCreate :exercised-id="exerciseId" />
   <div v-for="(item, index) in commentStore.commentList">
-    <Comment :comment="item.content" :username="item.username" :created-at="item.createdAt"/>
+    <Comment :comment="item.content" :username="item.username" :created-at="item.createdAt" />
   </div>
 </template>
 

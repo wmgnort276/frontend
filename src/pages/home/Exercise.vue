@@ -7,8 +7,8 @@ import { oneDark } from '@codemirror/theme-one-dark';
 import { useRoute } from 'vue-router';
 import router from '@/router';
 import { COMMENT_PAGE, DESCRIPTION_PAGE, SUBMISSION_PAGE } from '@/stores/constants/constant';
-import { useExerciseStore } from '@/stores/exercise.store'
-import { useSubmissionStore } from '@/stores/submission.store'
+import { useExerciseStore } from '@/stores/exercise.store';
+import { useSubmissionStore } from '@/stores/submission.store';
 
 const route = useRoute();
 const routeService = useRoute();
@@ -20,27 +20,30 @@ const isDescriptionTab = computed(() => routeService.name == DESCRIPTION_PAGE);
 const isSubmissionTab = computed(() => routeService.name == SUBMISSION_PAGE);
 const isDiscussionTab = computed(() => routeService.name == COMMENT_PAGE);
 const exerciseId = ref<string>(route?.query?.id as string);
+const isTestCaseTab = ref<boolean>(true);
+const isResultTab = ref<boolean>(false);
 
 const code = computed(() => exerciseStore.exerciseHintCode);
 
-const handleReady = () => { };
+const handleReady = () => {};
 
-const handleChange = () => { };
+const handleChange = () => {};
 
-const handleFocus = () => { };
+const handleFocus = () => {};
 
-const handleBlur = () => { };
+const handleBlur = () => {};
 
 const handleSubmit = async () => {
   isLoading.value = true;
   await submissionStore.handleSubmitCode(exerciseId.value, exerciseStore.exerciseHintCode);
+  isResultTab.value = true;
+  isTestCaseTab.value = false;
   isLoading.value = false;
-  if(route.name == SUBMISSION_PAGE) {
+  if (route.name == SUBMISSION_PAGE) {
     await submissionStore.getUserSubmissionsData(exerciseId.value);
   }
   await changeToSubmission();
 };
-
 
 const changeToSubmission = async () => {
   await router.push({
@@ -48,7 +51,7 @@ const changeToSubmission = async () => {
     query: {
       id: exerciseId.value
     }
-  })
+  });
 };
 
 const changeToDescription = () => {
@@ -57,7 +60,7 @@ const changeToDescription = () => {
     query: {
       id: exerciseId.value
     }
-  })
+  });
 };
 
 const changeToDiscussion = () => {
@@ -66,9 +69,8 @@ const changeToDiscussion = () => {
     query: {
       id: exerciseId.value
     }
-  })
-}
-
+  });
+};
 </script>
 
 <template>
@@ -77,13 +79,25 @@ const changeToDiscussion = () => {
       <div class="flex gap-10 wrapper">
         <a-col class="card left-side" :lg="10" :md="10">
           <a-row class="flex gap-20">
-            <a-col class="exercise-header" @click="changeToDescription" :class="{ 'is-chosen': isDescriptionTab }">
+            <a-col
+              class="exercise-header"
+              @click="changeToDescription"
+              :class="{ 'is-chosen': isDescriptionTab }"
+            >
               Description
             </a-col>
-            <a-col class="exercise-header" @click="changeToSubmission" :class="{ 'is-chosen': isSubmissionTab }">
+            <a-col
+              class="exercise-header"
+              @click="changeToSubmission"
+              :class="{ 'is-chosen': isSubmissionTab }"
+            >
               Submission
             </a-col>
-            <a-col class="exercise-header" @click="changeToDiscussion" :class="{ 'is-chosen': isDiscussionTab }">
+            <a-col
+              class="exercise-header"
+              @click="changeToDiscussion"
+              :class="{ 'is-chosen': isDiscussionTab }"
+            >
               Discussion
             </a-col>
           </a-row>
@@ -94,19 +108,42 @@ const changeToDiscussion = () => {
         <a-col :lg="14" :md="14" class="flex-column gap-10 right-side">
           <a-row class="card code-wrapper">
             <div class="code-section">
-              <codemirror v-model="exerciseStore.exerciseHintCode" :style="{ height: '400px' }" :autofocus="true" :indent-with-tab="true"
-                :tab-size="2" :extensions="extensions" @ready="handleReady" @change="handleChange" @focus="handleFocus"
-                @blur="handleBlur" />
+              <codemirror
+                v-model="exerciseStore.exerciseHintCode"
+                :style="{ height: '400px' }"
+                :autofocus="true"
+                :indent-with-tab="true"
+                :tab-size="2"
+                :extensions="extensions"
+                @ready="handleReady"
+                @change="handleChange"
+                @focus="handleFocus"
+                @blur="handleBlur"
+              />
             </div>
           </a-row>
 
           <a-row class="test-case-wrapper card">
             <div style="width: 100%">
-              <a-col :lg="24" :md="24">
-                <h4 style="cursor: pointer">Test case</h4>
+              <a-col :lg="24" :md="24" class="flex gap-10">
+                <span
+                  style="cursor: pointer"
+                  :class="{ 'is-chosen': isTestCaseTab }"
+                  @click="
+                    isTestCaseTab = true;
+                    isResultTab = false;
+                  "
+                  >Test case</span
+                >
+                <span
+                  style="cursor: pointer"
+                  :class="{ 'is-chosen': isResultTab }"
+                  @click="(isResultTab = true), (isTestCaseTab = false)"
+                  >Result</span
+                >
               </a-col>
               <a-divider></a-divider>
-              <div>
+              <div v-if="isTestCaseTab">
                 <div class="flex gap-10">
                   <a-button class="button-classify-problem">Case 1</a-button>
                   <a-button class="button-classify-problem">Case 2</a-button>
@@ -115,8 +152,21 @@ const changeToDiscussion = () => {
                 <h4 class="mt-10" style="display: block">Input</h4>
                 <span style="display: block"> 1, 2, 3 </span>
               </div>
+              <div v-if="isResultTab">
+                <p
+                  :class="{
+                    success: submissionStore.responseStatus,
+                    fail: !submissionStore.responseStatus
+                  }"
+                >
+                  {{ submissionStore.response }}
+                </p>
+              </div>
               <a-row class="flex submit">
-                <a-button class="button-classify-problem submit-btn main-color text-second-color" @click="handleSubmit">
+                <a-button
+                  class="button-classify-problem submit-btn main-color text-second-color"
+                  @click="handleSubmit"
+                >
                   Submit
                 </a-button>
               </a-row>
@@ -163,7 +213,6 @@ const changeToDiscussion = () => {
   width: 100%;
 }
 
-
 .left-side,
 .right-side {
   height: 90vh;
@@ -209,5 +258,13 @@ const changeToDiscussion = () => {
 .error-submission {
   color: #ef4743;
   font-weight: 500;
+}
+
+.success {
+  color: rgb(45 181 93);
+}
+
+.fail {
+  color: #ef4743;
 }
 </style>
