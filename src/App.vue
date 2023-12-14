@@ -1,5 +1,5 @@
 <template>
-  <a-spin :spinning="!!isMutating" tip="Loading..." class="main-color">
+  <a-spin :spinning="!!isMutating" tip="Loading...">
     <router-view />
   </a-spin>
 </template>
@@ -11,7 +11,7 @@ document.title = "Code deep";
 </script>
 <style>
 .ant-spin-nested-loading {
-  min-height: 100%;
+  height: 100%;
 }
 .ant-spin-nested-loading > div > .ant-spin {
   top: 50%;
@@ -22,6 +22,10 @@ document.title = "Code deep";
 
 .app-container {
   /* background-color: radial-gradient(closest-side at 50% 135%, #ffffff 50%, #eceff1 100%); */
+}
+
+.ant-spin-container {
+  height: 100%;
 }
 
 

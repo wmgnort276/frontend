@@ -150,7 +150,7 @@ const onSearch = async () => {
 
           <a-input-search
             v-model:value="queryBuilder.keyword"
-            style="width: 280px"
+            style="width: 230px"
             placeholder="Search..."
             enter-button
             @search="onSearch"
@@ -242,5 +242,17 @@ const onSearch = async () => {
 
 :deep(.ant-input-group-addon) {
   height: 31px;
+}
+
+.filter-exercise :deep(.ant-input-group-addon) {
+  display: none;
+}
+
+:deep(.ant-select-selector) {
+  border-radius: 8px !important;
+}
+
+:deep(.ant-input) {
+  border-radius: 8px !important;
 }
 </style>

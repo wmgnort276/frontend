@@ -75,105 +75,103 @@ const changeToDiscussion = () => {
 
 <template>
   <page-layout :is-loading="isLoading">
-    <div class="main-page">
-      <div class="flex gap-10 wrapper">
-        <a-col class="card left-side" :lg="10" :md="10">
-          <a-row class="flex gap-20">
-            <a-col
-              class="exercise-header"
-              @click="changeToDescription"
-              :class="{ 'is-chosen': isDescriptionTab }"
-            >
-              Description
-            </a-col>
-            <a-col
-              class="exercise-header"
-              @click="changeToSubmission"
-              :class="{ 'is-chosen': isSubmissionTab }"
-            >
-              Submission
-            </a-col>
-            <a-col
-              class="exercise-header"
-              @click="changeToDiscussion"
-              :class="{ 'is-chosen': isDiscussionTab }"
-            >
-              Discussion
-            </a-col>
-          </a-row>
-          <a-divider />
-          <router-view />
-        </a-col>
+    <div class="main-page gap-10" style="display: flex">
+      <a-col class="card left-side" :lg="10" :md="10">
+        <a-row class="flex gap-20">
+          <a-col
+            class="exercise-header"
+            @click="changeToDescription"
+            :class="{ 'is-chosen': isDescriptionTab }"
+          >
+            Description
+          </a-col>
+          <a-col
+            class="exercise-header"
+            @click="changeToSubmission"
+            :class="{ 'is-chosen': isSubmissionTab }"
+          >
+            Submission
+          </a-col>
+          <a-col
+            class="exercise-header"
+            @click="changeToDiscussion"
+            :class="{ 'is-chosen': isDiscussionTab }"
+          >
+            Discussion
+          </a-col>
+        </a-row>
+        <a-divider />
+        <router-view />
+      </a-col>
 
-        <a-col :lg="14" :md="14" class="flex-column gap-10 right-side">
-          <a-row class="card code-wrapper">
-            <div class="code-section">
-              <codemirror
-                v-model="exerciseStore.exerciseHintCode"
-                :style="{ height: '400px' }"
-                :autofocus="true"
-                :indent-with-tab="true"
-                :tab-size="2"
-                :extensions="extensions"
-                @ready="handleReady"
-                @change="handleChange"
-                @focus="handleFocus"
-                @blur="handleBlur"
-              />
-            </div>
-          </a-row>
+      <a-col :lg="14" :md="14" class="flex-column gap-10 right-side">
+        <a-row class="card code-wrapper">
+          <div class="code-section">
+            <codemirror
+              v-model="exerciseStore.exerciseHintCode"
+              :style="{ height: '400px' }"
+              :autofocus="true"
+              :indent-with-tab="true"
+              :tab-size="2"
+              :extensions="extensions"
+              @ready="handleReady"
+              @change="handleChange"
+              @focus="handleFocus"
+              @blur="handleBlur"
+            />
+          </div>
+        </a-row>
 
-          <a-row class="test-case-wrapper card">
-            <div style="width: 100%">
-              <a-col :lg="24" :md="24" class="flex gap-10">
-                <span
-                  style="cursor: pointer"
-                  :class="{ 'is-chosen': isTestCaseTab }"
-                  @click="
-                    isTestCaseTab = true;
-                    isResultTab = false;
-                  "
-                  >Test case</span
-                >
-                <span
-                  style="cursor: pointer"
-                  :class="{ 'is-chosen': isResultTab }"
-                  @click="(isResultTab = true), (isTestCaseTab = false)"
-                  >Result</span
-                >
-              </a-col>
-              <a-divider></a-divider>
-              <div v-if="isTestCaseTab">
-                <div class="flex gap-10">
-                  <a-button class="button-classify-problem">Case 1</a-button>
-                  <a-button class="button-classify-problem">Case 2</a-button>
-                  <a-button class="button-classify-problem">Case 3</a-button>
-                </div>
-                <h4 class="mt-10" style="display: block">Input</h4>
-                <span style="display: block"> 1, 2, 3 </span>
+        <a-row class="test-case-wrapper card">
+          <div style="width: 100%">
+            <a-col :lg="24" :md="24" class="flex gap-10">
+              <span
+                style="cursor: pointer"
+                :class="{ 'is-chosen': isTestCaseTab }"
+                @click="
+                  isTestCaseTab = true;
+                  isResultTab = false;
+                "
+                >Test case</span
+              >
+              <span
+                style="cursor: pointer"
+                :class="{ 'is-chosen': isResultTab }"
+                @click="(isResultTab = true), (isTestCaseTab = false)"
+                >Result</span
+              >
+            </a-col>
+            <a-divider></a-divider>
+            <div v-if="isTestCaseTab">
+              <div class="flex gap-10">
+                <a-button class="button-classify-problem">Case 1</a-button>
+                <a-button class="button-classify-problem">Case 2</a-button>
+                <a-button class="button-classify-problem">Case 3</a-button>
               </div>
-              <div v-if="isResultTab">
-                <p
-                  :class="{
-                    success: submissionStore.responseStatus,
-                    fail: !submissionStore.responseStatus
-                  }"
-                >
-                  {{ submissionStore.response }}
-                </p>
-              </div>
-              <a-row class="flex submit">
-                <a-button
-                  class="button-classify-problem submit-btn main-color text-second-color"
-                  @click="handleSubmit"
-                >
-                  Submit
-                </a-button>
-              </a-row>
+              <h4 class="mt-10" style="display: block">Input</h4>
+              <span style="display: block"> 1, 2, 3 </span>
             </div>
-          </a-row>
-        </a-col>
-      </div>
+            <div v-if="isResultTab">
+              <p
+                :class="{
+                  success: submissionStore.responseStatus,
+                  fail: !submissionStore.responseStatus
+                }"
+              >
+                {{ submissionStore.response }}
+              </p>
+            </div>
+            <a-row class="flex submit">
+              <a-button
+                class="button-classify-problem submit-btn main-color text-second-color"
+                @click="handleSubmit"
+              >
+                Submit
+              </a-button>
+            </a-row>
+          </div>
+        </a-row>
+      </a-col>
     </div>
   </page-layout>
 </template>
@@ -182,16 +180,22 @@ const changeToDiscussion = () => {
 @import '../../assets/styles/color.css';
 @import '../../assets/styles/common.css';
 
+.main-page {
+  overflow-x: hidden;
+  /* padding: 5px; */
+}
+
 .card {
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: 0px !important;
 }
 
 .wrapper {
   max-width: 98%;
   margin: 0 auto;
   justify-content: space-around;
-  padding-top: 30px;
+  padding-top: 10px;
   height: 100%;
 }
 
@@ -213,10 +217,10 @@ const changeToDiscussion = () => {
   width: 100%;
 }
 
-.left-side,
-.right-side {
-  height: 90vh;
+.left-side {
+  height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .code-section {

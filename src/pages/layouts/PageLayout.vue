@@ -22,11 +22,12 @@ watchEffect(() => {
       opacity: 1
     }"
     class="transform-none"
+    style="height: 100%"
   >
     <slot />
   </div>
   <div class="loading-container" v-if="isLoading">
-    <a-spin :spinning="isLoading" tip="Loading..."> </a-spin>
+    <a-spin :spinning="isLoading"> </a-spin>
   </div>
 </template>
 <style scoped>

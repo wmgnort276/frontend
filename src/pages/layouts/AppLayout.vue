@@ -2,15 +2,15 @@
 import AppHeader from '@/pages/layouts/components/AppHeader.vue';
 </script>
 <template>
-  <a-layout class="layout">
+  <a-layout class="layout" style="height: 100%;">
     <a-layout-header class="header">
       <AppHeader />
     </a-layout-header>
-    <a-layout-content class="layout-content">
+    <a-layout-content class="layout-content" style="height: 100%;">
       <router-view />
       <!--      <div></div>-->
     </a-layout-content>
-    <a-layout-footer class="footer"></a-layout-footer>
+    <!-- <a-layout-footer class="footer"></a-layout-footer> -->
   </a-layout>
 </template>
 <style scoped>
@@ -30,6 +30,9 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
   height: 50px;
   background-color: #fff;
   border-bottom: 1px solid rgb(214, 207, 207);
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
 }
 
 .layout {
@@ -45,4 +48,5 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
   color: #ffffff;
   text-align: center;
 }
+
 </style>

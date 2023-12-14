@@ -1,8 +1,9 @@
 .main-page {
     width: 100%;
-    min-height: 100vh;
     height: 100%;
+    padding-top: 50px;
     background-color: rgb(237, 239, 243);
+    /* overflow-y: scroll; */
 }
 
 
