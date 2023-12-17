@@ -32,7 +32,7 @@ import AppHeader from '@/pages/layouts/components/AppHeader.vue';
   border-bottom: 1px solid rgb(214, 207, 207);
   position: fixed;
   width: 100%;
-  z-index: 9999;
+  z-index: 111;
 }
 
 .layout {

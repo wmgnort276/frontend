@@ -47,7 +47,7 @@ const getExerciseCategory = async () => {
       listCategory.value = res?.data;
     })
     .catch((error: any) => {
-      message.error('Fail to get category');
+      // message.error('Fail to get category');
     });
 };
 
@@ -57,7 +57,7 @@ const getExerciseLevels = async () => {
       exerciseLevels.value = res?.data;
     })
     .catch((error: any) => {
-      message.error('Fail to get exercise level');
+      // message.error('Fail to get exercise level');
     });
 };
 
@@ -71,7 +71,7 @@ const getExercise = async () => {
       exercises.value = res;
     })
     .catch((error: any) => {
-      message.error('Fail to get exercise');
+      // message.error('Fail to get exercise');
     });
 };
 

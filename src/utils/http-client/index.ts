@@ -66,7 +66,7 @@ class HttpClient {
       async (error) => {
         const { response, config } = error;
         if(error && error.code === 'ERR_NETWORK') {
-          message.error(t('common.network_disconnect'));
+          message.error('Network disconnect!');
           return Promise.reject(error);
         } else {
           const $error = error;

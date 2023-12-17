@@ -211,6 +211,7 @@ const changeToDiscussion = () => {
 .code-wrapper {
   padding: 0;
   height: 70%;
+  width: 98%;
 }
 
 .code-section {
@@ -233,6 +234,7 @@ const changeToDiscussion = () => {
 
 .test-case-wrapper {
   height: 30%;
+  width: 98%;
 }
 
 :deep(.ant-divider) {

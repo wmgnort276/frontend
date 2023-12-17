@@ -37,7 +37,7 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
           message.success('Success');
         } else {
           responseStatus.value = false;
-          message.error('Wrong answer');
+          // message.error('Wrong answer');
         }
         response.value = res?.data;
       })

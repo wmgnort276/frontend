@@ -58,7 +58,7 @@ onMounted(async () => {
       getExerciseLevelTypeFunction()
     ]);
   } catch {
-    message.error('Fail to get exercise category and level');
+    // message.error('Fail to get exercise category and level');
   }
   isLoading.value = false;
 });

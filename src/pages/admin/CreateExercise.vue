@@ -36,7 +36,7 @@ onMounted(async () => {
   try {
     await Promise.all([getExerciseLevelFunction(), getExerciseLevelTypeFunction()]);
   } catch {
-    message.error('Fail to get exercise category and level');
+    // message.error('Fail to get exercise category and level');
   }
   isLoading.value = false;
 });
