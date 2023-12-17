@@ -31,4 +31,4 @@ package-lock.json
 .env.development
 .vite
 components.d.ts
-.env
+#.env
