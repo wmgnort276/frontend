@@ -166,6 +166,12 @@ const changeToDiscussion = () => {
                 class="button-classify-problem submit-btn main-color text-second-color"
                 @click="handleSubmit"
               >
+                Run
+              </a-button>
+              <a-button
+                class="button-classify-problem submit-btn main-color text-second-color"
+                @click="handleSubmit"
+              >
                 Submit
               </a-button>
             </a-row>
@@ -245,6 +251,10 @@ const changeToDiscussion = () => {
   width: 100%;
   align-items: end;
   justify-content: end;
+  position: absolute;
+  right: 30px;
+  bottom: 15px;
+  gap: 10px;
 }
 
 .exercise-header {
@@ -272,5 +282,24 @@ const changeToDiscussion = () => {
 
 .fail {
   color: #ef4743;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #bec4c4;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>

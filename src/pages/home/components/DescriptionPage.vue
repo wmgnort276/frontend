@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useExerciseStore } from '@/stores/exercise.store';
+import RatingPopup from '../popup/RatingPopup.vue'
 
 const route = useRoute();
 const exerciseStore = useExerciseStore();
 const isLoading = ref<boolean>(false);
-const rateValue = ref<number>(3);
+const rateValue = ref<number>(0);
 const exerciseId: string = route?.query?.id as string;
+const isOpenRatingPopup = ref<boolean>(false);
 
 const getExerciseDetail = async (id: string) => {
   isLoading.value = true;
@@ -16,6 +18,15 @@ const getExerciseDetail = async (id: string) => {
 };
 
 getExerciseDetail(exerciseId);
+
+const handleVoting = async () => {
+  isOpenRatingPopup.value = true;
+};
+
+const handleCloseRatingPopup = async () => {
+  isOpenRatingPopup.value = false;
+  await getExerciseDetail(exerciseId);
+}
 </script>
 
 <template>
@@ -33,7 +44,8 @@ getExerciseDetail(exerciseId);
       >
         {{ exerciseStore.exercise?.exerciseLevelName }}
       </span>
-      <a-rate v-model:value="rateValue" />
+      <a-rate v-model:value="exerciseStore.averageRating" @click="handleVoting" allow-half disabled/>
+      <span>({{ (exerciseStore.averageRating).toFixed(1) }} / {{ exerciseStore.exercise.ratingCount }})</span>
     </a-row>
     <a-row class="content">
       <a-textarea
@@ -45,6 +57,8 @@ getExerciseDetail(exerciseId);
       </a-textarea>
     </a-row>
   </div>
+
+  <RatingPopup :visible="isOpenRatingPopup" @cancel="handleCloseRatingPopup" :exerciseId="exerciseId"/>
 </template>
 
 <style scoped>
