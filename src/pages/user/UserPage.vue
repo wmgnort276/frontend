@@ -24,7 +24,7 @@ const handleLogout = () => {
 };
 
 const chooseExercise = async (record: any) => {
-  await router.push(`/exercises?id=${record.exerciseId}&name=${record.exerciseName}`);
+  await router.push(`/exercises/desc?id=${record.exerciseId}&name=${record.exerciseName}`);
 };
 </script>
 

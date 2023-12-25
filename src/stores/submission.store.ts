@@ -39,7 +39,7 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
           responseStatus.value = false;
           // message.error('Wrong answer');
         }
-        response.value = res?.data;
+        response.value = (res?.data != '0') ? res?.data : 'Wrong answer';
       })
       .catch((error: any) => {
         message.error(error?.response?.data ? error?.response?.data : 'Compile failed!');

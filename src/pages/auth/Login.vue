@@ -64,7 +64,13 @@ const handleLogin = async () => {
               }
             ]"
           >
-            <a-input class="input" placeHolder="Name" v-model:value="formLogin.username"> </a-input>
+            <a-input
+              class="input"
+              placeHolder="Name"
+              v-model:value="formLogin.username"
+              @pressEnter="handleLogin"
+            >
+            </a-input>
           </a-form-item>
           <a-form-item
             name="password"
@@ -80,6 +86,7 @@ const handleLogin = async () => {
               class="input"
               placeHolder="Password"
               v-model:value="formLogin.password"
+              @pressEnter="handleLogin"
             >
             </a-input-password>
           </a-form-item>

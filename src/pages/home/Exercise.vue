@@ -148,8 +148,8 @@ const changeToDiscussion = () => {
                 <a-button class="button-classify-problem">Case 2</a-button>
                 <a-button class="button-classify-problem">Case 3</a-button>
               </div>
-              <h4 class="mt-10" style="display: block">Input</h4>
-              <span style="display: block"> 1, 2, 3 </span>
+              <!-- <h4 class="mt-10" style="display: block">Input</h4> -->
+              <!-- <span style="display: block"> 1, 2, 3 </span> -->
             </div>
             <div v-if="isResultTab">
               <p
@@ -162,12 +162,12 @@ const changeToDiscussion = () => {
               </p>
             </div>
             <a-row class="flex submit">
-              <a-button
+              <!-- <a-button
                 class="button-classify-problem submit-btn main-color text-second-color"
                 @click="handleSubmit"
               >
                 Run
-              </a-button>
+              </a-button> -->
               <a-button
                 class="button-classify-problem submit-btn main-color text-second-color"
                 @click="handleSubmit"
