@@ -24,7 +24,7 @@ const handleLogout = () => {
 };
 
 const chooseExercise = async (record: any) => {
-  await router.push(`/exercises?id=${record.exerciseId}&name=${record.exerciseName}`);
+  await router.push(`/exercises/desc?id=${record.exerciseId}&name=${record.exerciseName}`);
 };
 </script>
 
@@ -62,19 +62,15 @@ const chooseExercise = async (record: any) => {
               <h5>Advanced</h5>
             </a-row>
 
-            <a-row class="flex align-center mb-10">
-              <a-button class="button-classify-problem mr-10"> Dynamic Programming</a-button>
-              <s-pan> x4</s-pan>
-            </a-row>
-
-            <a-row class="flex align-center mb-10">
-              <a-button class="button-classify-problem mr-10"> Backtracking </a-button>
-              <s-pan> x10</s-pan>
-            </a-row>
-
-            <a-row class="flex align-center mb-10">
-              <a-button class="button-classify-problem mr-10"> Divide and Conquer</a-button>
-              <s-pan> x8</s-pan>
+            <!-- User skills -->
+            <a-row
+              class="flex align-center mb-10"
+              v-for="(item, index) in userStore.listExerciseCategories"
+            >
+              <a-button class="button-classify-problem mr-10">
+                {{ item.exerciseTypeName }}</a-button
+              >
+              <s-pan> x {{ item.count }}</s-pan>
             </a-row>
           </a-row>
         </a-col>
@@ -121,7 +117,11 @@ const chooseExercise = async (record: any) => {
               <h4 class="pointer">Recent AC</h4>
             </a-row>
             <a-row>
-              <a-table :columns="userStore.columns" :data-source="userStore.listResolveExercise">
+              <a-table
+                :columns="userStore.columns"
+                :data-source="userStore.listResolveExercise"
+                :pagination="{ defaultPageSize: 10 }"
+              >
                 <template #bodyCell="{ record, column }">
                   <template v-if="column.key === 'name'">
                     <a @click="() => chooseExercise(record)">{{ record.exerciseName }}</a>
@@ -151,10 +151,15 @@ const chooseExercise = async (record: any) => {
 @import '../../assets/styles/common.css';
 @import '../../assets/styles/color.css';
 
+.main-page {
+  min-height: 100%;
+  height: fit-content !important;
+}
 .wrapper {
   max-width: 80%;
   margin: 0 auto;
   padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .edit-profile {

@@ -58,7 +58,12 @@ const handleSignup = async () => {
               }
             ]"
           >
-            <a-input class="input" placeHolder="Username" v-model:value="formSignUp.username">
+            <a-input
+              class="input"
+              placeHolder="Username"
+              v-model:value="formSignUp.username"
+              @pressEnter="handleSignup"
+            >
             </a-input>
           </a-form-item>
 
@@ -72,7 +77,13 @@ const handleSignup = async () => {
               }
             ]"
           >
-            <a-input class="input" placeHolder="Email" v-model:value="formSignUp.email"> </a-input>
+            <a-input
+              class="input"
+              placeHolder="Email"
+              v-model:value="formSignUp.email"
+              @pressEnter="handleSignup"
+            >
+            </a-input>
           </a-form-item>
 
           <a-form-item
@@ -89,6 +100,7 @@ const handleSignup = async () => {
               class="input"
               placeHolder="Password"
               v-model:value="formSignUp.password"
+              @pressEnter="handleSignup"
             >
             </a-input-password>
           </a-form-item>
@@ -111,6 +123,7 @@ const handleSignup = async () => {
               class="input"
               placeHolder="Confirm Password"
               v-model:value="formSignUp.confirmPassword"
+              @pressEnter="handleSignup"
             >
             </a-input-password>
           </a-form-item>

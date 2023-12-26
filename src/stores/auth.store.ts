@@ -41,9 +41,9 @@ export const useAuthStore = defineStore('auth', () => {
         await router.push('/home');
         return;
       }
-      message.error("Login failed");
+      message.error("Wrong username or password");
     } catch (error) {
-      message.error("Login failed");
+      message.error("Wrong username or password");
     }
   };
 
