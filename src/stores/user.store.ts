@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { UserExercise } from '@/types/interfaces/user';
+import type { ExerciseCategoryStatistic, UserExercise } from '@/types/interfaces/user';
 import { EASY_EXERCISE, HARD_EXERCISE, MEDIUM_EXERCISE } from './constants/constant';
 import { getUserResolveExerciseApi } from '../api/user.api'
 import { getExerciseApi } from '@/api/exercise.api';
@@ -11,6 +11,7 @@ export const useUserStore = defineStore('userStore', () => {
     const listAllExercises = ref<Exercise[]>([]);
     const listResolveExercise = ref<UserExercise[]>([]);
     const totalExercise = computed(() => listAllExercises.value.length);
+    const listExerciseCategories = ref<ExerciseCategoryStatistic[]>([]);
 
     const totalResolveExercise = computed(() => listResolveExercise.value.length);
     const easyExerciseCount = computed(() => listResolveExercise.value?.filter(item => item.exerciseLevelName == EASY_EXERCISE).length);
@@ -57,6 +58,8 @@ export const useUserStore = defineStore('userStore', () => {
                     createdAt: dayjs(item.createdAt).format('YYYY-MM-DD')
                 }
             })
+
+            getExerciseCategoryStatistic(listResolveExercise.value);
         }).catch((error: any) => {
 
         });
@@ -78,6 +81,28 @@ export const useUserStore = defineStore('userStore', () => {
         })
     }
 
+    const getExerciseCategoryStatistic = (listResolveExercise: UserExercise[]) => {
+        const countStatistic : any = {};
+
+        listResolveExercise.forEach((item: UserExercise) => {
+            if (countStatistic[item.exerciseTypeName]) {
+                countStatistic[item.exerciseTypeName]++;
+            } else {
+                countStatistic[item.exerciseTypeName] = 1;
+            }
+        });
+
+        const tmp:ExerciseCategoryStatistic[] = [];
+        for (const type in countStatistic) {
+            tmp.push({
+                exerciseTypeName: type,
+                count: countStatistic[type]
+            });
+        }
+
+        listExerciseCategories.value = tmp;
+    }
+
     return {
         listResolveExercise,
         easyExerciseCount,
@@ -92,6 +117,7 @@ export const useUserStore = defineStore('userStore', () => {
         totalExercise,
         totalPercent,
         columns,
+        listExerciseCategories,
         getUserResolveExercises,
         getAllExercises,
     }

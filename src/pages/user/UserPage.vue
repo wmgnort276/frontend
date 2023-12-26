@@ -62,19 +62,15 @@ const chooseExercise = async (record: any) => {
               <h5>Advanced</h5>
             </a-row>
 
-            <a-row class="flex align-center mb-10">
-              <a-button class="button-classify-problem mr-10"> Dynamic Programming</a-button>
-              <s-pan> x4</s-pan>
-            </a-row>
-
-            <a-row class="flex align-center mb-10">
-              <a-button class="button-classify-problem mr-10"> Backtracking </a-button>
-              <s-pan> x10</s-pan>
-            </a-row>
-
-            <a-row class="flex align-center mb-10">
-              <a-button class="button-classify-problem mr-10"> Divide and Conquer</a-button>
-              <s-pan> x8</s-pan>
+            <!-- User skills-->
+            <a-row
+              class="flex align-center mb-10"
+              v-for="(item, index) in userStore.listExerciseCategories"
+            >
+              <a-button class="button-classify-problem mr-10">
+                {{ item.exerciseTypeName }}</a-button
+              >
+              <s-pan> x {{ item.count }}</s-pan>
             </a-row>
           </a-row>
         </a-col>
