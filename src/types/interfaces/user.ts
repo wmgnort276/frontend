@@ -5,5 +5,11 @@ export interface UserExercise {
     studentId: string,
     exerciseId: string,
     exerciseName: string,
-    exerciseLevelName: string
+    exerciseLevelName: string,
+    exerciseTypeName: string
+}
+
+export interface ExerciseCategoryStatistic {
+    exerciseTypeName: string,
+    count: number
 }

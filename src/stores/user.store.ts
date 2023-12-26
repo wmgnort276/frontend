@@ -99,7 +99,6 @@ export const useUserStore = defineStore('userStore', () => {
                 count: countStatistic[type]
             });
         }
-
         listExerciseCategories.value = tmp;
     }
 

@@ -5,6 +5,7 @@ import { Codemirror } from 'vue-codemirror';
 import { cpp } from '@codemirror/lang-cpp';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { useRoute } from 'vue-router';
+import { DownOutlined } from '@ant-design/icons-vue';
 import router from '@/router';
 import { COMMENT_PAGE, DESCRIPTION_PAGE, SUBMISSION_PAGE } from '@/stores/constants/constant';
 import { useExerciseStore } from '@/stores/exercise.store';
@@ -22,6 +23,7 @@ const isDiscussionTab = computed(() => routeService.name == COMMENT_PAGE);
 const exerciseId = ref<string>(route?.query?.id as string);
 const isTestCaseTab = ref<boolean>(true);
 const isResultTab = ref<boolean>(false);
+const language = ref<string>('C++');
 
 const code = computed(() => exerciseStore.exerciseHintCode);
 
@@ -71,6 +73,8 @@ const changeToDiscussion = () => {
     }
   });
 };
+
+const handleMenuClick = () => {};
 </script>
 
 <template>
@@ -98,6 +102,21 @@ const changeToDiscussion = () => {
             :class="{ 'is-chosen': isDiscussionTab }"
           >
             Discussion
+          </a-col>
+
+          <a-col class="exercise-header">
+            <a-dropdown placement="bottomLeft" arrow>
+              <template #overlay>
+                <a-menu @click="handleMenuClick">
+                  <a-menu-item key="c++" @click="language = 'C++'"> C++ </a-menu-item>
+                  <a-menu-item key="java" @click="language = 'Java'"> Java </a-menu-item>
+                </a-menu>
+              </template>
+              <a-button style="border: none; box-shadow: none;">
+                {{ language }}
+                <DownOutlined />
+              </a-button>
+            </a-dropdown>
           </a-col>
         </a-row>
         <a-divider />
@@ -260,6 +279,8 @@ const changeToDiscussion = () => {
 .exercise-header {
   font-size: 16px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .is-chosen {
