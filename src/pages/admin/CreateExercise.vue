@@ -176,7 +176,7 @@ const handleSubmit = async () => {
 
           <a-row>
             <a-col :lg="6" :md="6" :sm="6">
-              <span>Run file</span>
+              <span>Run file C++</span>
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
               <a-form-item>
@@ -184,6 +184,18 @@ const handleSubmit = async () => {
               </a-form-item>
             </a-col>
           </a-row>
+
+          <a-row>
+            <a-col :lg="6" :md="6" :sm="6">
+              <span>Run file Java</span>
+            </a-col>
+            <a-col :lg="24" :md="24" :sm="24">
+              <a-form-item>
+                <input type="file" @change="handleFileChange" />
+              </a-form-item>
+            </a-col>
+          </a-row>
+          
           <a-button
             type="primary"
             class="main-color text-second-color submit-button"
@@ -201,9 +213,15 @@ const handleSubmit = async () => {
 @import '../../assets/styles/color.css';
 @import '../../assets/styles/common.css';
 
+.main-page {
+  min-height: 100%;
+  height: fit-content !important;
+}
+
 .wrapper {
   width: 90%;
   margin: 0 auto;
+  padding-bottom: 30px;
 }
 
 .submit-button {

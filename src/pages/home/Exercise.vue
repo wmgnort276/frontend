@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
 import { Codemirror } from 'vue-codemirror';
 import { cpp } from '@codemirror/lang-cpp';
+import { java } from '@codemirror/lang-java'
 import { oneDark } from '@codemirror/theme-one-dark';
 import { useRoute } from 'vue-router';
 import { DownOutlined } from '@ant-design/icons-vue';
@@ -37,7 +38,7 @@ const handleBlur = () => {};
 
 const handleSubmit = async () => {
   isLoading.value = true;
-  await submissionStore.handleSubmitCode(exerciseId.value, exerciseStore.exerciseHintCode);
+  await submissionStore.handleSubmitCode(exerciseId.value, exerciseStore.exerciseHintCode, language.value);
   isResultTab.value = true;
   isTestCaseTab.value = false;
   isLoading.value = false;
@@ -75,6 +76,11 @@ const changeToDiscussion = () => {
 };
 
 const handleMenuClick = () => {};
+
+const changeLanguage = (lang: string) => {
+  language.value = lang;
+  exerciseStore.changeLanguage(lang);
+}
 </script>
 
 <template>
@@ -108,8 +114,8 @@ const handleMenuClick = () => {};
             <a-dropdown placement="bottomLeft" arrow>
               <template #overlay>
                 <a-menu @click="handleMenuClick">
-                  <a-menu-item key="c++" @click="language = 'C++'"> C++ </a-menu-item>
-                  <a-menu-item key="java" @click="language = 'Java'"> Java </a-menu-item>
+                  <a-menu-item key="c++" @click="() => changeLanguage('C++')"> C++ </a-menu-item>
+                  <a-menu-item key="java" @click="() => changeLanguage('Java')"> Java </a-menu-item>
                 </a-menu>
               </template>
               <a-button style="border: none; box-shadow: none;">

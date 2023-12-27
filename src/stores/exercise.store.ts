@@ -29,12 +29,21 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
     } catch(error : any) {}
   }
 
+  const changeLanguage = (lang: string) => {
+    if(lang == 'C++') {
+      exerciseHintCode.value = exercise.value.hintCode;
+    } else if(lang == 'Java') {
+      exerciseHintCode.value = exercise.value.hintCodeJava;
+    }
+  }
+
   return {
     exerciseHintCode,
     exercise,
     exerciseFlag,
     averageRating,
     getExerciseDetail,
-    createRating
+    createRating,
+    changeLanguage
   }
 })

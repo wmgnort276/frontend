@@ -26,10 +26,11 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
     }
   };
 
-  const handleSubmitCode = async (exerciseId: string, code: string) => {
+  const handleSubmitCode = async (exerciseId: string, code: string, language: string) => {
     await submitCode({
       code: code,
-      id: exerciseId
+      id: exerciseId,
+      lang: language
     })
       .then((res: any) => {
         if (res?.data == 'Success') {
