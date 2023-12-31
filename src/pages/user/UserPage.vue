@@ -14,7 +14,8 @@ onMounted(async () => {
   await Promise.all([
     userStore.getUserResolveExercises(),
     userStore.getAllExercises(),
-    authStore.getAuthInfo()
+    authStore.getAuthInfo(),
+    userStore.getUserRank()
   ]);
 });
 
@@ -44,7 +45,7 @@ const chooseExercise = async (record: any) => {
           </a-row>
 
           <a-row class="button-edit-info mt-10">
-            <a-button class="edit-profile">Edit Profile</a-button>
+            <a-button class="edit-profile ranking">Ranking: {{ userStore.userRanking }}</a-button>
           </a-row>
 
           <a-row class="button-edit-info mt-10">
@@ -170,6 +171,11 @@ const chooseExercise = async (record: any) => {
   font-weight: 500;
   color: rgb(0, 175, 128);
   height: 40px;
+}
+
+.ranking {
+  background-color: #69758526;
+  color: rgb(127, 41, 44);
 }
 
 .progress :deep(.ant-progress-text) {

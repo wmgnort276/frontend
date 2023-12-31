@@ -8,3 +8,10 @@ export const getUserAllExerciseApi = () => {
     return http.get("/api/User/all");
 }
 
+export const getListRankingApi = () => {
+    return http.get("/api/User/rank");
+}
+
+export const getUserRankApi = () => {
+    return http.get("/api/User/user-rank");
+}

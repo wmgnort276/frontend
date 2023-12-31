@@ -6,10 +6,12 @@ import { message } from 'ant-design-vue';
 import type { FormInstance } from 'ant-design-vue';
 
 const formRef = ref<FormInstance>();
-let isLoading = ref<boolean>(false);
-let exerciseTypes = ref<any[]>([]);
-let exerciseLevels = ref<any[]>([]);
-let runFile = ref<any>();
+const isLoading = ref<boolean>(false);
+const exerciseTypes = ref<any[]>([]);
+const exerciseLevels = ref<any[]>([]);
+const runFile = ref<any>();
+const runFileJava = ref<any>();
+
 let exercise = ref<any>({
   name: '',
   description: '',
@@ -45,6 +47,10 @@ const handleFileChange = (event: any) => {
   runFile.value = event.target.files[0];
 };
 
+const handleFileChangeJava = (event: any) => {
+  runFileJava.value = event.target.files[0];
+};
+
 const clearForm = () => {
   exercise.value = {
     name: '',
@@ -61,6 +67,7 @@ const handleSubmit = async () => {
   isLoading.value = true;
   const formData = new FormData();
   formData.append('File', runFile.value);
+  formData.append('FileJava', runFileJava.value);
   formData.append('Name', exercise.value.name);
   formData.append('Description', exercise.value.description);
   formData.append('ExerciseLevelId', exercise.value.exerciseLevelId);
@@ -191,7 +198,7 @@ const handleSubmit = async () => {
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
               <a-form-item>
-                <input type="file" @change="handleFileChange" />
+                <input type="file" @change="handleFileChangeJava" />
               </a-form-item>
             </a-col>
           </a-row>

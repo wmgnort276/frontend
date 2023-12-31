@@ -1,8 +1,8 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { ExerciseCategoryStatistic, UserExercise } from '@/types/interfaces/user';
+import type { ExerciseCategoryStatistic, UserExercise, UserStatistic } from '@/types/interfaces/user';
 import { EASY_EXERCISE, HARD_EXERCISE, MEDIUM_EXERCISE } from './constants/constant';
-import { getUserResolveExerciseApi } from '../api/user.api'
+import { getListRankingApi, getUserResolveExerciseApi, getUserRankApi } from '../api/user.api'
 import { getExerciseApi } from '@/api/exercise.api';
 import type { Exercise } from '@/types/interfaces/exercise';
 import dayjs from 'dayjs';
@@ -12,6 +12,8 @@ export const useUserStore = defineStore('userStore', () => {
     const listResolveExercise = ref<UserExercise[]>([]);
     const totalExercise = computed(() => listAllExercises.value.length);
     const listExerciseCategories = ref<ExerciseCategoryStatistic[]>([]);
+    const listRanking = ref<UserStatistic[]>([]);
+    const userRanking = ref<number>(0);
 
     const totalResolveExercise = computed(() => listResolveExercise.value.length);
     const easyExerciseCount = computed(() => listResolveExercise.value?.filter(item => item.exerciseLevelName == EASY_EXERCISE).length);
@@ -102,6 +104,24 @@ export const useUserStore = defineStore('userStore', () => {
         listExerciseCategories.value = tmp;
     }
 
+    const getListRanking = async () => {
+        try {
+            const res : any = await getListRankingApi();
+            listRanking.value = res.data;
+        } catch(error) {
+
+        }
+    }
+
+    const getUserRank = async () => {
+        try {
+            const res : any = await getUserRankApi();
+            userRanking.value = res.data;
+        } catch(error) {
+
+        }
+    }
+
     return {
         listResolveExercise,
         easyExerciseCount,
@@ -117,7 +137,11 @@ export const useUserStore = defineStore('userStore', () => {
         totalPercent,
         columns,
         listExerciseCategories,
+        listRanking,
+        userRanking,
         getUserResolveExercises,
         getAllExercises,
+        getListRanking,
+        getUserRank
     }
 })
