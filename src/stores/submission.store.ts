@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import type { Submission } from '@/types/interfaces/exercise';
-import { getUserSubmissions, submitCode } from '@/api/exercise.api';
+import { getUserSubmissions, runTestCase, submitCode } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
 
 export const useSubmissionStore = defineStore('submissionStore', () => {
@@ -51,6 +51,31 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
       });
   };
 
+  const handleRunTestCase = async (exerciseId: string, code: string, language: string) => {
+    await runTestCase({
+      code: code,
+      id: exerciseId,
+      lang: language
+    })
+      .then((res: any) => {
+        if (res?.data == 'Success') {
+          responseStatus.value = true;
+          message.success('Success');
+        } else {
+          responseStatus.value = false;
+          // message.error('Wrong answer');
+        }
+        response.value = (res?.data != '0') ? res?.data : 'Wrong answer';
+      })
+      .catch((error: any) => {
+        message.error(error?.response?.data ? error?.response?.data : 'Compile failed!');
+        console.log(error);
+      })
+      .finally(async () => {
+        // await getUserSubmissionsData(exerciseId);
+      });
+  };
+
   return {
     columns,
     submission,
@@ -58,6 +83,7 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
     response,
     responseStatus,
     getUserSubmissionsData,
-    handleSubmitCode
+    handleSubmitCode,
+    handleRunTestCase
   }
 })

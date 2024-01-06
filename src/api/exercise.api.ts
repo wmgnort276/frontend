@@ -44,3 +44,9 @@ export const editExercise = (param: any) => {
 export const getUserSubmissions = (exerciseId: string) => {
     return http.get(`/api/Submission?exerciseId=${exerciseId}`)
 }
+
+export const runTestCase = (param: any) => {
+    return http.post(`/api/Exercise/test-case?id=${param?.id}`, {
+        data: param
+    });
+};

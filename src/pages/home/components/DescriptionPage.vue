@@ -48,13 +48,16 @@ const handleCloseRatingPopup = async () => {
       <span>({{ (exerciseStore.averageRating).toFixed(1) }} / {{ exerciseStore.exercise.ratingCount }})</span>
     </a-row>
     <a-row class="content">
-      <a-textarea
-        :value="exerciseStore.exercise?.description"
+      <!-- <a-textarea
+        v-html="exerciseStore.exercise?.description"
         :autoSize="true"
         :readonly="true"
         class="description"
       >
-      </a-textarea>
+      </a-textarea> -->
+      <div class="ck-content">
+        <span v-html="exerciseStore.exercise?.description"></span>
+      </div>
     </a-row>
   </div>
 

@@ -81,6 +81,12 @@ const changeLanguage = (lang: string) => {
   language.value = lang;
   exerciseStore.changeLanguage(lang);
 }
+
+const handleRunTestCase = async() => {
+  isLoading.value = true;
+  await submissionStore.handleRunTestCase(exerciseId.value, exerciseStore.exerciseHintCode, language.value);
+  isLoading.value = false;
+}
 </script>
 
 <template>
@@ -187,12 +193,12 @@ const changeLanguage = (lang: string) => {
               </p>
             </div>
             <a-row class="flex submit">
-              <!-- <a-button
+              <a-button
                 class="button-classify-problem submit-btn main-color text-second-color"
-                @click="handleSubmit"
+                @click="handleRunTestCase"
               >
                 Run
-              </a-button> -->
+              </a-button>
               <a-button
                 class="button-classify-problem submit-btn main-color text-second-color"
                 @click="handleSubmit"

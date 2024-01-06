@@ -20,17 +20,29 @@ const rankList = computed(() => userStore.listRanking.slice(3));
   <div class="top-3">
     <div class="rank-card">
       <img src="./../../../assets/rank_2.png" class="rank-img-2" />
-      <span class="top-rank-user">{{ userStore.listRanking[1]?.userName }}</span>
+      <span
+        class="top-rank-user"
+        :class="{ 'is-current-user': userStore.listRanking[1]?.userName == authStore.userName }"
+        >{{ userStore.listRanking[1]?.userName }}</span
+      >
       <span>score: {{ userStore.listRanking[1]?.score }}</span>
     </div>
     <div class="rank-card">
       <img src="./../../../assets/rank_1.png" class="rank-img-1" />
-      <span class="top-rank-user">{{ userStore.listRanking[0]?.userName }}</span>
+      <span
+        class="top-rank-user"
+        :class="{ 'is-current-user': userStore.listRanking[0]?.userName == authStore.userName }"
+        >{{ userStore.listRanking[0]?.userName }}</span
+      >
       <span>score: {{ userStore.listRanking[0]?.score }}</span>
     </div>
     <div class="rank-card">
       <img src="./../../../assets/rank_3.png" class="rank-img-3" />
-      <span class="top-rank-user">{{ userStore.listRanking[2]?.userName }}</span>
+      <span
+        class="top-rank-user"
+        :class="{ 'is-current-user': userStore.listRanking[2]?.userName == authStore.userName }"
+        >{{ userStore.listRanking[2]?.userName }}</span
+      >
       <span>score: {{ userStore.listRanking[2]?.score }}</span>
     </div>
   </div>
@@ -110,7 +122,7 @@ const rankList = computed(() => userStore.listRanking.slice(3));
   max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .is-current-user {
@@ -119,6 +131,6 @@ const rankList = computed(() => userStore.listRanking.slice(3));
 }
 
 :deep(.ant-pagination) {
-    display: none;
+  display: none;
 }
 </style>

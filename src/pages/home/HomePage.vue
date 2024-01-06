@@ -216,6 +216,10 @@ const onSearch = async () => {
 @import '../../assets/styles/common.css';
 @import '../../assets/styles/color.css';
 
+.main-page {
+  min-height: 100%;
+  height: fit-content !important;
+}
 .wrapper {
   max-width: 90%;
   margin: 0 auto;
