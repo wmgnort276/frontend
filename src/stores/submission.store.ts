@@ -1,8 +1,9 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import type { Submission } from '@/types/interfaces/exercise';
+import type { Submission, SubmissionDetail } from '@/types/interfaces/exercise';
 import { getUserSubmissions, runTestCase, submitCode } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
+import { getSubmissionDetailApi } from '@/api/submit';
 
 export const useSubmissionStore = defineStore('submissionStore', () => {
   const columns = ref<any>([
@@ -16,6 +17,7 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
   const submissionList = computed(() => submission.value);
   const response = ref<string>('');
   const responseStatus = ref<boolean>(true);
+  const submissionDetail = ref<SubmissionDetail>();
 
   const getUserSubmissionsData = async (exerciseId: string) => {
     try {
@@ -76,12 +78,23 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
       });
   };
 
+  const getSubmissionDetail = async (id: string) => {
+    try {
+      const res : any = await getSubmissionDetailApi(id);
+      submissionDetail.value = res?.data;
+    } catch(error) {
+
+    }
+  }
+
   return {
     columns,
     submission,
     submissionList,
     response,
     responseStatus,
+    submissionDetail,
+    getSubmissionDetail,
     getUserSubmissionsData,
     handleSubmitCode,
     handleRunTestCase

@@ -6,6 +6,7 @@ import { message } from 'ant-design-vue';
 import type { FormInstance } from 'ant-design-vue';
 import { useRouter, useRoute } from 'vue-router';
 import { getExerciseById } from '@/api/exercise.api';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const route = useRoute();
 const formRef = ref<FormInstance>();
@@ -16,6 +17,7 @@ const runFile = ref<any>();
 const runFileJava = ref<any>();
 const testFile = ref<any>();
 const testFileJava = ref<any>();
+const editor = ClassicEditor;
 
 let exercise = ref<any>({
   name: '',
@@ -164,8 +166,9 @@ const handleSubmit = async () => {
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
               <a-form-item name="description" :rules="[{ required: true, message: 'Required' }]">
-                <a-textarea :rows="5" :autosize="true" v-model:value="exercise.description">
-                </a-textarea>
+                <!-- <a-textarea :rows="5" :autosize="true" v-model:value="exercise.description">
+                </a-textarea> -->
+                <ckeditor :editor="editor" v-model="exercise.description"></ckeditor>
               </a-form-item>
             </a-col>
           </a-row>

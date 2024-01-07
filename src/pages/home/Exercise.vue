@@ -28,7 +28,11 @@ const language = ref<string>('C++');
 
 const code = computed(() => exerciseStore.exerciseHintCode);
 
-const handleReady = () => {};
+const handleReady = (cm : any) => {
+  // cm.on('keypress', () => {
+  //       cm.showHint()
+  //   })
+};
 
 const handleChange = () => {};
 

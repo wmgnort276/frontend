@@ -26,6 +26,11 @@ onMounted(async () => {
     await exerciseStore.getExerciseDetail(exerciseId.value);
   }
 });
+
+const handleShowSubmission = async (id: string) => {
+  await submissionStore.getSubmissionDetail(id);
+  exerciseStore.exerciseHintCode = submissionStore.submissionDetail?.sourceCode;
+}
 </script>
 
 <template>
@@ -38,9 +43,9 @@ onMounted(async () => {
       :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
       :pagination="{ defaultPageSize: 10 }"
     >
-      <template #bodyCell="{ record, column }">
+      <template #bodyCell="{ record, column }" class="pointer">
         <template v-if="column.key === 'status'">
-          <span v-if="record?.status" class="accepted-submission"> Accepted </span>
+          <span v-if="record?.status" class="accepted-submission pointer" @click="() => handleShowSubmission(record?.id)"> Accepted </span>
           <span v-else class="error-submission"> Error </span>
         </template>
 
@@ -78,5 +83,9 @@ onMounted(async () => {
 .error-submission {
   color: #ef4743;
   font-weight: 500;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>
