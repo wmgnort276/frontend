@@ -35,7 +35,7 @@ const isAdmin = computed(() => authStore.authUser?.role?.includes('Admin'));
 <template>
   <div class="header-content flex align-center">
     <div class="left-side">
-      <h3 @click="routeToHome" class="pointer">CodeDeep</h3>
+      <h3 @click="routeToHome" class="pointer page-title">CodeDeep</h3>
       <a-button class="button-classify-problem mr-10" @click="routeToDashboard" v-if="isAdmin">
         Dash Board
       </a-button>
@@ -53,6 +53,17 @@ const isAdmin = computed(() => authStore.authUser?.role?.includes('Admin'));
 <style scoped>
 @import '../../../assets/styles/common.css';
 @import '../../../assets/styles/color.css';
+
+.page-title {
+  color: #b45b08;
+  font-family: 'Droid serif', serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 44px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
 
 .img {
   height: 30px;

@@ -14,9 +14,9 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
     await getExerciseById(exerciseId)
       .then((res: any) => {
         exercise.value = res?.data;
-        exerciseHintCode.value = res?.data.hintCode;
+        exerciseHintCode.value = res?.data?.hintCode;
         exerciseFlag.value = true;
-        averageRating.value = exercise.value.rating;
+        averageRating.value = exercise?.value?.rating;
       })
       .catch((error: any) => {
 
@@ -29,12 +29,21 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
     } catch(error : any) {}
   }
 
+  const changeLanguage = (lang: string) => {
+    if(lang == 'C++') {
+      exerciseHintCode.value = exercise.value.hintCode;
+    } else if(lang == 'Java') {
+      exerciseHintCode.value = exercise.value.hintCodeJava;
+    }
+  }
+
   return {
     exerciseHintCode,
     exercise,
     exerciseFlag,
     averageRating,
     getExerciseDetail,
-    createRating
+    createRating,
+    changeLanguage
   }
 })

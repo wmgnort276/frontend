@@ -13,7 +13,11 @@ const isOpenRatingPopup = ref<boolean>(false);
 
 const getExerciseDetail = async (id: string) => {
   isLoading.value = true;
-  await exerciseStore.getExerciseDetail(id);
+  try {
+    await exerciseStore.getExerciseDetail(id);
+  } catch(err) {
+    isLoading.value = false;
+  }
   isLoading.value = false;
 };
 
@@ -48,13 +52,16 @@ const handleCloseRatingPopup = async () => {
       <span>({{ (exerciseStore.averageRating).toFixed(1) }} / {{ exerciseStore.exercise.ratingCount }})</span>
     </a-row>
     <a-row class="content">
-      <a-textarea
-        :value="exerciseStore.exercise?.description"
+      <!-- <a-textarea
+        v-html="exerciseStore.exercise?.description"
         :autoSize="true"
         :readonly="true"
         class="description"
       >
-      </a-textarea>
+      </a-textarea> -->
+      <div class="ck-content">
+        <span v-html="exerciseStore.exercise?.description"></span>
+      </div>
     </a-row>
   </div>
 
@@ -68,4 +75,23 @@ const handleCloseRatingPopup = async () => {
 .description {
   border: none;
 }
+
+.ck-content {
+  max-width: 100%;
+}
+
+.ck-content img {
+  max-width: 100% !important;
+}
+
+.ck-content > span > figure > img { 
+  max-width: 100% !important;
+}
+</style>
+
+<style>
+.ck-content img {
+  max-width: 100% !important;
+}
+
 </style>

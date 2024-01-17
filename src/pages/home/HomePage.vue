@@ -7,8 +7,12 @@ import type { ExerciseType, ExerciseLevel, Exercise } from '@/types/interfaces/e
 import router from '@/router';
 import { useAuthStoreHook } from '@/stores/auth.store';
 import DoneIcon from '@/components/DoneIcon.vue';
+import { useUserStore } from '@/stores/user.store';
+import Ranking from "./components/Ranking.vue"
 
 const authStore = useAuthStoreHook();
+const userStore = useUserStore();
+
 const isLoading = ref<boolean>(false);
 const listCategory = ref<ExerciseType[]>([]);
 const exerciseLevels = ref<ExerciseLevel[]>([]);
@@ -30,13 +34,13 @@ const optionsExercise = ref<any[]>([
 
 const columns = [
   { title: 'Status', dataIndex: 'status', key: 'status', width: 100 },
-  { title: 'Title', dataIndex: 'title', key: 'title', width: 600 },
+  { title: 'Title', dataIndex: 'title', key: 'title', width: 500 },
   // { title: 'Acceptance', dataIndex: 'acceptance', key: 'acceptance' },
-  { title: 'Difficulty', dataIndex: 'level', key: 'level' }
+  { title: 'Difficulty', dataIndex: 'level', key: 'level', width: 200 }
 ];
 
 const columnsAdmin = [
-  { title: 'Title', dataIndex: 'title', key: 'title', width: 500 },
+  { title: 'Title', dataIndex: 'title', key: 'title', width: 400 },
   { title: 'Level', dataIndex: 'level', key: 'level' },
   { title: 'Action', dataIndex: 'action', key: 'action' }
 ];
@@ -77,7 +81,12 @@ const getExercise = async () => {
 
 onMounted(async () => {
   isLoading.value = true;
-  await Promise.all([getExerciseCategory(), getExerciseLevels(), getExercise()]);
+  await Promise.all([
+    getExerciseCategory(),
+    getExerciseLevels(),
+    getExercise(),
+    userStore.getListRanking()
+  ]);
   isLoading.value = false;
 });
 
@@ -118,80 +127,85 @@ const onSearch = async () => {
   <page-layout :is-loading="isLoading">
     <div class="main-page">
       <div class="wrapper">
-        <div class="exercise-category flex">
-          <a-button class="button-classify-problem mr-10" @click="handleSelectAll">All</a-button>
-          <div v-for="(item, index) in listCategory" :key="index" class="inline">
-            <a-button class="button-classify-problem mr-10" @click="() => handleSelectType(item)">
-              {{ item.name }}</a-button
-            >
+        <div class="left-side">
+          <div class="exercise-category flex">
+            <a-button class="button-classify-problem mr-10" @click="handleSelectAll">All</a-button>
+            <div v-for="(item, index) in listCategory" :key="index" class="inline">
+              <a-button class="button-classify-problem mr-10" @click="() => handleSelectType(item)">
+                {{ item.name }}</a-button
+              >
+            </div>
           </div>
-        </div>
 
-        <!-- Filter exercise -->
-        <div class="filter-exercise flex mb-20">
-          <!-- <a-select class="select" placeholder="Lists" :options="optionsExercise" :fieldNames="{
+          <!-- Filter exercise -->
+          <div class="filter-exercise flex mb-20">
+            <!-- <a-select class="select" placeholder="Lists" :options="optionsExercise" :fieldNames="{
             value: 'id',
             label: 'name'
           }"></a-select> -->
 
-          <a-select
-            class="select"
-            placeholder="Level"
-            :options="exerciseLevels"
-            :fieldNames="{
-              value: 'id',
-              label: 'name'
-            }"
-            v-model:value="queryBuilder.exerciseLevelId"
-            allowClear
-            @change="getExercise"
-          >
-          </a-select>
+            <a-select
+              class="select"
+              placeholder="Level"
+              :options="exerciseLevels"
+              :fieldNames="{
+                value: 'id',
+                label: 'name'
+              }"
+              v-model:value="queryBuilder.exerciseLevelId"
+              allowClear
+              @change="getExercise"
+            >
+            </a-select>
 
-          <a-input-search
-            v-model:value="queryBuilder.keyword"
-            style="width: 230px"
-            placeholder="Search..."
-            enter-button
-            @search="onSearch"
-          />
+            <a-input-search
+              v-model:value="queryBuilder.keyword"
+              style="width: 230px"
+              placeholder="Search..."
+              enter-button
+              @search="onSearch"
+            />
+          </div>
+
+          <!-- Table of exercise -->
+          <div>
+            <a-table
+              class="ant-table-striped"
+              size="middle"
+              :columns="authStore.isAdmin ? columnsAdmin : columns"
+              :data-source="exercises"
+              :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
+              :pagination="{ defaultPageSize: 10 }"
+            >
+              <template #bodyCell="{ record, column }">
+                <template v-if="column.key === 'status'">
+                  <DoneIcon v-if="record.isResolved" />
+                </template>
+
+                <template v-if="column.key === 'title'">
+                  <a @click="chooseExercise(record)" class="exercise-name">{{ record?.name }}</a>
+                </template>
+
+                <template v-if="column.key === 'level'">
+                  <span
+                    :class="{
+                      easy: record?.exerciseLevelName == 'Easy',
+                      medium: record?.exerciseLevelName == 'Medium',
+                      hard: record?.exerciseLevelName == 'Hard'
+                    }"
+                    >{{ record?.exerciseLevelName }}</span
+                  >
+                </template>
+
+                <template v-if="column.key === 'action'">
+                  <a-button @click="() => handleEditExercise(record)">Edit</a-button>
+                </template>
+              </template>
+            </a-table>
+          </div>
         </div>
-
-        <!-- Table of exercise -->
-        <div>
-          <a-table
-            class="ant-table-striped"
-            size="middle"
-            :columns="authStore.isAdmin ? columnsAdmin : columns"
-            :data-source="exercises"
-            :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-            :pagination="{ defaultPageSize: 5 }"
-          >
-            <template #bodyCell="{ record, column }">
-              <template v-if="column.key === 'status'">
-                <DoneIcon v-if="record.isResolved" />
-              </template>
-
-              <template v-if="column.key === 'title'">
-                <a @click="chooseExercise(record)" class="exercise-name">{{ record?.name }}</a>
-              </template>
-
-              <template v-if="column.key === 'level'">
-                <span
-                  :class="{
-                    easy: record?.exerciseLevelName == 'Easy',
-                    medium: record?.exerciseLevelName == 'Medium',
-                    hard: record?.exerciseLevelName == 'Hard'
-                  }"
-                  >{{ record?.exerciseLevelName }}</span
-                >
-              </template>
-
-              <template v-if="column.key === 'action'">
-                <a-button @click="() => handleEditExercise(record)">Edit</a-button>
-              </template>
-            </template>
-          </a-table>
+        <div class="right-side">
+          <Ranking />
         </div>
       </div>
     </div>
@@ -202,10 +216,26 @@ const onSearch = async () => {
 @import '../../assets/styles/common.css';
 @import '../../assets/styles/color.css';
 
+.main-page {
+  min-height: 100%;
+  height: fit-content !important;
+}
 .wrapper {
-  max-width: 80%;
+  max-width: 90%;
   margin: 0 auto;
   padding-top: 30px;
+  display: flex;
+  gap: 20px;
+}
+
+.left-side {
+  flex: 7;
+}
+
+.right-side {
+  flex: 3;
+  background-color: #fff;
+  border-radius: 5px;
 }
 
 .exercise-category {
@@ -214,8 +244,8 @@ const onSearch = async () => {
 }
 
 .button-classify-problem {
-  background-color: #d5e6da26;
-  box-shadow: rgba(9, 9, 9, 0.35) 0px 5px 15px;
+  background-color: #fff;
+  box-shadow: rgba(9, 9, 9, 0.35) 0px 5px 5px;
 }
 
 .filter-exercise {

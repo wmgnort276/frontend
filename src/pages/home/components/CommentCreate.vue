@@ -24,6 +24,7 @@ const payLoad = ref<CommentRequest>({
 const createComment = async () => {
   try {
     await commentApi(payLoad.value);
+    payLoad.value.content = "";
     await commentStore.getComments(props.exercisedId);
   } catch (error) {
     message.error('Error!');
@@ -41,6 +42,7 @@ const createComment = async () => {
       class="comment"
       :rows="5"
       v-model:value="payLoad.content"
+      @pressEnter="createComment"
     ></a-textarea>
   </div>
   <div class="fex item-end mt-10">

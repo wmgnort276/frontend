@@ -13,3 +13,8 @@ export const submitCode = (param: any) => {
     data: param
   });
 };
+
+
+export const getSubmissionDetailApi = (id: string) => {
+  return http.get(`/api/Submission/${id}`);
+}

@@ -13,3 +13,8 @@ export interface ExerciseCategoryStatistic {
     exerciseTypeName: string,
     count: number
 }
+
+export interface UserStatistic {
+    userName: string,
+    score: number
+}

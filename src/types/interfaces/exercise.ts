@@ -23,3 +23,10 @@ export interface Submission {
     status: string,
     runtime: string,
 }
+
+export interface SubmissionDetail {
+    id: string,
+    createdAt: string,
+    status: string,
+    sourceCode: string
+}

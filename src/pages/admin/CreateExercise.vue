@@ -4,20 +4,35 @@ import PageLayout from '../layouts/PageLayout.vue';
 import { getExerciseType, getExerciseLevel, createExercise } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
 import type { FormInstance } from 'ant-design-vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const formRef = ref<FormInstance>();
-let isLoading = ref<boolean>(false);
-let exerciseTypes = ref<any[]>([]);
-let exerciseLevels = ref<any[]>([]);
-let runFile = ref<any>();
+const isLoading = ref<boolean>(false);
+const exerciseTypes = ref<any[]>([]);
+const exerciseLevels = ref<any[]>([]);
+const runFile = ref<any>();
+const testFile = ref<any>();
+const runFileJava = ref<any>();
+const testFileJava = ref<any>();
+const editor = ClassicEditor;
+
 let exercise = ref<any>({
   name: '',
   description: '',
   hintCode: '',
+  hintCodeJava: '',
   timeLimit: null,
   exerciseLevelId: null,
-  exerciseTypeId: null
+  exerciseTypeId: null,
+  input1: '',
+  output1: '',
+  input2: '',
+  output2: '',
+  input3: '',
+  output3: ''
 });
+const editorData = ref<string>('');
+const editorConfig = ref<string>('');
 
 const getExerciseLevelFunction = async () => {
   await getExerciseLevel().then((res: any) => {
@@ -45,6 +60,18 @@ const handleFileChange = (event: any) => {
   runFile.value = event.target.files[0];
 };
 
+const handleTestFileChange= (event: any) => {
+  testFile.value = event.target.files[0];
+};
+
+const handleFileChangeJava = (event: any) => {
+  runFileJava.value = event.target.files[0];
+};
+
+const handleTestFileJavaChange= (event: any) => {
+  testFileJava.value = event.target.files[0];
+};
+
 const clearForm = () => {
   exercise.value = {
     name: '',
@@ -61,12 +88,24 @@ const handleSubmit = async () => {
   isLoading.value = true;
   const formData = new FormData();
   formData.append('File', runFile.value);
+  formData.append('FileJava', runFileJava.value);
+  formData.append('TestFile', testFile.value);
+  formData.append('TestFileJava', testFileJava.value);
   formData.append('Name', exercise.value.name);
-  formData.append('Description', exercise.value.description);
+  // formData.append('Description', exercise.value.description);
+  formData.append('Description', editorData.value);
   formData.append('ExerciseLevelId', exercise.value.exerciseLevelId);
   formData.append('ExerciseTypeId', exercise.value.exerciseTypeId);
   formData.append('HintCode', exercise.value.hintCode);
   formData.append('TimeLimit', exercise.value.timeLimit);
+  formData.append('HintCodeJava', exercise.value.hintCodeJava);
+  formData.append('Input1', exercise.value.input1);
+  formData.append('Output1', exercise.value.output1);
+  formData.append('Input2', exercise.value.input2);
+  formData.append('Output2', exercise.value.output2);
+  formData.append('Input3', exercise.value.input3);
+  formData.append('Output3', exercise.value.output3);
+
   try {
     await createExercise(formData);
     clearForm();
@@ -102,10 +141,11 @@ const handleSubmit = async () => {
               <span>Description</span>
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
-              <a-form-item name="description" :rules="[{ required: true, message: 'Required' }]">
+              <!-- <a-form-item name="description" :rules="[{ required: true, message: 'Required' }]">
                 <a-textarea :rows="5" :autosize="true" v-model:value="exercise.description">
                 </a-textarea>
-              </a-form-item>
+              </a-form-item> -->
+              <ckeditor :editor="editor" v-model="editorData"></ckeditor>
             </a-col>
           </a-row>
 
@@ -116,6 +156,18 @@ const handleSubmit = async () => {
             <a-col :lg="24" :md="24" :sm="24">
               <a-form-item name="hintCode" :rules="[{ required: true, message: 'Required' }]">
                 <a-textarea :rows="5" :autosize="true" v-model:value="exercise.hintCode">
+                </a-textarea>
+              </a-form-item>
+            </a-col>
+          </a-row>
+
+          <a-row>
+            <a-col :lg="6" :md="6" :sm="6">
+              <span>Hint Code Java</span>
+            </a-col>
+            <a-col :lg="24" :md="24" :sm="24">
+              <a-form-item name="hintCodeJava" :rules="[{ required: true, message: 'Required' }]">
+                <a-textarea :rows="5" :autosize="true" v-model:value="exercise.hintCodeJava">
                 </a-textarea>
               </a-form-item>
             </a-col>
@@ -176,7 +228,85 @@ const handleSubmit = async () => {
 
           <a-row>
             <a-col :lg="6" :md="6" :sm="6">
-              <span>Run file</span>
+              <span>Test Case 1</span>
+            </a-col>
+            <a-col :lg="24" :md="24" :sm="24">
+              <a-form-item name="input1" :rules="[{ required: true, message: 'Required' }]">
+                <a-textarea
+                  :rows="1"
+                  :autosize="true"
+                  v-model:value="exercise.input1"
+                  placeholder="Input"
+                >
+                </a-textarea>
+              </a-form-item>
+              <a-form-item name="output1" :rules="[{ required: true, message: 'Required' }]">
+                <a-textarea
+                  :rows="1"
+                  :autosize="true"
+                  v-model:value="exercise.output1"
+                  placeholder="Output"
+                >
+                </a-textarea>
+              </a-form-item>
+            </a-col>
+          </a-row>
+
+          <a-row>
+            <a-col :lg="6" :md="6" :sm="6">
+              <span>Test Case 2</span>
+            </a-col>
+            <a-col :lg="24" :md="24" :sm="24">
+              <a-form-item name="input2" :rules="[{ required: true, message: 'Required' }]">
+                <a-textarea
+                  :rows="1"
+                  :autosize="true"
+                  v-model:value="exercise.input2"
+                  placeholder="Input"
+                >
+                </a-textarea>
+              </a-form-item>
+              <a-form-item name="output2" :rules="[{ required: true, message: 'Required' }]">
+                <a-textarea
+                  :rows="1"
+                  :autosize="true"
+                  v-model:value="exercise.output2"
+                  placeholder="Output"
+                >
+                </a-textarea>
+              </a-form-item>
+            </a-col>
+          </a-row>
+
+          <a-row>
+            <a-col :lg="6" :md="6" :sm="6">
+              <span>Test Case 3</span>
+            </a-col>
+            <a-col :lg="24" :md="24" :sm="24">
+              <a-form-item name="input3" :rules="[{ required: true, message: 'Required' }]">
+                <a-textarea
+                  :rows="1"
+                  :autosize="true"
+                  v-model:value="exercise.input3"
+                  placeholder="Input"
+                >
+                </a-textarea>
+              </a-form-item>
+              <a-form-item name="output3" :rules="[{ required: true, message: 'Required' }]">
+                <a-textarea
+                  :rows="1"
+                  :autosize="true"
+                  v-model:value="exercise.output3"
+                  placeholder="Output"
+                >
+                </a-textarea>
+              </a-form-item>
+            </a-col>
+          </a-row>
+
+          <a-row>
+            <a-col :lg="6" :md="6" :sm="6">
+              <span>Run file C++</span>
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
               <a-form-item>
@@ -184,6 +314,40 @@ const handleSubmit = async () => {
               </a-form-item>
             </a-col>
           </a-row>
+
+          <a-row>
+            <a-col :lg="6" :md="6" :sm="6">
+              <span>Test case file C++</span>
+            </a-col>
+            <a-col :lg="24" :md="24" :sm="24">
+              <a-form-item>
+                <input type="file" @change="handleTestFileChange" />
+              </a-form-item>
+            </a-col>
+          </a-row>
+
+          <a-row>
+            <a-col :lg="6" :md="6" :sm="6">
+              <span>Run file Java</span>
+            </a-col>
+            <a-col :lg="24" :md="24" :sm="24">
+              <a-form-item>
+                <input type="file" @change="handleFileChangeJava" />
+              </a-form-item>
+            </a-col>
+          </a-row>
+
+          <a-row>
+            <a-col :lg="6" :md="6" :sm="6">
+              <span>Test case file Java</span>
+            </a-col>
+            <a-col :lg="24" :md="24" :sm="24">
+              <a-form-item>
+                <input type="file" @change="handleTestFileJavaChange" />
+              </a-form-item>
+            </a-col>
+          </a-row>
+
           <a-button
             type="primary"
             class="main-color text-second-color submit-button"
@@ -201,9 +365,15 @@ const handleSubmit = async () => {
 @import '../../assets/styles/color.css';
 @import '../../assets/styles/common.css';
 
+.main-page {
+  min-height: 100%;
+  height: fit-content !important;
+}
+
 .wrapper {
   width: 90%;
   margin: 0 auto;
+  padding-bottom: 30px;
 }
 
 .submit-button {
