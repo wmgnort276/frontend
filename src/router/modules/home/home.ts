@@ -37,6 +37,11 @@ const homeRoute: RouteRecordRaw = {
           component: () => import("@/pages/home/components/CommentPage.vue"),
         }
       ]
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: () => import("@/pages/home/Terms.vue")
     }
   ]
 };
