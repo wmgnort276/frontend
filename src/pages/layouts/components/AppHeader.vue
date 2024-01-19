@@ -31,22 +31,27 @@ const routeToDashboard = () => {
 };
 console.log(authStore.authUser);
 const isAdmin = computed(() => authStore.authUser?.role?.includes('Admin'));
+
+
+const routeToTerm = () => {
+  router.push({
+    path: '/terms'
+  });
+}
+
 </script>
 <template>
   <div class="header-content flex align-center">
     <div class="left-side">
       <h3 @click="routeToHome" class="pointer page-title">CodeDeep</h3>
+      <a-button class="button-classify-problem mr-10" @click="routeToTerm"> Term </a-button>
       <a-button class="button-classify-problem mr-10" @click="routeToDashboard" v-if="isAdmin">
         Dash Board
       </a-button>
       <a-button class="button-classify-problem mr-10" @click="routeToCompiler"> Compiler </a-button>
     </div>
     <div class="img-wrapper">
-      <img
-        src="../../../components/default_avatar.png"
-        class="img"
-        @click="handleRouteToUserPage"
-      />
+      <img src="../../../components/default_avatar.png" class="img" @click="handleRouteToUserPage" />
     </div>
   </div>
 </template>
