@@ -54,61 +54,41 @@ const handleLogin = async () => {
           <div class="flex-column align-center">
             <h2>Sign in</h2>
           </div>
-          <a-form-item
-            name="username"
-            :rules="[
-              {
-                required: true,
-                message: 'Required',
-                trigger: ['blur', 'change']
-              }
-            ]"
-          >
-            <a-input
-              class="input"
-              placeHolder="Name"
-              v-model:value="formLogin.username"
-              @pressEnter="handleLogin"
-            >
+          <a-form-item name="username" :rules="[
+            {
+              required: true,
+              message: 'Required',
+              trigger: ['blur', 'change']
+            }
+          ]">
+            <a-input class="input" placeHolder="Name" v-model:value="formLogin.username" @pressEnter="handleLogin">
             </a-input>
           </a-form-item>
-          <a-form-item
-            name="password"
-            :rules="[
-              {
-                required: true,
-                message: 'Required',
-                trigger: ['blur', 'change']
-              }
-            ]"
-          >
-            <a-input-password
-              class="input"
-              placeHolder="Password"
-              v-model:value="formLogin.password"
-              @pressEnter="handleLogin"
-            >
+          <a-form-item name="password" :rules="[
+            {
+              required: true,
+              message: 'Required',
+              trigger: ['blur', 'change']
+            }
+          ]">
+            <a-input-password class="input" placeHolder="Password" v-model:value="formLogin.password"
+              @pressEnter="handleLogin">
             </a-input-password>
           </a-form-item>
-          <a-button
-            style="width: 100%"
-            class="main-color text-second-color mb-20 login-buton"
-            @click="handleLogin"
-            @keydown.enter="handleLogin"
-            @keyup.enter="handleLogin"
-          >
+          <a-button style="width: 100%" class="main-color text-second-color mb-20 login-buton" @click="handleLogin"
+            @keydown.enter="handleLogin" @keyup.enter="handleLogin">
             Sign in
           </a-button>
-          <a-button
+          <!-- <a-button
             style="width: 100%"
             class="main-color text-second-color login-buton flex align-center"
             @click="handleLoginWithGoogle"
           >
             Sign in with google
             <GoogleIcon class="ml-10" />
-          </a-button>
+          </a-button> -->
           <div class="flex space-between mt-10">
-            <span class="link-color pointer"> Forgot password </span>
+            <!-- <span class="link-color pointer"> </span> -->
 
             <span class="link-color pointer" @click="handleRouteToSignUp"> Sign up </span>
           </div>

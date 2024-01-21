@@ -9,6 +9,7 @@ import { useAuthStoreHook } from '@/stores/auth.store';
 import DoneIcon from '@/components/DoneIcon.vue';
 import { useUserStore } from '@/stores/user.store';
 import Ranking from "./components/Ranking.vue"
+import TestCase from "./components/TestCase.vue"
 
 const authStore = useAuthStoreHook();
 const userStore = useUserStore();
@@ -49,6 +50,12 @@ const getExerciseCategory = async () => {
   await getExerciseType()
     .then((res: any) => {
       listCategory.value = res?.data;
+      listCategory.value = listCategory.value.map((item: any) => {
+        return {
+          ...item,
+          checked: false
+        }
+      })
     })
     .catch((error: any) => {
       // message.error('Fail to get category');
@@ -99,6 +106,22 @@ const handleEditExercise = async (record: any) => {
 };
 
 const handleSelectType = async (item: ExerciseType) => {
+  listCategory.value = listCategory.value.map((cate: ExerciseType) => {
+    if (cate.id != item.id) {
+      return {
+        ...cate,
+        checked: false
+      }
+    } else {
+      return {
+        ...cate,
+        checked: true
+      }
+    }
+  })
+
+  console.log(listCategory.value);
+
   queryBuilder.value = {
     ...queryBuilder.value,
     exerciseTypeId: item.id
@@ -109,6 +132,14 @@ const handleSelectType = async (item: ExerciseType) => {
 };
 
 const handleSelectAll = async () => {
+
+  listCategory.value = listCategory.value.map((cate: ExerciseType) => {
+    return {
+      ...cate,
+      checked: false
+    }
+  })
+
   queryBuilder.value = {
     ...queryBuilder.value,
     exerciseTypeId: ''
@@ -131,9 +162,9 @@ const onSearch = async () => {
           <div class="exercise-category flex">
             <a-button class="button-classify-problem mr-10" @click="handleSelectAll">All</a-button>
             <div v-for="(item, index) in listCategory" :key="index" class="inline">
-              <a-button class="button-classify-problem mr-10" @click="() => handleSelectType(item)">
-                {{ item.name }}</a-button
-              >
+              <a-button class="button-classify-problem mr-10" :class="{ 'category-check': item.checked }"
+                @click="() => handleSelectType(item)">
+                {{ item.name }}</a-button>
             </div>
           </div>
 
@@ -144,39 +175,21 @@ const onSearch = async () => {
             label: 'name'
           }"></a-select> -->
 
-            <a-select
-              class="select"
-              placeholder="Level"
-              :options="exerciseLevels"
-              :fieldNames="{
-                value: 'id',
-                label: 'name'
-              }"
-              v-model:value="queryBuilder.exerciseLevelId"
-              allowClear
-              @change="getExercise"
-            >
+            <a-select class="select" placeholder="Level" :options="exerciseLevels" :fieldNames="{
+              value: 'id',
+              label: 'name'
+            }" v-model:value="queryBuilder.exerciseLevelId" allowClear @change="getExercise">
             </a-select>
 
-            <a-input-search
-              v-model:value="queryBuilder.keyword"
-              style="width: 230px"
-              placeholder="Search..."
-              enter-button
-              @search="onSearch"
-            />
+            <a-input-search v-model:value="queryBuilder.keyword" style="width: 230px" placeholder="Search..." enter-button
+              @search="onSearch" />
           </div>
 
           <!-- Table of exercise -->
           <div>
-            <a-table
-              class="ant-table-striped"
-              size="middle"
-              :columns="authStore.isAdmin ? columnsAdmin : columns"
-              :data-source="exercises"
-              :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-              :pagination="{ defaultPageSize: 10 }"
-            >
+            <a-table class="ant-table-striped" size="middle" :columns="authStore.isAdmin ? columnsAdmin : columns"
+              :data-source="exercises" :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
+              :pagination="{ defaultPageSize: 10 }">
               <template #bodyCell="{ record, column }">
                 <template v-if="column.key === 'status'">
                   <DoneIcon v-if="record.isResolved" />
@@ -187,14 +200,11 @@ const onSearch = async () => {
                 </template>
 
                 <template v-if="column.key === 'level'">
-                  <span
-                    :class="{
-                      easy: record?.exerciseLevelName == 'Easy',
-                      medium: record?.exerciseLevelName == 'Medium',
-                      hard: record?.exerciseLevelName == 'Hard'
-                    }"
-                    >{{ record?.exerciseLevelName }}</span
-                  >
+                  <span :class="{
+                    easy: record?.exerciseLevelName == 'Easy',
+                    medium: record?.exerciseLevelName == 'Medium',
+                    hard: record?.exerciseLevelName == 'Hard'
+                  }">{{ record?.exerciseLevelName }}</span>
                 </template>
 
                 <template v-if="column.key === 'action'">
@@ -220,6 +230,7 @@ const onSearch = async () => {
   min-height: 100%;
   height: fit-content !important;
 }
+
 .wrapper {
   max-width: 90%;
   margin: 0 auto;
@@ -284,5 +295,15 @@ const onSearch = async () => {
 
 :deep(.ant-input) {
   border-radius: 8px !important;
+}
+
+.category-check {
+  color: #fff !important;
+  font-weight: 500;
+  background-color: #7a7d75;
+}
+
+.category-check:hover {
+  background-color: #7a7d75;
 }
 </style>
