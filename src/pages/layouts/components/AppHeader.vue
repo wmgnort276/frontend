@@ -43,7 +43,7 @@ const routeToTerm = () => {
 <template>
   <div class="header-content flex align-center">
     <div class="left-side">
-      <h3 @click="routeToHome" class="pointer page-title">CodeDeep</h3>
+      <h3 @click="routeToHome" class="pointer page-title">VOJ</h3>
       <a-button class="button-classify-problem mr-10" @click="routeToTerm"> Term </a-button>
       <a-button class="button-classify-problem mr-10" @click="routeToDashboard" v-if="isAdmin">
         Dash Board

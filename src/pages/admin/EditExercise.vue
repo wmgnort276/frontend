@@ -80,7 +80,7 @@ const handleFileChange = (event: any) => {
   runFile.value = event.target.files[0];
 };
 
-const handleTestFileChange= (event: any) => {
+const handleTestFileChange = (event: any) => {
   testFile.value = event.target.files[0];
 };
 
@@ -88,7 +88,7 @@ const handleFileChangeJava = (event: any) => {
   runFileJava.value = event.target.files[0];
 };
 
-const handleTestFileJavaChange= (event: any) => {
+const handleTestFileJavaChange = (event: any) => {
   testFileJava.value = event.target.files[0];
 };
 
@@ -99,8 +99,14 @@ const clearForm = () => {
     exerciseLevelId: null,
     exerciseTypeId: null,
     hintCode: '',
+    timeLimit: null,
     hintCodeJava: '',
-    timeLimit: null
+    input1: '',
+    output1: '',
+    input2: '',
+    output2: '',
+    input3: '',
+    output3: ''
   };
 };
 
@@ -213,19 +219,11 @@ const handleSubmit = async () => {
               <span>Level</span>
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
-              <a-form-item
-                name="exerciseLevelId"
-                :rules="[{ required: true, message: 'Required' }]"
-              >
-                <a-select
-                  :options="exerciseLevels"
-                  :fieldNames="{
-                    value: 'id',
-                    label: 'name'
-                  }"
-                  placeholder="Choose exercise level"
-                  v-model:value="exercise.exerciseLevelId"
-                >
+              <a-form-item name="exerciseLevelId" :rules="[{ required: true, message: 'Required' }]">
+                <a-select :options="exerciseLevels" :fieldNames="{
+                  value: 'id',
+                  label: 'name'
+                }" placeholder="Choose exercise level" v-model:value="exercise.exerciseLevelId">
                 </a-select>
               </a-form-item>
             </a-col>
@@ -237,14 +235,10 @@ const handleSubmit = async () => {
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
               <a-form-item name="exerciseTypeId" :rules="[{ required: true, message: 'Required' }]">
-                <a-select
-                  :options="exerciseTypes"
-                  :fieldNames="{
-                    value: 'id',
-                    label: 'name'
-                  }"
-                  v-model:value="exercise.exerciseTypeId"
-                >
+                <a-select :options="exerciseTypes" :fieldNames="{
+                  value: 'id',
+                  label: 'name'
+                }" v-model:value="exercise.exerciseTypeId">
                 </a-select>
               </a-form-item>
             </a-col>
@@ -256,21 +250,11 @@ const handleSubmit = async () => {
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
               <a-form-item name="input1" :rules="[{ required: true, message: 'Required' }]">
-                <a-textarea
-                  :rows="1"
-                  :autosize="true"
-                  v-model:value="exercise.input1"
-                  placeholder="Input"
-                >
+                <a-textarea :rows="1" :autosize="true" v-model:value="exercise.input1" placeholder="Input">
                 </a-textarea>
               </a-form-item>
               <a-form-item name="output1" :rules="[{ required: true, message: 'Required' }]">
-                <a-textarea
-                  :rows="1"
-                  :autosize="true"
-                  v-model:value="exercise.output1"
-                  placeholder="Output"
-                >
+                <a-textarea :rows="1" :autosize="true" v-model:value="exercise.output1" placeholder="Output">
                 </a-textarea>
               </a-form-item>
             </a-col>
@@ -282,21 +266,11 @@ const handleSubmit = async () => {
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
               <a-form-item name="input2" :rules="[{ required: true, message: 'Required' }]">
-                <a-textarea
-                  :rows="1"
-                  :autosize="true"
-                  v-model:value="exercise.input2"
-                  placeholder="Input"
-                >
+                <a-textarea :rows="1" :autosize="true" v-model:value="exercise.input2" placeholder="Input">
                 </a-textarea>
               </a-form-item>
               <a-form-item name="output2" :rules="[{ required: true, message: 'Required' }]">
-                <a-textarea
-                  :rows="1"
-                  :autosize="true"
-                  v-model:value="exercise.output2"
-                  placeholder="Output"
-                >
+                <a-textarea :rows="1" :autosize="true" v-model:value="exercise.output2" placeholder="Output">
                 </a-textarea>
               </a-form-item>
             </a-col>
@@ -308,21 +282,11 @@ const handleSubmit = async () => {
             </a-col>
             <a-col :lg="24" :md="24" :sm="24">
               <a-form-item name="input3" :rules="[{ required: true, message: 'Required' }]">
-                <a-textarea
-                  :rows="1"
-                  :autosize="true"
-                  v-model:value="exercise.input3"
-                  placeholder="Input"
-                >
+                <a-textarea :rows="1" :autosize="true" v-model:value="exercise.input3" placeholder="Input">
                 </a-textarea>
               </a-form-item>
               <a-form-item name="output3" :rules="[{ required: true, message: 'Required' }]">
-                <a-textarea
-                  :rows="1"
-                  :autosize="true"
-                  v-model:value="exercise.output3"
-                  placeholder="Output"
-                >
+                <a-textarea :rows="1" :autosize="true" v-model:value="exercise.output3" placeholder="Output">
                 </a-textarea>
               </a-form-item>
             </a-col>
@@ -373,11 +337,7 @@ const handleSubmit = async () => {
           </a-row>
 
 
-          <a-button
-            type="primary"
-            class="main-color text-second-color submit-button"
-            @click="handleSubmit"
-          >
+          <a-button type="primary" class="main-color text-second-color submit-button" @click="handleSubmit">
             Submit
           </a-button>
         </a-form>

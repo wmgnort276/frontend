@@ -20,6 +20,8 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
         exerciseFlag.value = true;
         averageRating.value = exercise?.value?.rating;
 
+        listTestCase.value = [];
+
         listTestCase.value.push({
           input: exercise?.value?.input1,
           output: "",

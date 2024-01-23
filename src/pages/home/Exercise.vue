@@ -232,7 +232,7 @@ const hanldeClickTC3 = () => {
               <p :class="{
                 success: submissionStore.responseStatus,
                 fail: !submissionStore.responseStatus
-              }">
+              }" class="submit-result">
                 {{ submissionStore.response }}
               </p>
             </div>
@@ -397,5 +397,11 @@ const hanldeClickTC3 = () => {
 
 .is-error {
   border: 2px solid #ef4743;
+}
+
+.submit-result {
+  max-height: 120px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 </style>
