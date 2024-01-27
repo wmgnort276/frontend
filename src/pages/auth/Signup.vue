@@ -17,7 +17,7 @@ let formSignUp = ref<FormSignUp>({
   confirmPassword: ''
 });
 
-onMounted(async () => {});
+onMounted(async () => { });
 
 const routeToSignUp = async () => {
   await router.push('/login');
@@ -34,8 +34,10 @@ const validateConfirmPassword = async (_rule: Rule, value: string) => {
 const handleSignup = async () => {
   isLoading.value = true;
   await formRef.value!.validate();
-  await authStore.signUp(formSignUp.value);
-  await router.push('/login');
+  const res = await authStore.signUp(formSignUp.value);
+  if (res) {
+    await router.push('/login');
+  }
   isLoading.value = false;
 };
 </script>
@@ -48,91 +50,57 @@ const handleSignup = async () => {
           <div class="flex-column align-center">
             <h2>Sing up</h2>
           </div>
-          <a-form-item
-            name="username"
-            :rules="[
-              {
-                required: true,
-                message: 'Required',
-                trigger: ['blur', 'change']
-              }
-            ]"
-          >
-            <a-input
-              class="input"
-              placeHolder="Username"
-              v-model:value="formSignUp.username"
-              @pressEnter="handleSignup"
-            >
+          <a-form-item name="username" :rules="[
+            {
+              required: true,
+              message: 'Required',
+              trigger: ['blur', 'change']
+            }
+          ]">
+            <a-input class="input" placeHolder="Username" v-model:value="formSignUp.username" @pressEnter="handleSignup">
             </a-input>
           </a-form-item>
 
-          <a-form-item
-            name="email"
-            :rules="[
-              {
-                required: true,
-                message: 'Required',
-                trigger: ['blur', 'change']
-              }
-            ]"
-          >
-            <a-input
-              class="input"
-              placeHolder="Email"
-              v-model:value="formSignUp.email"
-              @pressEnter="handleSignup"
-            >
+          <a-form-item name="email" :rules="[
+            {
+              required: true,
+              message: 'Required',
+              trigger: ['blur', 'change']
+            }
+          ]">
+            <a-input class="input" placeHolder="Email" v-model:value="formSignUp.email" @pressEnter="handleSignup">
             </a-input>
           </a-form-item>
 
-          <a-form-item
-            name="password"
-            :rules="[
-              {
-                required: true,
-                message: 'Required',
-                trigger: ['blur', 'change']
-              }
-            ]"
-          >
-            <a-input-password
-              class="input"
-              placeHolder="Password"
-              v-model:value="formSignUp.password"
-              @pressEnter="handleSignup"
-            >
+          <a-form-item name="password" :rules="[
+            {
+              required: true,
+              message: 'Required',
+              trigger: ['blur', 'change']
+            }
+          ]">
+            <a-input-password class="input" placeHolder="Password" v-model:value="formSignUp.password"
+              @pressEnter="handleSignup">
             </a-input-password>
           </a-form-item>
 
-          <a-form-item
-            name="confirmPassword"
-            :rules="[
-              {
-                required: true,
-                message: 'Required',
-                trigger: ['blur', 'change']
-              },
-              {
-                validator: validateConfirmPassword,
-                trigger: ['blur', 'change']
-              }
-            ]"
-          >
-            <a-input-password
-              class="input"
-              placeHolder="Confirm Password"
-              v-model:value="formSignUp.confirmPassword"
-              @pressEnter="handleSignup"
-            >
+          <a-form-item name="confirmPassword" :rules="[
+            {
+              required: true,
+              message: 'Required',
+              trigger: ['blur', 'change']
+            },
+            {
+              validator: validateConfirmPassword,
+              trigger: ['blur', 'change']
+            }
+          ]">
+            <a-input-password class="input" placeHolder="Confirm Password" v-model:value="formSignUp.confirmPassword"
+              @pressEnter="handleSignup">
             </a-input-password>
           </a-form-item>
 
-          <a-button
-            style="width: 100%"
-            class="main-color text-second-color mb-20 login-buton"
-            @click="handleSignup"
-          >
+          <a-button style="width: 100%" class="main-color text-second-color mb-20 login-buton" @click="handleSignup">
             Sign Up
           </a-button>
 

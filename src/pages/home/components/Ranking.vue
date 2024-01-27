@@ -16,65 +16,64 @@ const rankList = computed(() => userStore.listRanking.slice(3));
 </script>
 
 <template>
-  <h2 class="ranking-title">Superman</h2>
-  <div class="top-3">
-    <div class="rank-card">
-      <img src="./../../../assets/rank_2.png" class="rank-img-2" />
-      <span
-        class="top-rank-user"
-        :class="{ 'is-current-user': userStore.listRanking[1]?.userName == authStore.userName }"
-        >{{ userStore.listRanking[1]?.userName }}</span
-      >
-      <span>score: {{ userStore.listRanking[1]?.score }}</span>
+  <div class="wrapper">
+    <h2 class="ranking-title">Superman</h2>
+    <div class="top-3">
+      <div class="rank-card">
+        <img src="./../../../assets/rank_2.png" class="rank-img-2" />
+        <span class="top-rank-user"
+          :class="{ 'is-current-user': userStore.listRanking[1]?.userName == authStore.userName }">{{
+            userStore.listRanking[1]?.userName }}</span>
+        <span>score: {{ userStore.listRanking[1]?.score }}</span>
+      </div>
+      <div class="rank-card">
+        <img src="./../../../assets/rank_1.png" class="rank-img-1" />
+        <span class="top-rank-user"
+          :class="{ 'is-current-user': userStore.listRanking[0]?.userName == authStore.userName }">{{
+            userStore.listRanking[0]?.userName }}</span>
+        <span>score: {{ userStore.listRanking[0]?.score }}</span>
+      </div>
+      <div class="rank-card">
+        <img src="./../../../assets/rank_3.png" class="rank-img-3" />
+        <span class="top-rank-user"
+          :class="{ 'is-current-user': userStore.listRanking[2]?.userName == authStore.userName }">{{
+            userStore.listRanking[2]?.userName }}</span>
+        <span>score: {{ userStore.listRanking[2]?.score }}</span>
+      </div>
     </div>
-    <div class="rank-card">
-      <img src="./../../../assets/rank_1.png" class="rank-img-1" />
-      <span
-        class="top-rank-user"
-        :class="{ 'is-current-user': userStore.listRanking[0]?.userName == authStore.userName }"
-        >{{ userStore.listRanking[0]?.userName }}</span
-      >
-      <span>score: {{ userStore.listRanking[0]?.score }}</span>
-    </div>
-    <div class="rank-card">
-      <img src="./../../../assets/rank_3.png" class="rank-img-3" />
-      <span
-        class="top-rank-user"
-        :class="{ 'is-current-user': userStore.listRanking[2]?.userName == authStore.userName }"
-        >{{ userStore.listRanking[2]?.userName }}</span
-      >
-      <span>score: {{ userStore.listRanking[2]?.score }}</span>
-    </div>
-  </div>
-  <div>
-    <a-table
-      class="ant-table-striped ranking-table"
-      size="middle"
-      :columns="rankingColumn"
-      :data-source="rankList"
-      :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
-      :pagination="{ defaultPageSize: 7 }"
-    >
-      <template #bodyCell="{ record, column, index }">
-        <template v-if="column.key === 'rank'">
-          <span>{{ index + 4 }}</span>
-        </template>
+    <div>
+      <a-table class="ant-table-striped ranking-table" size="middle" :columns="rankingColumn" :data-source="rankList"
+        :class="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)"
+        :pagination="{ defaultPageSize: 7 }">
+        <template #bodyCell="{ record, column, index }">
+          <template v-if="column.key === 'rank'">
+            <span>{{ index + 4 }}</span>
+          </template>
 
-        <template v-if="column.key === 'name'">
-          <span :class="{ 'is-current-user': record.userName == authStore.userName }">{{
-            record.userName
-          }}</span>
-        </template>
+          <template v-if="column.key === 'name'">
+            <span :class="{ 'is-current-user': record.userName == authStore.userName }">{{
+              record.userName
+            }}</span>
+          </template>
 
-        <template v-if="column.key === 'level'">
-          <span>{{ record.score }}</span>
+          <template v-if="column.key === 'level'">
+            <span>{{ record.score }}</span>
+          </template>
         </template>
-      </template>
-    </a-table>
+      </a-table>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.wrapper {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 85vh;
+}
+
 .ranking-title {
   color: #b48608;
   font-family: 'Droid serif', serif;

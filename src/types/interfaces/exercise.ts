@@ -1,6 +1,7 @@
 export interface ExerciseType {
     id: number,
-    name: string
+    name: string,
+    checked: boolean
 }
 
 export interface ExerciseLevel {
@@ -29,4 +30,13 @@ export interface SubmissionDetail {
     createdAt: string,
     status: string,
     sourceCode: string
+}
+
+
+export interface TestCase {
+    input: string,
+    output: string,
+    expectedOutput: string,
+    status: boolean,
+    isSubmitted: boolean
 }

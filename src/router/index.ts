@@ -7,6 +7,7 @@ import LocalStorageService from '@/utils/localStorageService';
 import homeRoute from './modules/home/home';
 import userRoute from './modules/user'
 import adminRoute from './modules/admin';
+import localStorageService from '@/utils/localStorageService';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -33,6 +34,8 @@ const router = createRouter({
 
 const WHITE_LIST_ROUTER_NAME = ['/login', '/forgot-password', '/signup'];
 
+const listAdminRoute = ['/exercise-create', '/exercise-edit', '/compiler']
+
 router.beforeEach(async (to, from, next) => {
   if (!WHITE_LIST_ROUTER_NAME.includes(to.path) && !localStorage.getItem("accessToken")) {
     return next("/login");
@@ -42,7 +45,15 @@ router.beforeEach(async (to, from, next) => {
   const { isAuthenticated } = useAuthStoreHook();
 
   if (!isAuthenticated && token) {
-    await useAuthStoreHook().getAuthInfo();
+    try {
+      await useAuthStoreHook().getAuthInfo();
+    } catch (error) {
+      localStorageService.clearAccessToken();
+    }
+  }
+
+  if (!useAuthStoreHook().isAdmin && listAdminRoute.includes(to.path)) {
+    return next("/home");
   }
 
   next();

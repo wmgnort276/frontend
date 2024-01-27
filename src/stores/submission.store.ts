@@ -21,9 +21,9 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
 
   const getUserSubmissionsData = async (exerciseId: string) => {
     try {
-      const response : any = await getUserSubmissions(exerciseId);
+      const response: any = await getUserSubmissions(exerciseId);
       submission.value = response?.data;
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
   };
@@ -54,35 +54,19 @@ export const useSubmissionStore = defineStore('submissionStore', () => {
   };
 
   const handleRunTestCase = async (exerciseId: string, code: string, language: string) => {
-    await runTestCase({
+    const res: any = await runTestCase({
       code: code,
       id: exerciseId,
       lang: language
     })
-      .then((res: any) => {
-        if (res?.data == 'Success') {
-          responseStatus.value = true;
-          message.success('Success');
-        } else {
-          responseStatus.value = false;
-          // message.error('Wrong answer');
-        }
-        response.value = (res?.data != '0') ? res?.data : 'Wrong answer';
-      })
-      .catch((error: any) => {
-        message.error(error?.response?.data ? error?.response?.data : 'Compile failed!');
-        console.log(error);
-      })
-      .finally(async () => {
-        // await getUserSubmissionsData(exerciseId);
-      });
+    return res;
   };
 
   const getSubmissionDetail = async (id: string) => {
     try {
-      const res : any = await getSubmissionDetailApi(id);
+      const res: any = await getSubmissionDetailApi(id);
       submissionDetail.value = res?.data;
-    } catch(error) {
+    } catch (error) {
 
     }
   }

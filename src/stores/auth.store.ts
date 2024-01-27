@@ -21,9 +21,9 @@ export const useAuthStore = defineStore('auth', () => {
         const currentUser = response.data;
         authUser.value = currentUser;
       })
-      .catch((error) => {
-        Promise.reject(error);
-      });
+    // .catch((error) => {
+    //   Promise.reject(error);
+    // });
   };
 
   const handleLogin = async ({
