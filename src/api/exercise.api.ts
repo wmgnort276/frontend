@@ -50,3 +50,12 @@ export const runTestCase = (payload: any) => {
         data: payload
     });
 };
+
+export const getExerciseAdminApi = (payload: any) => {
+    let qs: any = [];
+    Object.entries(payload).forEach((entry) => {
+        const [key, value] = entry;
+        qs.push(key + '=' + value);
+    });
+    return http.get<Exercise[]>(`api/Exercise/admin?${qs.join('&')}`);
+}

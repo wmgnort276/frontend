@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
-import { getExerciseType, getExerciseLevel, getExerciseApi } from '@/api/exercise.api';
+import { getExerciseType, getExerciseLevel, getExerciseApi, getExerciseAdminApi } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
 import type { ExerciseType, ExerciseLevel, Exercise } from '@/types/interfaces/exercise';
 import router from '@/router';
@@ -43,7 +43,8 @@ const columns = [
 const columnsAdmin = [
   { title: 'Title', dataIndex: 'title', key: 'title', width: 400 },
   { title: 'Level', dataIndex: 'level', key: 'level' },
-  { title: 'Action', dataIndex: 'action', key: 'action' }
+  { title: 'Action', dataIndex: 'action', key: 'action' },
+  { title: 'Resolved', dataIndex: 'resolved', key: 'resolved' }
 ];
 
 const getExerciseCategory = async () => {
@@ -77,13 +78,23 @@ const getExercise = async () => {
     ...queryBuilder.value,
     exerciseLevelId: queryBuilder.value.exerciseLevelId ?? ''
   };
-  await getExerciseApi(queryBuilder.value)
-    .then((res: Exercise[]) => {
-      exercises.value = res;
-    })
-    .catch((error: any) => {
-      // message.error('Fail to get exercise');
-    });
+  if (authStore.isAdmin) {
+    await getExerciseAdminApi(queryBuilder.value)
+      .then((res: Exercise[]) => {
+        exercises.value = res;
+      })
+      .catch((error: any) => {
+        // message.error('Fail to get exercise');
+      });
+  } else {
+    await getExerciseApi(queryBuilder.value)
+      .then((res: Exercise[]) => {
+        exercises.value = res;
+      })
+      .catch((error: any) => {
+        // message.error('Fail to get exercise');
+      });
+  }
 };
 
 onMounted(async () => {
@@ -210,6 +221,11 @@ const onSearch = async () => {
                 <template v-if="column.key === 'action'">
                   <a-button @click="() => handleEditExercise(record)">Edit</a-button>
                 </template>
+
+                <template v-if="column.key === 'resolved'">
+                  <span>{{ record?.submittedNumber }}</span>
+                </template>
+
               </template>
             </a-table>
           </div>
@@ -245,7 +261,6 @@ const onSearch = async () => {
 
 .right-side {
   flex: 3;
-  background-color: #fff;
   border-radius: 5px;
 }
 

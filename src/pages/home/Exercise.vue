@@ -193,7 +193,7 @@ const hanldeClickTC3 = () => {
                 isTestCaseTab = true;
               isResultTab = false;
               ">TEST CASE</span>
-              <span style="cursor: pointer" :class="{ 'is-chosen': isResultTab }"
+              <span style="cursor: pointer" :class="{ 'is-chosen': isResultTab }" class="ml-10"
                 @click="(isResultTab = true), (isTestCaseTab = false)">RESULT</span>
             </a-col>
             <a-divider></a-divider>
@@ -336,6 +336,7 @@ const hanldeClickTC3 = () => {
 
 .is-chosen {
   font-weight: 500;
+  border-bottom: 1px solid gray;
 }
 
 .accepted-submission {
@@ -384,11 +385,11 @@ const hanldeClickTC3 = () => {
 .test-case-check {
   color: #fff !important;
   font-weight: 500;
-  background-color: #7a7d75;
+  background-color: #bfc3b9;
 }
 
 .test-case-check:hover {
-  background-color: #7a7d75;
+  background-color: #bfc3b9;
 }
 
 .is-correct {

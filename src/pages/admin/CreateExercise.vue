@@ -5,7 +5,10 @@ import { getExerciseType, getExerciseLevel, createExercise } from '@/api/exercis
 import { message } from 'ant-design-vue';
 import type { FormInstance } from 'ant-design-vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { useAuthStoreHook } from '@/stores/auth.store';
+import router from '@/router';
 
+const authStore = useAuthStoreHook();
 const formRef = ref<FormInstance>();
 const isLoading = ref<boolean>(false);
 const exerciseTypes = ref<any[]>([]);
@@ -46,7 +49,12 @@ const getExerciseLevelTypeFunction = async () => {
   });
 };
 
+if (!authStore.isAdmin) {
+  router.push("/home");
+}
+
 onMounted(async () => {
+
   isLoading.value = true;
   try {
     await Promise.all([getExerciseLevelFunction(), getExerciseLevelTypeFunction()]);

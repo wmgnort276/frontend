@@ -115,10 +115,10 @@ const handleSubmit = async () => {
   let exerciseId: string = route?.query?.id as string;
   isLoading.value = true;
   const formData = new FormData();
-  formData.append('File', runFile.value);
-  formData.append('FileJava', runFileJava.value);
-  formData.append('TestFile', testFile.value);
-  formData.append('TestFileJava', testFileJava.value);
+  formData.append('File', runFile.value ?? []);
+  formData.append('FileJava', runFileJava.value ?? []);
+  formData.append('TestFile', testFile.value ?? []);
+  formData.append('TestFileJava', testFileJava.value ?? []);
   formData.append('Id', exerciseId);
   formData.append('Name', exercise.value.name);
   formData.append('Description', exercise.value.description);

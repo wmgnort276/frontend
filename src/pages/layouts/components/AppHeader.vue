@@ -48,7 +48,7 @@ const routeToTerm = () => {
       <a-button class="button-classify-problem mr-10" @click="routeToDashboard" v-if="isAdmin">
         Dash Board
       </a-button>
-      <a-button class="button-classify-problem mr-10" @click="routeToCompiler"> Compiler </a-button>
+      <a-button class="button-classify-problem mr-10" @click="routeToCompiler" v-if="isAdmin"> Compiler </a-button>
     </div>
     <div class="img-wrapper">
       <img src="../../../components/default_avatar.png" class="img" @click="handleRouteToUserPage" />
