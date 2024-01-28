@@ -66,3 +66,9 @@ export const publishExerciseAPi = (exerciseID: string) => {
         data: exerciseID
     });
 };
+
+export const unPublishExerciseAPi = (exerciseID: string) => {
+    return http.post(`/api/Exercise/un-publish?id=${exerciseID}`, {
+        data: exerciseID
+    });
+};

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
-import { getExerciseType, getExerciseLevel, editExercise, publishExerciseAPi } from '@/api/exercise.api';
+import { getExerciseType, getExerciseLevel, editExercise, publishExerciseAPi, unPublishExerciseAPi } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
 import type { FormInstance } from 'ant-design-vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -152,6 +152,16 @@ const handlePublish = async () => {
     let exerciseId: string = route?.query?.id as string;
     await publishExerciseAPi(exerciseId);
     message.success("Published!")
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const handleUnPublish = async () => {
+  try {
+    let exerciseId: string = route?.query?.id as string;
+    await unPublishExerciseAPi(exerciseId);
+    message.success("UnPublished!")
   } catch (error) {
     console.error(error);
   }
@@ -351,8 +361,11 @@ const handlePublish = async () => {
               <a-button type="primary" class="main-color text-second-color submit-button mr-20" @click="handleSubmit">
                 Submit
               </a-button>
-              <a-button type="primary" class="main-color text-second-color submit-button" @click="handlePublish">
+              <a-button type="primary" class="main-color text-second-color submit-button mr-20" @click="handlePublish">
                 Publish
+              </a-button>
+              <a-button type="primary" class="main-color text-second-color submit-button" @click="handleUnPublish">
+                UnPublish
               </a-button>
             </div>
           </div>
