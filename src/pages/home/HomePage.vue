@@ -44,7 +44,8 @@ const columnsAdmin = [
   { title: 'Title', dataIndex: 'title', key: 'title', width: 400 },
   { title: 'Level', dataIndex: 'level', key: 'level' },
   { title: 'Action', dataIndex: 'action', key: 'action' },
-  { title: 'Resolved', dataIndex: 'resolved', key: 'resolved' }
+  { title: 'Resolved', dataIndex: 'resolved', key: 'resolved' },
+  { title: 'Public', dataIndex: 'public', key: 'public' }
 ];
 
 const getExerciseCategory = async () => {
@@ -226,6 +227,10 @@ const onSearch = async () => {
                   <span>{{ record?.submittedNumber }}</span>
                 </template>
 
+                <template v-if="column.key === 'public'">
+                  <span class="public-status" :class="{ 'pubic': record?.isPublic }">{{ record?.isPublic }}</span>
+                </template>
+
               </template>
             </a-table>
           </div>
@@ -320,5 +325,13 @@ const onSearch = async () => {
 
 .category-check:hover {
   background-color: #7a7d75;
+}
+
+.public-status {
+  color: rgb(203, 89, 66);
+}
+
+.pubic {
+  color: rgb(120, 203, 66);
 }
 </style>

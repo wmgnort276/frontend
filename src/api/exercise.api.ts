@@ -59,3 +59,10 @@ export const getExerciseAdminApi = (payload: any) => {
     });
     return http.get<Exercise[]>(`api/Exercise/admin?${qs.join('&')}`);
 }
+
+
+export const publishExerciseAPi = (exerciseID: string) => {
+    return http.post(`/api/Exercise/publish?id=${exerciseID}`, {
+        data: exerciseID
+    });
+};

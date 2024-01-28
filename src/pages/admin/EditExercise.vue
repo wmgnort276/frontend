@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import PageLayout from '../layouts/PageLayout.vue';
-import { getExerciseType, getExerciseLevel, editExercise } from '@/api/exercise.api';
+import { getExerciseType, getExerciseLevel, editExercise, publishExerciseAPi } from '@/api/exercise.api';
 import { message } from 'ant-design-vue';
 import type { FormInstance } from 'ant-design-vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -146,6 +146,16 @@ const handleSubmit = async () => {
     await getExerciseDetail();
   }
 };
+
+const handlePublish = async () => {
+  try {
+    let exerciseId: string = route?.query?.id as string;
+    await publishExerciseAPi(exerciseId);
+    message.success("Published!")
+  } catch (error) {
+    console.error(error);
+  }
+}
 </script>
 
 <template>
@@ -336,10 +346,16 @@ const handleSubmit = async () => {
             </a-col>
           </a-row>
 
-
-          <a-button type="primary" class="main-color text-second-color submit-button" @click="handleSubmit">
-            Submit
-          </a-button>
+          <div class="btn-group">
+            <div>
+              <a-button type="primary" class="main-color text-second-color submit-button mr-20" @click="handleSubmit">
+                Submit
+              </a-button>
+              <a-button type="primary" class="main-color text-second-color submit-button" @click="handlePublish">
+                Publish
+              </a-button>
+            </div>
+          </div>
         </a-form>
       </div>
     </div>
@@ -365,5 +381,15 @@ const handleSubmit = async () => {
   height: 50px;
   width: 300px;
   margin: 0 auto;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mr-20 {
+  margin-right: 20px;
 }
 </style>
