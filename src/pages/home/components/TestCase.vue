@@ -45,8 +45,11 @@ const props = defineProps({
 
 <style scoped>
 .output-result {
-  max-height: 20px;
-  overflow-y: scroll;
+  display: block;
+  height: 50px;
+  overflow: hidden !important;
+  overflow-y: scroll !important;
+  word-break: break-all;
 }
 
 .output-result-error {
